@@ -30,13 +30,22 @@
 <tr><td id="11" onclick="setMove(11)" style="width:200px;height:250px;"></td><td id="21" onclick="setMove(21)" style="width:200px;height:250px;"></td><td id="31" onclick="setMove(31)" style="width:200px;height:250px;"></td></tr>
 <tr><td id="12" onclick="setMove(12)" style="width:200px;height:250px;"></td><td id="22" onclick="setMove(22)" style="width:200px;height:250px;"></td><td id="32" onclick="setMove(32)" style="width:200px;height:250px;"></td></tr>
 </table>
+<div id="chat_box">
+	<h3>Chat</h3>
+	<div id="chat_messages"></div>
+    <br />
+    <label for="chat_message">Message:</label>
+   <textarea id="chat_message"></textarea>
+   <br />
+   <button id="send_message">Send</button>
+   </div>
 <div id="timer" align="center"> </div>
 </div>
 </div>
 <div data-role="footer"></div>
 </div>
 <script type="text/javascript">
-	var socket = io.connect();
+	var socket = io.connect('http://localhost:8000/game');
 	var game_board = document.getElementById("game_board").innerHTML;
 	var game_options = document.getElementById("game_options").innerHTML;
 	var comp_name = "";
@@ -66,6 +75,7 @@
 				  }
 				 });
 				 
+		if(document.getElementById("choose_competitor") != null)	 
 		    document.getElementById("choose_competitor").innerHTML = message;
 		 	onlineUsers.forEach(function(onlineUser){
 		 		if(document.getElementById(onlineUser)!=null)
@@ -167,7 +177,7 @@
 	
 	socket.on("game_player_logged_out",function(name){
 		if(name==sessionStorage['against']){
-				document.getElementById("notification").innerHTML = name+" logged out.";
+				document.getElementById("notification").innerHTML = name+" chickened out.";
 				document.getElementById("game_options").innerHTML = "";
 				setTimeout(function(){
 					postEndGameState();
@@ -175,7 +185,6 @@
 	  }
 		
 	});
-	
 	
 	socket.on("game_ended",function(data){
 	  // if the game that just ended is the one you are currently playing
