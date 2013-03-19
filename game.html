@@ -63,6 +63,9 @@
 		socket.emit("turn_socialhub_on");
 		socket.emit("join_game",localStorage['socialhub_username']);
 		socket.emit("get_game_online_users");
+		
+		
+	
 	
 	
 	 
@@ -109,6 +112,7 @@
 	    		sessionStorage['your_move'] = "false";
 	    		document.getElementById("notification").innerHTML = data.challenger+"'s turn.";
 	    		sessionStorage['against'] = data.challenger;
+	    		initChatControls();
 	    		e.preventDefault();
 		     });
 		 	
@@ -146,6 +150,8 @@
 				document.getElementById("notification").innerHTML = "Your turn.";
 				in_game = true;
 		 }
+		
+		initChatControls();
 	});	
 	
 	socket.on("user_declined",function(data){
@@ -202,6 +208,15 @@
 		
 	});
 	
+	
+	socket.on("chat_message",function(data){
+		data = JSON.parse(data);
+		if(data.message_to==localStorage['socialhub_username']){
+		    var chat_messages = document.getElementById("chat_messages").innerHTML;
+			chat_messages += ("<br />"+sessionStorage['against']+": "+data.message);
+			document.getElementById("chat_messages").innerHTML = chat_messages;
+		}
+	});
 	 
 	 var setPiece = function(piece){
 		 if(comp_name!=""){
@@ -340,6 +355,31 @@
 	     });
 		
 	}
+	
+	
+	var initChatControls = function(){
+		
+		if(document.getElementById("send_message") != null){
+			document.getElementById("send_message").addEventListener("click",function(){
+				console.log("Send clicked");
+				var chat_message = document.getElementById("chat_message").value;
+				var chat_messages = document.getElementById("chat_messages").innerHTML;
+		        console.log("chat message"+chat_message);
+				chat_messages += "<br />You: "+chat_message;
+				document.getElementById("chat_messages").innerHTML = chat_messages;
+				document.getElementById("chat_message").value ="";
+		
+				var chat = {
+					message : chat_message,
+					message_to : sessionStorage['against']
+				}
+		
+				socket.emit("chat_message",JSON.stringify(chat));
+		});
+	}
+
+}
+	
 </script>
 </body>
 </html>

@@ -27,5 +27,13 @@
  	}
  	
  	
+ 	var colors = Array("red","orange","yellow","purple","silver","blue","teal","pink","lime");
+ 	var getRandomColor = function(){
+	var randNum = Math.floor(Math.random()*colors.length);
+	return colors[randNum];
+ 	}
+ 	
+ 	
  	exports.isUserOnline = isUserOnline;
  	exports.removeUser = removeUser;
+ 	exports.getRandomColor = getRandomColor;

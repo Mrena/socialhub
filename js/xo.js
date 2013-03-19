@@ -3,7 +3,7 @@
 var init = function(io){
 	
 	
-	 var onlineUsers = new Array();
+	 
 	    var gameOnlineUsers = new Array();
 	    var xo = require("./xo_logic");
 		
@@ -109,6 +109,15 @@ var init = function(io){
 		 	client.on("end_game",function(data){
 		 		client.broadcast.emit("game_ended",data);
 
+		 	});
+		 	
+		 	client.on("chat_message",function(data){
+		 		data = JSON.parse(data);
+		 		color = xo.getRandomColor();
+		 		data.message = "<span style='color:"+color+"'>"+data.message+"</span>";
+		 		data = JSON.stringify(data);
+		 		client.broadcast.emit("chat_message",data);
+		 		
 		 	});
 		 	
 		 	client.on("disconnect",function(){
