@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SocialHub</title>
+<script src="/socket.io/lib/socket.io.js"></script>
+</head>
+<body>
+<div data-role="page">
+<div data-role="header">
+<h3>SocialHub Chat</h3>
+</div>
+<div data-role="content">
+<div id="error_message"></div>
+	 <div id="login">
+		<label for="name">Name:</label>
+			<input type="text" id="name" />
+			<br />
+			<button id="btnLogin">Login</button>
+		</div>
+		<div id="chat">
+		<div id="messages" style="width:299px;border-color:grey;border:5px;font-size:30px;"></div>
+		<label for="message">Message:</label>
+			<textarea id="message"></textarea>
+		<br /> 
+		<button id="send">Send</button>
+		<div id="socialhub_buttons">
+		     <div id="turn_socialhub_off_button">
+				<button id="turn_socialhub_off">Turn SocialHub off</button>
+			  </div>
+			  <div id="turn_socialhub_on_button">
+				<button id="turn_socialhub_on">Turn SocialHub on</button>
+			  </div>
+		</div>
+		</div>
+		</div>
+		<div data-role="footer"></div>
+</div>
+<script type="text/javascript">
+	var socket = io.connect();
+	var chat = document.getElementById("chat").innerHTML;
+	var login = document.getElementById("login").innerHTML;
+	var chatMessages = "";
+	var turn_socialhub_on = document.getElementById("turn_socialhub_on_button").innerHTML;
+	var turn_socialhub_off = document.getElementById("turn_socialhub_off_button").innerHTML;
+	var registered;
+		if(localStorage["registered"] && localStorage["registered"]=="true")
+			registered = true;
+				else
+   					registered = false;
+
+
+  //document.getElementById("body").addEventListener("load",setOnline);
+  document.getElementById("turn_socialhub_off").addEventListener("click",turnSocialHubOff);
+  document.getElementById("turn_socialhub_on").addEventListener("click",turnSocialHubOn);
+		
+	  
+	  if( ( localStorage['socialhub_active'] && localStorage['socialhub_username'] ) && localStorage['socialhub_active'] == "false"){
+		  socket.emit("turn_socialhub_off");
+		  document.getElementById("socialhub_buttons").innerHTML = turn_socialhub_on;
+		  
+	  }else{
+		  socket.emit("turn_socialhub_on");
+		  document.getElementById("socialhub_buttons").innerHTML = turn_socialhub_off;
+	  }
+	
+	 if(localStorage['socialhub_username']){
+			localStorage["registered"] = "true"; 
+			registered = true;
+			socket.emit("join",localStorage['socialhub_username']);
+
+		}
+	
+  
+  		function turnSocialHubOff(){
+	  				socket.emit("turn_socialhub_off");
+	  				localStorage['socialhub_active'] = "false";
+	  				document.getElementById("socialhub_buttons").innerHTML = turn_socialhub_on;
+	  			
+  			}
+  		function turnSocialHubOn(){
+  			        socket.emit("turn_socialhub_on");
+  			        localStorage['socialhub_active'] = "true";
+  			        document.getElementById("socialhub_buttons").innerHTML = turn_socialhub_off;
+  		}
+	
+			if(!localStorage['socialhub_username']){
+				document.getElementById("chat").innerHTML = "";
+			}else{
+				registered = true; 
+				document.getElementById("login").innerHTML = "";
+				socket.emit("join",localStorage['socialhub_username']);
+				}
+			
+			function restoreChatScreen(){
+				socket.emit("register",document.getElementById("name").value);
+			}
+			
+			if(document.getElementById("btnLogin") != null){
+				document.getElementById("btnLogin").addEventListener("click",function(){
+					if((document.getElementById("name").value).trim()=="")
+						  return;
+					restoreChatScreen();
+			});
+		}
+			
+			if(document.getElementById("send") != null){
+				document.getElementById("send").addEventListener("click",function(){
+					if((document.getElementById("message").value).trim()=="")
+						  return;
+				 	socket.emit("messageAll",{"Name": localStorage['socialhub_username'],"Message" : document.getElementById("message").value });
+				 	chatMessages = document.getElementById("messages").innerHTML;
+				 	document.getElementById("messages").innerHTML = chatMessages + "<br />"+localStorage['socialhub_username'] + " : "+document.getElementById("message").value+"<br />"+getTime();
+				 	document.getElementById("message").value = "";
+			});
+		}
+
+       
+		socket.on("messages",function(data){
+			  if(registered){
+			 	chatMessages = document.getElementById("messages").innerHTML;
+			 	document.getElementById("messages").innerHTML = chatMessages + "<br />"+data.Name + " : "+data.Message+"<br />"+getTime();
+			  }
+		});
+		
+		socket.on("join_message",function(data){
+			if(registered){
+				chatMessages = document.getElementById("messages").innerHTML;
+			 	document.getElementById("messages").innerHTML = chatMessages + "<hr />"+data+"<br />"+getTime()+"<hr />";
+			}
+			
+		});
+		
+		socket.on("left_message",function(data){
+			if(registered){
+				chatMessages = document.getElementById("messages").innerHTML;
+			 	document.getElementById("messages").innerHTML = chatMessages + "<hr />"+data+"<br />"+getTime()+"<hr />";
+			}
+			
+		});
+		
+		socket.on("registered",function(data){
+			    console.log("registered");
+				document.getElementById("error_message").innerHTML = "SocialHub has been successsfully activated.";
+			 	setTimeout(function(){
+				 document.getElementById("error_message").innerHTML = "";
+			 	},3000);
+			 	localStorage["registered"] = "true";
+			 	registered = true; 
+			    localStorage['socialhub_username'] = data.Name;
+				document.getElementById("chat").innerHTML = chat;
+				document.getElementById("login").innerHTML = "";
+				socket.emit("join",localStorage['socialhub_username']);
+			
+		});
+		
+	 socket.on("username_taken",function(data){
+		 console.log("username taken");
+		 document.getElementById("error_message").innerHTML = data+" is taken";
+		 setTimeout(function(){
+			 document.getElementById("error_message").innerHTML = "";
+		 },3000);
+	 });
+	 
+	 socket.on("user_already_logged",function(){
+		 document.getElementById("error_message").innerHTML = "You are already logged in to this account from another device";
+		 setTimeout(function(){
+			 document.getElementById("error_message").innerHTML = "";
+		 },5000);
+		 
+	 });
+	 
+	 socket.on("server_down",function(){
+		 console.log("Server down time. Please wait.");
+	 });
+	 
+	 
+	 var lastFiveMessages;
+	 var message;
+	 socket.on("last_five_messages",function(data){
+		 lastFiveMessages = JSON.parse(data);
+		 for(var i=0;i<lastFiveMessages.length;i++){
+			 message = "<br />"+lastFiveMessages[i];
+			 document.getElementById("messages").innerHTML += message; 
+		 	}
+		 
+	 });
+	 
+	 var onlineUsers;
+	 socket.on("online_users",function(data){
+		 	 onlineUsers = JSON.parse(data);
+		 	 message = "Online Users : ";
+			 onlineUsers.forEach(function(onlineUser){
+				 message += "[ "+onlineUser+" ]";
+			 });
+		 document.getElementById("messages").innerHTML += message;
+	 });
+	 
+	 
+	 function getTime(){
+			var time = new Date();
+			var hours = time.getHours();
+			var minutes = time.getMinutes();
+			var seconds = time.getSeconds();
+			if(hours.toString().length == 1)
+				 hours = "0"+hours;
+			if(minutes.toString().length==1)
+				  minutes = "0"+minutes;
+			if(seconds.toString().length==1)
+				  seconds = "0"+seconds;
+			var realTime = hours +":"+ minutes +":"+ seconds;
+			return realTime;
+		}
+			
+</script>
+</body>
+</html>
