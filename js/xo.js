@@ -120,6 +120,11 @@ var init = function(io){
 		 		
 		 	});
 		 	
+		 	client.on("cancel_challenge_request",function(data){
+		 		client.broadcast.emit("cancel_challenge_request",data);
+		 		
+		 	});
+		 	
 		 	client.on("disconnect",function(){
 				//client.get("socialhub_active",function(error,socialhub_active){
 					//if(socialhub_active){

@@ -217,6 +217,19 @@
 			document.getElementById("chat_messages").innerHTML = chat_messages;
 		}
 	});
+	
+	
+	socket.on("cancel_challenge_request",function(data){
+		if(data==localStorage['socialhub_username']){
+			document.getElementById("notification").innerHTML = "The user canceled the challenge request";
+			document.getElementById("game_options").innerHTML = game_options;
+			socket.emit("get_game_online_users");
+			setTimeout(function(){
+				document.getElementById("notification").innerHTML = "";
+			},3000);
+			
+		}
+	});
 	 
 	 var setPiece = function(piece){
 		 if(comp_name!=""){
@@ -226,7 +239,14 @@
 					  "piece" : piece
 			 	}
 			 socket.emit("challenge",JSON.stringify(challenge));
-			 document.getElementById("game_options").innerHTML = "Your challenge request to "+comp_name+" has been sent. Please wait for a response.";
+			 document.getElementById("game_options").innerHTML = "Your challenge request to "+comp_name+" has been sent. Please wait for a response.<br /><button id='cancel_request'>Cancel Request</button>";
+			 if(document.getElementById("cancel_request") != null){
+				 document.getElementById("cancel_request").addEventListener("click",function(){
+					 socket.emit("cancel_challenge_request",comp_name);
+					 document.getElementById("game_options").innerHTML = game_options;
+					 socket.emit("get_game_online_users");
+				 });
+			 }
 		 }else{
 			 document.getElementById("error_message").innerHTML = "Please choose a person you want to play against.";
 			 setTimeout(function(){
