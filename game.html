@@ -4,6 +4,11 @@
 <meta charset="utf-8" content="width=device-width" />
 <title>SocialHub XO Game</title>
 <script src="/socket.io/lib/socket.io.js"></script>
+<style type="text/css">
+  .hide {
+       opacity : 0.7;
+       }
+</style>
 </head>
 <body>
 <div data-role="page">
@@ -34,6 +39,8 @@
 <tr><td id="11" onclick="setMove(11)" style="width:200px;height:250px;"></td><td id="21" onclick="setMove(21)" style="width:200px;height:250px;"></td><td id="31" onclick="setMove(31)" style="width:200px;height:250px;"></td></tr>
 <tr><td id="12" onclick="setMove(12)" style="width:200px;height:250px;"></td><td id="22" onclick="setMove(22)" style="width:200px;height:250px;"></td><td id="32" onclick="setMove(32)" style="width:200px;height:250px;"></td></tr>
 </table>
+<button id="hide_chat">Toggle disable chat</button>
+<br />
 <div id="chat_box">
 	<h3>Chat</h3>
 	<div id="chat_messages"></div>
@@ -41,7 +48,7 @@
    <textarea id="chat_message"></textarea>
    <br />
    <button id="send_message">Send</button>
-   </div>
+</div>
 <div id="timer" align="center"> </div>
 </div>
 </div>
@@ -64,6 +71,9 @@
 	var in_game = false;
 	var play_coords = Array("X","O");
 	var someone_won = false;
+	var chat_disabled = false;
+	var chat_box;
+	var draw_offers = 0;
 	
 	
 		document.getElementById("game_board").innerHTML = "";
@@ -73,7 +83,7 @@
 		socket.emit("get_game_online_users");
 		
 		
-		
+ 
 		
 	 socket.on("game_online_users",function(data){
 		     onlineUsers = JSON.parse(data);
@@ -123,6 +133,7 @@
 	    		document.getElementById("notification").innerHTML = data.challenger+"'s turn.";
 	    		sessionStorage['against'] = data.challenger;
 	    		initChatControls();
+	    		ChatBoxHideInit();
 	    		QuitInit();
 	    		OfferDrawInit();
 	    		
@@ -170,10 +181,12 @@
 				move_data.length = 0;
 				QuitInit();
 				OfferDrawInit();
+				initChatControls();
+				ChatBoxHideInit();
 				
 		 }
 		
-		initChatControls();
+		
 	});	
 	
 	socket.on("user_declined",function(data){
@@ -248,9 +261,11 @@
 	socket.on("chat_message",function(data){
 		data = JSON.parse(data);
 		if(data.message_to==localStorage['socialhub_username']){
+			if(!!document.getElementById("chat_messages")){
 		    var chat_messages = document.getElementById("chat_messages").innerHTML;
 			chat_messages += ("<br />"+sessionStorage['against']+": "+data.message);
 			document.getElementById("chat_messages").innerHTML = chat_messages;
+			}
 		}
 	});
 	
@@ -300,6 +315,7 @@
 			document.getElementById("notification").innerHTML = name+" declined your draw request.";
 			document.getElementById("abort").innerHTML = abort;	
 			OfferDrawInit();
+			QuitInit();
 			sessionStorage["game_paused"] = "false";
 		}
 	});
@@ -338,6 +354,7 @@
 				socket.emit("draw_request_declined");	
 				document.getElementById("abort").innerHTML = abort;
 				OfferDrawInit();
+				QuitInit();
 				sessionStorage["game_paused"] = "false";
 					
 				});
@@ -481,6 +498,7 @@
 		move_number = 0;
 		someone_won = false;
 		move_data.length = 0;
+		draw_offers = 0;
 	     if(document.getElementById("play_again")!=null)
 	     	document.getElementById("play_again").addEventListener("click",function(){
 	     	document.getElementById("notification").innerHTML = "";
@@ -505,25 +523,29 @@
    
    
    var OfferDrawInit = function(){
-
+	if(draw_offers<3){
 		if(!!document.getElementById("offer_draw")){
 			document.getElementById("offer_draw").addEventListener("click",function(){
 				document.getElementById("notification").innerHTML = "Your draw offer has been sent.";
 				document.getElementById("abort").innerHTML = "";
 				socket.emit("offer_draw");
 				sessionStorage["game_paused"] = "true";
+				draw_offers++;
 			});
+		}
+	}else
+		{
+		document.getElementById("offer_draw").outerHTML = "";
 		}
   }
 	
 	
 	var initChatControls = function(){
 		
-		if(document.getElementById("send_message") != null){
+		if(!!document.getElementById("send_message")){
 			document.getElementById("send_message").addEventListener("click",function(){
 				var chat_message = document.getElementById("chat_message").value;
 				var chat_messages = document.getElementById("chat_messages").innerHTML;
-		        console.log("chat message"+chat_message);
 				chat_messages += "<br />You: "+chat_message;
 				document.getElementById("chat_messages").innerHTML = chat_messages;
 				document.getElementById("chat_message").value ="";
@@ -538,6 +560,31 @@
 	}
 
 }
+	
+	
+	
+	var ChatBoxHideInit = function(){ 
+		
+		if(!!document.getElementById("chat_box")){
+			console.log("chat box stored");
+			chat_box = document.getElementById("chat_box").innerHTML;
+		}
+		
+	if(!!document.getElementById("hide_chat")){
+		document.getElementById("hide_chat").addEventListener("click",function(){
+					if(chat_disabled){
+						document.getElementById("chat_box").innerHTML = " ";
+						console.log("hide chat box");
+						chat_disabled = false;
+					}else{
+						document.getElementById("chat_box").innerHTML = chat_box;
+						initChatControls();
+						console.log("show chat box");
+						chat_disabled = true;
+					}
+		});
+	}
+}	
 	
 </script>
 </body>
