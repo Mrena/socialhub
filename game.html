@@ -65,7 +65,9 @@
 	var play_coords = Array("X","O");
 	var someone_won = false;
 	
+	
 		document.getElementById("game_board").innerHTML = "";
+		sessionStorage["game_paused"] = "false";
 		socket.emit("turn_socialhub_on");
 		socket.emit("join_game",localStorage['socialhub_username']);
 		socket.emit("get_game_online_users");
@@ -277,6 +279,7 @@
 		// if the person who is offering a draw is the one you're playing against
 		if(name==sessionStorage["against"]){
 			DrawOffered(name);
+			sessionStorage["game_paused"] = "true";
 		}
 		
 	});
@@ -288,7 +291,7 @@
 			setTimeout(function(){
 				postEndGameState();
 			},2000);
-			
+			sessionStorage["game_paused"] = "false";
 		}
 	});
 	
@@ -297,6 +300,7 @@
 			document.getElementById("notification").innerHTML = name+" declined your draw request.";
 			document.getElementById("abort").innerHTML = abort;	
 			OfferDrawInit();
+			sessionStorage["game_paused"] = "false";
 		}
 	});
 	
@@ -323,6 +327,7 @@
 						postEndGameState();
 					},2000);
 					socket.emit("draw_request_accepted");
+					sessionStorage["game_paused"] = "false";
 				});
 				
 			}
@@ -333,6 +338,7 @@
 				socket.emit("draw_request_declined");	
 				document.getElementById("abort").innerHTML = abort;
 				OfferDrawInit();
+				sessionStorage["game_paused"] = "false";
 					
 				});
 				
@@ -368,29 +374,32 @@
 	 
 	 
 	 var setMove = function(coords){
-		 if(sessionStorage['your_move']=="true"){
-			 if(document.getElementById(coords).innerHTML==""){
-			 moveInfo = {
-					 move_coords : coords,
-					 piece : sessionStorage['piece'],
-					 move_to : sessionStorage['against']
-			 }
-			socket.emit("make_move",JSON.stringify(moveInfo));
-			document.getElementById(coords).innerHTML = sessionStorage['piece'];
-			sessionStorage['your_move']="false";
-			document.getElementById("notification").innerHTML = sessionStorage['against']+"'s turn";
-			 }else{
-				 document.getElementById("notification").innerHTML = "Move taken.";
-				 setTimeout(function(){
-					 document.getElementById("notification").innerHTML = "";
-				 },4000);
-			 }
-		 }else{
-			 document.getElementById("notification").innerHTML = sessionStorage['against']+"'s turn";
-			 setTimeout(function(){
-				 document.getElementById("notification").innerHTML = "";
-			 },4000);
-		 }
+		 if(sessionStorage["game_paused"] == "false"){
+		 	if(sessionStorage['your_move']=="true"){
+			 	if(document.getElementById(coords).innerHTML==""){
+			 		moveInfo = {
+					 	move_coords : coords,
+					 	piece : sessionStorage['piece'],
+					 	move_to : sessionStorage['against']
+			 		}
+				socket.emit("make_move",JSON.stringify(moveInfo));
+				document.getElementById(coords).innerHTML = sessionStorage['piece'];
+				sessionStorage['your_move']="false";
+				document.getElementById("notification").innerHTML = sessionStorage['against']+"'s turn";
+			 	}else{
+				 	document.getElementById("notification").innerHTML = "Move taken.";
+				 	setTimeout(function(){
+					 	document.getElementById("notification").innerHTML = "";
+				 	},4000);
+				 }
+		 	}else{
+			 	document.getElementById("notification").innerHTML = sessionStorage['against']+"'s turn";
+			 	setTimeout(function(){
+				 	document.getElementById("notification").innerHTML = "";
+			 	},4000);
+		 	}
+		 
+	 	}
 	 }
 	 
 	
@@ -502,6 +511,7 @@
 				document.getElementById("notification").innerHTML = "Your draw offer has been sent.";
 				document.getElementById("abort").innerHTML = "";
 				socket.emit("offer_draw");
+				sessionStorage["game_paused"] = "true";
 			});
 		}
   }
@@ -511,7 +521,6 @@
 		
 		if(document.getElementById("send_message") != null){
 			document.getElementById("send_message").addEventListener("click",function(){
-				console.log("Send clicked");
 				var chat_message = document.getElementById("chat_message").value;
 				var chat_messages = document.getElementById("chat_messages").innerHTML;
 		        console.log("chat message"+chat_message);
