@@ -2,19 +2,39 @@
 
 var init = function(io){
 	
+		var users = Array("hu","undefined");
 	    var gameOnlineUsers = new Array();
 	    var xo = require("./xo_logic");
 		
 		var game = io.of('/game').on("connection",function(client){
 			
+			client.on("register",function(data){
+				console.log("in register");
+				var taken = false;
+				for(var i=0;i<users.length;i++){
+				if(data==users[i]){
+					taken = true;
+					break;
+				}
+				
+			}
+				if(taken){
+					client.emit("username_taken",data);
+				}else{
+					users.push(data);
+					client.emit("registered",data);
+					}
+			});
+		
+			
+			
+			var image_data
 			client.on("get_online_users",function(){
 				client.emit("online_users",JSON.stringify(gameOnlineUsers));
 				
 			});
 			
 			client.on("join_game",function(data){
-			 //client.get("socialhub_active",function(error,socialhub_active){
-				//      if(socialhub_active=="true"){
 				    	  var disconnected = false;
 				    	  gameOnlineUsers.forEach(function(user){
 				  			client.get("username",function(error,name){
@@ -30,11 +50,7 @@ var init = function(io){
 				  		gameOnlineUsers.push(data);
 				  		client.broadcast.emit("game_online_users",JSON.stringify(gameOnlineUsers));
 				  		
-				  		}   
-				// } 
-				 
-			// });
-				
+				  		}  
 			});
 			
 			client.on("get_game_online_users",function(){
@@ -42,35 +58,20 @@ var init = function(io){
 			});
 			
 			client.on("challenge",function(data){
-				//client.get("socialhub_active",function(error,socialhub_active){
-				//      if(socialhub_active=="true"){
-				    	  client.broadcast.emit("challenge_request",data);
-				// }
-			//});
-			
+			    client.broadcast.emit("challenge_request",data);
 		  });
 			
 		 client.on("accept_request",function(data){
-			// client.get("socialhub_active",function(error,socialhub_active){
-			   //   if(socialhub_active=="true"){
-			    	  client.broadcast.emit("user_accepted",data); 
-			    	  
-			      //	}
-			 	//});
+			   client.broadcast.emit("user_accepted",data); 
 			 
 		 	});	
 		 
 		 	client.on("decline_request",function(data){
-			 //client.get("socialhub_active",function(error,socialhub_active){
-			    //  if(socialhub_active=="true"){
 			    	  client.broadcast.emit("user_declined",data);
-			    //  }
-			  // });
 		  	});
 		 	
 		 	client.on("in_a_game",function(data){
 		 		client.broadcast.emit("in_a_game",data);
-		 		console.log("in a game "+data);
 		 		
 		 	});
 		   
@@ -132,15 +133,11 @@ var init = function(io){
 		 	});
 		 	
 		 	client.on("disconnect",function(){
-				//client.get("socialhub_active",function(error,socialhub_active){
-					//if(socialhub_active){
 						client.get("username",function(error,name){
 							gameOnlineUsers = xo.removeUser(gameOnlineUsers,name);
 							client.broadcast.emit("game_online_users",JSON.stringify(gameOnlineUsers));
 							client.broadcast.emit("game_player_logged_out",name);
 						});
-					//}
-				//});
 			});
 			
 			

@@ -1,36 +1,46 @@
-var app = require("http").createServer(handler);
-var io = require("./socket.io/lib/socket.io").listen(app);
-var fs = require("fs");
-var url = require("url");
+	var express = require("./express");
+	var expressApp = express();
+	var app = require("http").createServer(expressApp);
+	var io = require("./socket.io/lib/socket.io").listen(app);
+	var fs = require("fs");
+	var url = require("url");
+
+	expressApp.use('/static',express.static(__dirname+"/static"));
+	app.listen(8000);
 
 
-app.listen(8000);
-
-function handler(request,response){
+	expressApp.get("/game.html",function(request,response){
 	
-	var pathname = url.parse(request.url).pathname;
+		handler(request,response);
+		
 	
-	switch(pathname){
-	case "/home.html": route(pathname,response);
-		break;
-	case "/game.html" : route(pathname,response);
-	    break;
-	case "/chat.html" : route(pathname,response);
-		break;
+	});
 	
-	}
-}
-
-
-function route(pathname,response){
-	fs.readFile(__dirname+""+pathname,function(error,data){
-		if(error){
-			response.writeHead(404);
-		    response.end("Page not found");
-		}else{
-			response.writeHead(200,{"Content-Type" : "text/html"});
-			response.write(data);
+	function handler(request,response){
+	
+		var pathname = url.parse(request.url).pathname;
+	
+		switch(pathname){
+		case "/home.html": route(pathname,response);
+			break;
+		case "/game.html" : route(pathname,response);
+	    	break;
+		case "/chat.html" : route(pathname,response);
+			break;
+	
 		}
+	}
+
+
+	function route(pathname,response){
+		fs.readFile(__dirname+""+pathname,function(error,data){
+			if(error){
+				response.writeHead(404);
+				response.end("Page not found");
+			}else{
+				response.writeHead(200,{"Content-Type" : "text/html"});
+				response.write(data);
+			}
 		
 	});
 	

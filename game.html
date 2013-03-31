@@ -3,19 +3,44 @@
 <head>
 <meta charset="utf-8" content="width=device-width" />
 <title>SocialHub XO Game</title>
-<script src="/socket.io/lib/socket.io.js"></script>
-<style type="text/css">
-  .hide {
-       opacity : 0.7;
-       }
-</style>
+	<style type="text/css">
+	 body {
+	  	background : rgb(38,74,32);
+		background : rgba(38,74,32,.8)
+	 }
+	 ul {
+	 	float: left;
+	 	list-style : none;
+	 }
+	 li {
+	 	padding : 10px;
+	 }
+	 
+	</style>
+	<script src="static/jquery-1.8.0.js"></script>
+	<script src="/socket.io/lib/socket.io.js"></script>
 </head>
 <body>
-<div data-role="page">
-<div data-role="header"><h3>SocialHub XO Game</h3></div>
+<div data-role="page" id="index">
+<div data-role="header"><h3 style="color:red;opacity:0.5;">SocialHub XO Game</h3></div>
 <div data-role="content">
 <div id="error_message" style="color:red"> </div>
 <div id="notification" style="color:teal"></div>
+<div id="login">
+    <fieldset>
+    <ul>
+    	<li>
+     	<label for="username" style='padding:5px;'>Play As:</label>
+     	</li>
+     	<li>
+		<input type="text" id="username" style='width:200px;height:20px;' />
+		</li>
+		<li>
+			<input type="submit" id="sign_in" value="Enter"  style="width:200px;height:40px;color:red;padding:5px;" />
+		</li>
+	</ul>
+	</fieldset>
+</div>
 <div id="game_options">
 <h3 id="choose_competitor_header">Choose Competitor</h3>
 <div id="choose_competitor">
@@ -27,7 +52,7 @@
 <td><button  onclick="setPiece('X')" id="btnX" style="width:200px;height:50px;color:red">X </button></td>
 <td><button  onclick="setPiece('O')" id="btnO" style="width:200px;height:50px;color:red">O </button></td>
 </tr>
-</table> 
+</table>
 </div>
 <div id="game_board">
 <div>Username: <span id="username"></span></div>
@@ -35,9 +60,9 @@
 <div>Against: <span id="against"></span></div>
 <div align="center" id="abort"><button id="quit" style="width:200px;height:50px;color:red">Quit</button><button id="offer_draw" style="width:200px;height:50px;color:red;position:relative;">Offer Draw</button></div>
 <table id="road" border="1" class="ui-corner-all"  align="center">
-<tr ><td id="10" onclick="setMove(10)" style="width:200px;height:250px;"></td><td id="20" onclick="setMove(20)" style="width:200px;height:250px;"></td><td id="30" onclick="setMove(30)" style="width:200px;height:250px;"></td></tr>
-<tr><td id="11" onclick="setMove(11)" style="width:200px;height:250px;"></td><td id="21" onclick="setMove(21)" style="width:200px;height:250px;"></td><td id="31" onclick="setMove(31)" style="width:200px;height:250px;"></td></tr>
-<tr><td id="12" onclick="setMove(12)" style="width:200px;height:250px;"></td><td id="22" onclick="setMove(22)" style="width:200px;height:250px;"></td><td id="32" onclick="setMove(32)" style="width:200px;height:250px;"></td></tr>
+<tr ><td id="10" onclick="setMove(10)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td><td id="20" onclick="setMove(20)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td><td id="30" onclick="setMove(30)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td></tr>
+<tr><td id="11" onclick="setMove(11)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td><td id="21" onclick="setMove(21)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td><td id="31" onclick="setMove(31)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td></tr>
+<tr><td id="12" onclick="setMove(12)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td><td id="22" onclick="setMove(22)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td><td id="32" onclick="setMove(32)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td></tr>
 </table>
 <button id="hide_chat">Toggle disable chat</button>
 <br />
@@ -55,35 +80,76 @@
 <div data-role="footer"></div>
 </div>
 <script type="text/javascript">
-	var socket = io.connect('http://localhost:8000/game');
-	var game_board = document.getElementById("game_board").innerHTML;
-	var game_options = document.getElementById("game_options").innerHTML;
-	var abort;
-	var comp_name = "";
-	var request_data;
-	var challenge;
-	var challenge_request;
-	var onlineUsers;
-	var move_number = 0;
-	var move_data = Array();
-	var end_game_message;
-	var moveInfo; 
-	var in_game = false;
-	var play_coords = Array("X","O");
-	var someone_won = false;
-	var chat_disabled = false;
-	var chat_box;
-	var draw_offers = 0;
+	var socket = io.connect('http://localhost:8000/game'),
+		game_board = document.getElementById("game_board").innerHTML,
+	    game_options = document.getElementById("game_options").innerHTML,
+		abort,
+		comp_name = "",
+		request_data,
+		challenge,
+		challenge_request,
+		onlineUsers,
+		move_number = 0,
+		move_data = Array(),
+		end_game_message,
+		moveInfo,
+		in_game = false,
+		play_coords = Array("X","O"),
+		someone_won = false,
+		chat_disabled = false,
+		chat_box,
+		draw_offers = 0,
+		user = "";
 	
 	
 		document.getElementById("game_board").innerHTML = "";
-		sessionStorage["game_paused"] = "false";
-		socket.emit("turn_socialhub_on");
-		socket.emit("join_game",localStorage['socialhub_username']);
-		socket.emit("get_game_online_users");
+		document.getElementById("game_options").innerHTML = "";
 		
 		
- 
+		document.getElementById("sign_in").addEventListener("click",function(){
+			   user = document.getElementById("username").value;
+			   user = user.trim();
+			   console.log(user);
+			   		if(user!=""){
+				   		restoreChatScreen(user);
+			   		}
+			});
+		
+		function restoreChatScreen(username){
+				socket.emit("register",username);
+				
+			}
+		
+		
+		socket.on("registered",function(data){
+			
+			document.getElementById("error_message").innerHTML = "SocialHub has been successsfully activated.";
+		 	setTimeout(function(){
+			 document.getElementById("error_message").innerHTML = "";
+		 	},3000);
+		 	localStorage["registered"] = "true";
+		 	registered = true; 
+		    localStorage['socialhub_username'] = data;
+		    document.getElementById("game_options").innerHTML = game_options; 
+			document.getElementById("login").innerHTML = "";
+			
+			
+			sessionStorage["game_paused"] = "false";
+			socket.emit("turn_socialhub_on");
+			socket.emit("join_game",data);
+			socket.emit("get_game_online_users");
+		
+	});
+		
+		
+		 socket.on("username_taken",function(data){
+			 console.log("username taken");
+			 document.getElementById("error_message").innerHTML = data+" is taken";
+			 setTimeout(function(){
+				 document.getElementById("error_message").innerHTML = "";
+			 },3000);
+		 });
+		
 		
 	 socket.on("game_online_users",function(data){
 		     onlineUsers = JSON.parse(data);
@@ -204,8 +270,19 @@
 	socket.on("move_made",function(data){
 		data = JSON.parse(data);
 		if(data.move_to==localStorage['socialhub_username']){
-			document.getElementById(data.move_coords).innerHTML = data.piece;
-			sessionStorage['your_move']="true";
+			  var move = "",
+			      imageClass;
+			  if(data.piece.toLowerCase()=="x"){
+				  move = "<img src='static/images/mazesX-200x250.png' alt='X' />";
+				  imageClass = "x";
+			  }else{
+				  move = "<img src='static/images/mazesO-200x250.png' alt='O' />";
+				  imageClass = "o";
+			  }
+			
+			document.getElementById(data.move_coords).innerHTML = move;
+			$("#"+data.move_coords).addClass(imageClass);
+			sessionStorage['your_move']	= "true";
 			document.getElementById("notification").innerHTML = "Your move";
 		}
  		move_number++;
@@ -393,15 +470,25 @@
 	 var setMove = function(coords){
 		 if(sessionStorage["game_paused"] == "false"){
 		 	if(sessionStorage['your_move']=="true"){
-			 	if(document.getElementById(coords).innerHTML==""){
+			 	if(!$("#"+coords).hasClass("o") && !$("#"+coords).hasClass("o")){
 			 		moveInfo = {
 					 	move_coords : coords,
 					 	piece : sessionStorage['piece'],
 					 	move_to : sessionStorage['against']
 			 		}
 				socket.emit("make_move",JSON.stringify(moveInfo));
-				document.getElementById(coords).innerHTML = sessionStorage['piece'];
-				sessionStorage['your_move']="false";
+			 		var move = "";
+			 		var imageClass = "";
+					  if(sessionStorage['piece'].toLowerCase()=="x"){
+						  move = "<img src='static/images/mazesX-200x250.png' alt='X' />";
+						  imageClass = "x";
+					  }else{
+						  move = "<img src='static/images/mazesO-200x250.png' alt='O' />";
+						  imageClass = "o"
+					  }
+				document.getElementById(coords).innerHTML = move;
+				$("#"+coords).addClass(imageClass);
+				sessionStorage['your_move'] = "false";
 				document.getElementById("notification").innerHTML = sessionStorage['against']+"'s turn";
 			 	}else{
 				 	document.getElementById("notification").innerHTML = "Move taken.";
@@ -561,8 +648,6 @@
 
 }
 	
-	
-	
 	var ChatBoxHideInit = function(){ 
 		
 		if(!!document.getElementById("chat_box")){
@@ -572,15 +657,15 @@
 		
 	if(!!document.getElementById("hide_chat")){
 		document.getElementById("hide_chat").addEventListener("click",function(){
-					if(chat_disabled){
+					if(!chat_disabled){
 						document.getElementById("chat_box").innerHTML = " ";
 						console.log("hide chat box");
-						chat_disabled = false;
+						chat_disabled = true;
 					}else{
 						document.getElementById("chat_box").innerHTML = chat_box;
 						initChatControls();
 						console.log("show chat box");
-						chat_disabled = true;
+						chat_disabled = false;
 					}
 		});
 	}

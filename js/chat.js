@@ -16,14 +16,14 @@ var init = function(io){
 		client.on("register",function(data){
 			var taken = false;
 			for(var i=0;i<users.length;i++){
-			if(data.Name==users[i]){
+			if(data==users[i]){
 				taken = true;
 				break;
 			}
 			
 		}
 			if(taken){
-				client.emit("username_taken",data.Name);
+				client.emit("username_taken",data);
 			}else{
 				client.emit("registered",data);
 				}

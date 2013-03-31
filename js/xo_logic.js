@@ -3,3 +3,5 @@
 
 	exports.removeUser = socialhub.removeUser;
 	exports.getRandomColor = socialhub.getRandomColor;
+	exports.getImages = socialhub.getImages;
+	
