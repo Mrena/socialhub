@@ -3,673 +3,116 @@
 <head>
 <meta charset="utf-8" content="width=device-width" />
 <title>SocialHub XO Game</title>
+	<script src="static/js/jquery-1.8.3.min.js"></script>
+	<link rel="stylesheet" href="static/css/jquery-ui-1.10.0.custom.css">
+	<link rel="stylesheet" href="static/css/jquery.ui.base.css">
+	<link rel="stylesheet" href="static/css/jquery.ui.menu.css"
+    <link rel="stylesheet" href="static/css/jquery.ui.button.min.css">
+    <link rel="stylesheet" href="static/css/jquery.ui.tabs.css">
+    <link rel="stylesheet" href="static/css/mainStyle.css">
+    <link rel="stylesheet" href="static/css/jquery-ui.css">
+ 	<script src="static/js/effect.js"></script>
+ 	<script src="static/js/jquery.ui.core.js"></script>
+ 	<script src="static/js/jquery-ui-1.10.0.custom.js"></script>
 	<style type="text/css">
-	 body {
-	  	background : rgb(38,74,32);
-		background : rgba(38,74,32,.8)
-	 }
-	 ul {
-	 	float: left;
-	 	list-style : none;
-	 }
-	 li {
-	 	padding : 10px;
-	 }
-	 
-	</style>
-	<script src="static/jquery-1.8.0.js"></script>
+        .ui-menu { width: 150px; }
+        ul#menu {
+          	float: right;
+          	position : relative;
+          	list-style: none;
+        	}
+        li.menu {
+       		float: left;
+       		position : relative;
+       		padding : 5px;
+       		list-style: none;
+    		}
+    		a {
+    		  text-decoration : none;
+    		}
+    </style>
+	
+	<script src="static/js/jquery-1.8.3.min.js"></script>
+	<script src="static/js/jquery-ui-1.10.0.custom.min.js"></script>
 	<script src="/socket.io/lib/socket.io.js"></script>
 </head>
 <body>
-<div data-role="page" id="index">
-<div data-role="header"><h3 style="color:red;opacity:0.5;">SocialHub XO Game</h3></div>
-<div data-role="content">
-<div id="error_message" style="color:red"> </div>
-<div id="notification" style="color:teal"></div>
-<div id="login">
-    <fieldset>
-    <ul>
-    	<li>
-     	<label for="username" style='padding:5px;'>Play As:</label>
-     	</li>
-     	<li>
-		<input type="text" id="username" style='width:200px;height:20px;' />
-		</li>
-		<li>
-			<input type="submit" id="sign_in" value="Enter"  style="width:200px;height:40px;color:red;padding:5px;" />
-		</li>
-	</ul>
-	</fieldset>
-</div>
-<div id="game_options">
-<h3 id="choose_competitor_header">Choose Competitor</h3>
-<div id="choose_competitor">
- 
-</div>
-<h3 style="text-align:center">Choose a piece</h3>
-<table align="center">
-<tr>                                                                                                           
-<td><button  onclick="setPiece('X')" id="btnX" style="width:200px;height:50px;color:red">X </button></td>
-<td><button  onclick="setPiece('O')" id="btnO" style="width:200px;height:50px;color:red">O </button></td>
-</tr>
-</table>
-</div>
-<div id="game_board">
-<div>Username: <span id="username"></span></div>
-<div>Your Piece: <span id="your_piece"></span></div>
-<div>Against: <span id="against"></span></div>
-<div align="center" id="abort"><button id="quit" style="width:200px;height:50px;color:red">Quit</button><button id="offer_draw" style="width:200px;height:50px;color:red;position:relative;">Offer Draw</button></div>
-<table id="road" border="1" class="ui-corner-all"  align="center">
-<tr ><td id="10" onclick="setMove(10)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td><td id="20" onclick="setMove(20)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td><td id="30" onclick="setMove(30)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td></tr>
-<tr><td id="11" onclick="setMove(11)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td><td id="21" onclick="setMove(21)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td><td id="31" onclick="setMove(31)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td></tr>
-<tr><td id="12" onclick="setMove(12)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td><td id="22" onclick="setMove(22)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td><td id="32" onclick="setMove(32)" style="width:200px;height:250px;"><img src="static/images/mazes-200x250.jpg" alt="board"></td></tr>
-</table>
-<button id="hide_chat">Toggle disable chat</button>
-<br />
-<div id="chat_box">
-	<h3>Chat</h3>
-	<div id="chat_messages"></div>
+    <div id="exit"></div>
+    <header>
+<h1 class="ui-state-highlight">PrintP</h1>
+
+<h4>Send us your image for printing. We will deliver you a high quality print-out right to your door step. Payment on delivery.</h4>
+      	<ul id="menu">
+    		  <li class="menu"><a href="#" id="home"> Home</a></li>
+    		  <li class="menu"><a href="#" id="orderhistory">Order History</a></li>
+    		  <li class="menu"><a href="#" id="contact">Comment</a></li>
+    		  <li class="menu"><a href="#" id="about"> About</a></li>
+           </ul>
+    
+   
+    </header>
+<div id="page" class="ui-widget-content ui-corner-all">
+    <div id="err" class="err"> </div>
+    
     <br />
-   <textarea id="chat_message"></textarea>
-   <br />
-   <button id="send_message">Send</button>
+<form id="mainForm" enctype="multipart/form-data" action="php/handle_img.php" method="post">
+<input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
+<input type="hidden" name="imgNum" id="imgNum" value="1" />
+ <input type="hidden" id="priceIn" name="priceIn" value="0" />
+    <input type="hidden" id="userId" name="userId" value="null" />
+    <div style="color: teal">Price: <span id="price">R0.00</span></div>
+<table>
+
+
+<tr><td><label for="image">Image:</label></td><td><span id="img"> <input type="file" name="image" id="image" /></span></td><td><!--<a id="add" onclick="addUp()" href="#">another</a><br />--></td></tr>
+<tr><td><label for="printSize">Print Size:</label><br /></td>
+<td><select  name="printSize" id="printSize">
+<option>Select print size</option>
+</select></td>
+</tr>
+<tr><td><label for="quantity" class="select">Number of images:</label></td><td>
+<select name="quantity" id="quantity"  onchange="quantitySizeChanged()">
+<option>Select quantity</option>
+</select>
+<a id="next" href="#" onclick="nextLinkClicked()">Next</a>
+</td></tr>
+
+<tr><td><h4>Your details:</h4></td></tr>
+
+<tr><td><label for="name">Name:</label><br /></td><td><input type="text" name="name" id="name"   /><br /></td></tr>
+<tr><td><label for="number">Phone Number:</label><br /></td><td><input type="tel" name="number" id="number"   /></td></tr>
+<tr><td><label for="location">Location:</label><br /></td><td><select name="location" id="location"   onchange="locationChanged()">
+																<option>Select location</option>
+																</select></td><td><span id="specific"></span></td></td></tr>
+<tr><td><label for="address">Home Address:</label><br /></td><td><textarea name="address" id="address"  ></textarea></td></tr>
+<tr><td><label for="directions">Special directions:</label><br /></td><td><textarea name="directions" id="directions"  ></textarea></td></tr>
+
+</table>
+<input type="button" id="save" name="save" title="Saves your current details so you won't have to re-type it later." value="Save" class="ui-button" onclick="saveDetails()"  /><br /><br /><input type="submit" id="submit" name="submit" value="Send" class="ui-button control"   onfocus="validateFields()" onmouseover="validateFields()"  />
+</form>
+
 </div>
-<div id="timer" align="center"> </div>
-</div>
-</div>
-<div data-role="footer"></div>
-</div>
+    <footer>
+    <div class="ui-widget-content ui-corner-all" style="text-align: right"><a href="#" id="printco">Printing Providers</a> - <a href="#" id="terms">T&C</a></div>
+    
+    <div style="text-align: center">Developed By Khulekani Ngongoma</div>
+        </footer>
+        <script src="static/js/client_home_logic.js"></script>
+        <script src="static/js/client_order_logic.js"></script>
+        <script src="static/js/client_contact_logic.js"></script>
+        <script src="static/js/client_about_logic.js"></script>
+        <script src="static/js/client_printco_logic.js"></script>
+        <script src="static/js/client_terms_logic.js"></script>
 <script type="text/javascript">
-	var socket = io.connect('http://localhost:8000/game'),
-		game_board = document.getElementById("game_board").innerHTML,
-	    game_options = document.getElementById("game_options").innerHTML,
-		abort,
-		comp_name = "",
-		request_data,
-		challenge,
-		challenge_request,
-		onlineUsers,
-		move_number = 0,
-		move_data = Array(),
-		end_game_message,
-		moveInfo,
-		in_game = false,
-		play_coords = Array("X","O"),
-		someone_won = false,
-		chat_disabled = false,
-		chat_box,
-		draw_offers = 0,
-		user = "";
-	
-	
-		document.getElementById("game_board").innerHTML = "";
-		document.getElementById("game_options").innerHTML = "";
-		
-		
-		document.getElementById("sign_in").addEventListener("click",function(){
-			   user = document.getElementById("username").value;
-			   user = user.trim();
-			   console.log(user);
-			   		if(user!=""){
-				   		restoreChatScreen(user);
-			   		}
-			});
-		
-		function restoreChatScreen(username){
-				socket.emit("register",username);
-				
-			}
-		
-		
-		socket.on("registered",function(data){
-			
-			document.getElementById("error_message").innerHTML = "SocialHub has been successsfully activated.";
-		 	setTimeout(function(){
-			 document.getElementById("error_message").innerHTML = "";
-		 	},3000);
-		 	localStorage["registered"] = "true";
-		 	registered = true; 
-		    localStorage['socialhub_username'] = data;
-		    document.getElementById("game_options").innerHTML = game_options; 
-			document.getElementById("login").innerHTML = "";
-			
-			
-			sessionStorage["game_paused"] = "false";
-			socket.emit("turn_socialhub_on");
-			socket.emit("join_game",data);
-			socket.emit("get_game_online_users");
-		
-	});
-		
-		
-		 socket.on("username_taken",function(data){
-			 console.log("username taken");
-			 document.getElementById("error_message").innerHTML = data+" is taken";
-			 setTimeout(function(){
-				 document.getElementById("error_message").innerHTML = "";
-			 },3000);
-		 });
-		
-		
-	 socket.on("game_online_users",function(data){
-		     onlineUsers = JSON.parse(data);
-		     message = "";
-				 onlineUsers.forEach(function(onlineUser){
-					if(onlineUser!=localStorage['socialhub_username']){
-				        message += "[<a href='#' id='"+onlineUser+"'>"+onlineUser+"</a>]";
-				  }
-				 });
-				 
-		if(document.getElementById("choose_competitor") != null)	 
-		    document.getElementById("choose_competitor").innerHTML = message;
-		 	onlineUsers.forEach(function(onlineUser){
-		 		if(document.getElementById(onlineUser)!=null)
-				 document.getElementById(onlineUser).addEventListener("click",function(e){
-				 	comp_name = "";
-				 	comp_name = onlineUser;
-				 	document.getElementById("choose_competitor_header").innerHTML = "Choosen Competitor";
-				 	document.getElementById("choose_competitor").innerHTML = onlineUser;
-				 	e.preventDefault();
-			 });
-		 });
-	 });
-	 
-	 
-	 socket.on("challenge_request",function(data){
-		 data = JSON.parse(data);
-		 if(in_game==false){
-		 request_data = data;
-		 // if this challenge is meant for you
-		 if(localStorage['socialhub_username']==data.name){
-			document.getElementById("notification").innerHTML = "";
-			challenge_request = data.challenger+" would like to play against you. He/she will be using the following piece: "+data.piece; 
-		 	challenge_request += "<br /><button id='accept_request' style='width:200px;height:50px;color:red'>Accept</button><button id='decline_request' style='width:200px;height:50px;color:red'>Not Now</button>"
-		 	document.getElementById("game_options").innerHTML = challenge_request;
-		 	
-		 	document.getElementById("accept_request").addEventListener("click",function(e){
-	    		socket.emit("accept_request",request_data);
-	    		document.getElementById("game_options").innerHTML = "";
-	    		document.getElementById("game_board").innerHTML = game_board;
-	    		abort = document.getElementById("abort").innerHTML;
-	    		sessionStorage['piece'] = data.piece == "X" ? "O" : "X";
-	    		document.getElementById("your_piece").innerHTML = sessionStorage['piece'];
-	    		document.getElementById("username").innerHTML = localStorage['socialhub_username'];
-	    		document.getElementById("against").innerHTML = data.challenger;
-	    		sessionStorage['your_move'] = "false";
-	    		document.getElementById("notification").innerHTML = data.challenger+"'s turn.";
-	    		sessionStorage['against'] = data.challenger;
-	    		initChatControls();
-	    		ChatBoxHideInit();
-	    		QuitInit();
-	    		OfferDrawInit();
-	    		
-	    		e.preventDefault();
-		     });
-		 	
-		 	document.getElementById("decline_request").addEventListener("click",function(e){
-				socket.emit("decline_request",request_data);
-				document.getElementById("game_options").innerHTML = game_options;
-				socket.emit("get_game_online_users");
-				e.preventDefault();
-	    	 });
-		 }
-	 }else{
-		 socket.emit("in_a_game",data.challenger);
-	 }
-		 	
-	 });
-	 
-	 
-	 socket.on("in_a_game",function(data){
-		 if(data==localStorage['socialhub_username']){
-			 document.getElementById("game_options").innerHTML = game_options;
-			 document.getElementById("notification").innerHTML = "The user is currently in a game.";
-		 }
-		 
-	 });
-	 	
-	socket.on("user_accepted",function(data){
-		//data = JSON.parse(data);
-		// if you're the challenger. This message is meant for you
-		 if(localStorage['socialhub_username']==data.challenger){
-				document.getElementById("game_options").innerHTML = "";
-				document.getElementById("game_board").innerHTML = game_board;
-				abort = document.getElementById("abort").innerHTML;
-				sessionStorage['piece'] = data.piece;
-				document.getElementById("your_piece").innerHTML = data.piece;
-	    		document.getElementById("username").innerHTML = localStorage['socialhub_username'];
-	    		document.getElementById("against").innerHTML = data.name;
-				sessionStorage['your_move'] = "true";
-				sessionStorage['against'] = data.name;
-				document.getElementById("notification").innerHTML = "Your turn.";
-				in_game = true;
-				move_number = 0;
-				move_data.length = 0;
-				QuitInit();
-				OfferDrawInit();
-				initChatControls();
-				ChatBoxHideInit();
-				
-		 }
-		
-		
-	});	
-	
-	socket.on("user_declined",function(data){
-		//data = JSON.parse(data);
-		// if you're the challenger. This message is meant for you
-		 if(localStorage['socialhub_username']==data.challenger){
-			 comp_name = "";
-			 document.getElementById("game_options").innerHTML = data.name+" is scared of your challenge.<br />";
-			 document.getElementById("game_options").innerHTML += game_options;
-			 socket.emit("get_game_online_users");
-		 }
-	});
-	
-	
-	socket.on("move_made",function(data){
-		data = JSON.parse(data);
-		if(data.move_to==localStorage['socialhub_username']){
-			  var move = "",
-			      imageClass;
-			  if(data.piece.toLowerCase()=="x"){
-				  move = "<img src='static/images/mazesX-200x250.png' alt='X' />";
-				  imageClass = "x";
-			  }else{
-				  move = "<img src='static/images/mazesO-200x250.png' alt='O' />";
-				  imageClass = "o";
-			  }
-			
-			document.getElementById(data.move_coords).innerHTML = move;
-			$("#"+data.move_coords).addClass(imageClass);
-			sessionStorage['your_move']	= "true";
-			document.getElementById("notification").innerHTML = "Your move";
-		}
- 		move_number++;
- 		move_data[parseInt(data.move_coords)] = data.piece;
- 		console.log("move number "+move_number);
- 		console.log(move_data[parseInt(data.move_coords)]);
- 		if(move_number>2){
- 			checkWin();
- 		}
-	});
-	
-	
-	socket.on("game_player_logged_out",function(name){
-		console.log("game logged out data "+name);
-		if(name==sessionStorage['against']){
-			ChickenedOut(name);	
-	  }
-		
-	});
-	
-	socket.on("game_ended",function(data){
-	  // if the game that just ended is the one you are currently playing
-	   data = JSON.parse(data);
-	if(data.status_to==localStorage['socialhub_username']){
-	  if(data.status == 1){
-		 	end_game_message = "You lose. Try again." 
-	  }
-			else if(data.status == 0){
-		 		end_game_message = "Congratulations! You won.";
-			}
-		 		    else if(data.status==2){
-		 			  end_game_message = "It's a draw.";
-		 		    }else{
-		 		    	console.log("status value "+data.status);
-		 		    }
-		 		    	
-	     document.getElementById("notification").innerHTML = end_game_message;
-	     postEndGameState();
-		}else{
-			console.log("status_to value "+data.status_to);
-		}
-		
-	});
-	
-	socket.on("draw",function(data){
-		if(data==localStorage['socialhub_username']){
-			document.getElementById("notification").innerHTML = "It's a draw.";
-		    postEndGameState();
-		}
-	});
-	
-	
-	socket.on("chat_message",function(data){
-		data = JSON.parse(data);
-		if(data.message_to==localStorage['socialhub_username']){
-			if(!!document.getElementById("chat_messages")){
-		    var chat_messages = document.getElementById("chat_messages").innerHTML;
-			chat_messages += ("<br />"+sessionStorage['against']+": "+data.message);
-			document.getElementById("chat_messages").innerHTML = chat_messages;
-			}
-		}
-	});
-	
-	
-	socket.on("cancel_challenge_request",function(data){
-		if(data==localStorage['socialhub_username']){
-			document.getElementById("notification").innerHTML = "The user cancelled the challenge request";
-			document.getElementById("game_options").innerHTML = game_options;
-			socket.emit("get_game_online_users");
-			setTimeout(function(){
-				document.getElementById("notification").innerHTML = "";
-			},3000);
-			
-		}
-	});
-	
-	
-	socket.on("quit",function(name){
-		// if the person who just quit is the one you're playing against
-		if(name==sessionStorage["against"]){
-			ChickenedOut(name);
-		}
-	});
-	
-	socket.on("offer_draw",function(name){
-		// if the person who is offering a draw is the one you're playing against
-		if(name==sessionStorage["against"]){
-			DrawOffered(name);
-			sessionStorage["game_paused"] = "true";
-		}
-		
-	});
-	
-	socket.on("draw_request_accepted",function(name){
-		if(name==sessionStorage["against"]){
-			document.getElementById("notification").innerHTML = name+" accepted your draw request. Its a draw";
-			document.getElementById("game_options").innerHTML = "";
-			setTimeout(function(){
-				postEndGameState();
-			},2000);
-			sessionStorage["game_paused"] = "false";
-		}
-	});
-	
-	socket.on("draw_request_declined",function(name){
-		if(name==sessionStorage["against"]){
-			document.getElementById("notification").innerHTML = name+" declined your draw request.";
-			document.getElementById("abort").innerHTML = abort;	
-			OfferDrawInit();
-			QuitInit();
-			sessionStorage["game_paused"] = "false";
-		}
-	});
-	
-	var ChickenedOut = function(name){
-		
-		document.getElementById("notification").innerHTML = name+" chickened out.";
-		document.getElementById("game_options").innerHTML = "";
-		setTimeout(function(){
-			postEndGameState();
-		},2000);
-		
-	}
-	
-	var DrawOffered = function(name){
-		if(!!document.getElementById("abort")){
-			document.getElementById("abort").innerHTML = name+" has offered a draw.<br />";
-			document.getElementById("abort").innerHTML += "<button id='accept_draw_request' style='width:200px;height:50px;color:red'>Accept</button><button id='decline_draw_request' style='width:200px;height:50px;color:red'>No Ways!</button>";
-			
-			if(!!document.getElementById("accept_draw_request")){
-				document.getElementById("accept_draw_request").addEventListener("click",function(){
-					document.getElementById("notification").innerHTML = "Its a draw."
-					document.getElementById("game_options").innerHTML = "";
-					setTimeout(function(){
-						postEndGameState();
-					},2000);
-					socket.emit("draw_request_accepted");
-					sessionStorage["game_paused"] = "false";
-				});
-				
-			}
-			
-			
-			if(!!document.getElementById("decline_draw_request")){
-				document.getElementById("decline_draw_request").addEventListener("click",function(){
-				socket.emit("draw_request_declined");	
-				document.getElementById("abort").innerHTML = abort;
-				OfferDrawInit();
-				QuitInit();
-				sessionStorage["game_paused"] = "false";
-					
-				});
-				
-			}
-			
-		}
-	}
-	 
-	 var setPiece = function(piece){
-		 if(comp_name!=""){
-			  	challenge = {
-					  "name" : comp_name,
-					  "challenger" : localStorage['socialhub_username'],
-					  "piece" : piece
-			 	}
-			 socket.emit("challenge",JSON.stringify(challenge));
-			 document.getElementById("game_options").innerHTML = "Your challenge request to "+comp_name+" has been sent. Please wait for a response.<br /><button id='cancel_request' style='width:200px;height:50px;color:red'>Cancel Request</button>";
-			 if(document.getElementById("cancel_request") != null){
-				 document.getElementById("cancel_request").addEventListener("click",function(){
-					 socket.emit("cancel_challenge_request",comp_name);
-					 document.getElementById("game_options").innerHTML = game_options;
-					 socket.emit("get_game_online_users");
-				 });
-			 }
-		 }else{
-			 document.getElementById("error_message").innerHTML = "Please choose a person you want to play against.";
-			 setTimeout(function(){
-				 document.getElementById("error_message").innerHTML = "";
-			  },4000);
-		 }
-		 
-	 }
-	 
-	 
-	 var setMove = function(coords){
-		 if(sessionStorage["game_paused"] == "false"){
-		 	if(sessionStorage['your_move']=="true"){
-			 	if(!$("#"+coords).hasClass("o") && !$("#"+coords).hasClass("o")){
-			 		moveInfo = {
-					 	move_coords : coords,
-					 	piece : sessionStorage['piece'],
-					 	move_to : sessionStorage['against']
-			 		}
-				socket.emit("make_move",JSON.stringify(moveInfo));
-			 		var move = "";
-			 		var imageClass = "";
-					  if(sessionStorage['piece'].toLowerCase()=="x"){
-						  move = "<img src='static/images/mazesX-200x250.png' alt='X' />";
-						  imageClass = "x";
-					  }else{
-						  move = "<img src='static/images/mazesO-200x250.png' alt='O' />";
-						  imageClass = "o"
-					  }
-				document.getElementById(coords).innerHTML = move;
-				$("#"+coords).addClass(imageClass);
-				sessionStorage['your_move'] = "false";
-				document.getElementById("notification").innerHTML = sessionStorage['against']+"'s turn";
-			 	}else{
-				 	document.getElementById("notification").innerHTML = "Move taken.";
-				 	setTimeout(function(){
-					 	document.getElementById("notification").innerHTML = "";
-				 	},4000);
-				 }
-		 	}else{
-			 	document.getElementById("notification").innerHTML = sessionStorage['against']+"'s turn";
-			 	setTimeout(function(){
-				 	document.getElementById("notification").innerHTML = "";
-			 	},4000);
-		 	}
-		 
-	 	}
-	 }
-	 
-	
-	var checkWin = function(){
-		for(var i=0;i<play_coords.length;i++){
-			if(move_data[10]==play_coords[i] && move_data[11]==play_coords[i] && move_data[12]==play_coords[i]){
-			    play_coords[i] ==  sessionStorage['piece'] ? endGame(1) : endGame(0);
-			      someone_won = true;
-				
-			}
-				
-				if(move_data[20]==play_coords[i] && move_data[21]==play_coords[i] && move_data[22]==play_coords[i]){
-					play_coords[i] == sessionStorage['piece'] ? endGame(1) : endGame(0);
-					    someone_won = true;
-				}
-					
-					if(move_data[30]==play_coords[i] && move_data[31]==play_coords[i] && move_data[32]==play_coords[i]){
-						play_coords[i] == sessionStorage['piece'] ? endGame(1) : endGame(0);
-						someone_won = true;
-					}
-						
-						if(move_data[10]==play_coords[i] && move_data[20]==play_coords[i] && move_data[30]==play_coords[i]){
-							play_coords[i] == sessionStorage['piece'] ? endGame(1) : endGame(0);
-							    someone_won = true;
-						}
-							
-							if(move_data[11]==play_coords[i] && move_data[21]==play_coords[i] && move_data[31]==play_coords[i]){
-								play_coords[i] == sessionStorage['piece'] ? endGame(1) : endGame(0);
-								  someone_won = true;
-							}
-								
-								if(move_data[12]==play_coords[i] && move_data[22]==play_coords[i] && move_data[32]==play_coords[i]){
-									play_coords[i] == sessionStorage['piece'] ? endGame(1) : endGame(0);
-									   someone_won = true;
-								}
-									
-									if(move_data[10]==play_coords[i] && move_data[21]==play_coords[i] && move_data[32]==play_coords[i]){
-										play_coords[i] == sessionStorage['piece'] ? endGame(1) : endGame(0);
-										  someone_won = true;
-									}
-									     
-											if(move_data[30]==play_coords[i] && move_data[21]==play_coords[i] && move_data[12]==play_coords[i]){
-												play_coords[i] == sessionStorage['piece'] ? endGame(1) : endGame(0);
-												someone_won = true;
-										  }
-									
-		}
-		
-		if(someone_won == false && move_number==5){
-			// it's a draw
-			document.getElementById("notification").innerHTML = "It's a draw.";
-		    socket.emit("draw",sessionStorage["against"]);
-			postEndGameState();
-		}
-	} 
-	
-	var gameEndStatus;
-	var endGame = function(tempStatus){
-		 if(tempStatus == 1)
-			end_game_message = "Congratulations! You won."
-			 else if(tempStatus == 0)
-			    end_game_message = "You lose. Try again.";
-		 
-		document.getElementById("notification").innerHTML = end_game_message;
-		gameEndStatus = {
-					status :  tempStatus,
-					status_to : sessionStorage["against"]
-				}
-		socket.emit("end_game",JSON.stringify(gameEndStatus));
-		postEndGameState();
-	}
-	
-	var postEndGameState = function(){
-		
-		document.getElementById("notification").innerHTML += "<br /><button id='play_again' style='width:200px;height:50px;color:red'>Play again</button>";
-		document.getElementById("game_board").innerHTML = "";
-		sessionStorage['against'] = "";
-		in_game = false;
-		move_number = 0;
-		someone_won = false;
-		move_data.length = 0;
-		draw_offers = 0;
-	     if(document.getElementById("play_again")!=null)
-	     	document.getElementById("play_again").addEventListener("click",function(){
-	     	document.getElementById("notification").innerHTML = "";
-		 	document.getElementById("game_options").innerHTML = game_options;
-		 	socket.emit("get_game_online_users");
-		
-	     });
-		
-	}
-	
-   var QuitInit = function(){
 
-		if(!!document.getElementById("quit")){
-			document.getElementById("quit").addEventListener("click",function(){
-				document.getElementById("notification").innerHTML = "";
-				socket.emit("quit",sessionStorage['against']);
-				postEndGameState();
-				
-			});
-		}
-   }
-   
-   
-   var OfferDrawInit = function(){
-	if(draw_offers<3){
-		if(!!document.getElementById("offer_draw")){
-			document.getElementById("offer_draw").addEventListener("click",function(){
-				document.getElementById("notification").innerHTML = "Your draw offer has been sent.";
-				document.getElementById("abort").innerHTML = "";
-				socket.emit("offer_draw");
-				sessionStorage["game_paused"] = "true";
-				draw_offers++;
-			});
-		}
-	}else
-		{
-		document.getElementById("offer_draw").outerHTML = "";
-		}
-  }
+	var socket = io.connect('http://localhost:8000');
 	
-	
-	var initChatControls = function(){
-		
-		if(!!document.getElementById("send_message")){
-			document.getElementById("send_message").addEventListener("click",function(){
-				var chat_message = document.getElementById("chat_message").value;
-				var chat_messages = document.getElementById("chat_messages").innerHTML;
-				chat_messages += "<br />You: "+chat_message;
-				document.getElementById("chat_messages").innerHTML = chat_messages;
-				document.getElementById("chat_message").value ="";
-		
-				var chat = {
-					message : chat_message,
-					message_to : sessionStorage['against']
-				}
-		
-				socket.emit("chat_message",JSON.stringify(chat));
-		});
-	}
-
-}
-	
-	var ChatBoxHideInit = function(){ 
-		
-		if(!!document.getElementById("chat_box")){
-			console.log("chat box stored");
-			chat_box = document.getElementById("chat_box").innerHTML;
-		}
-		
-	if(!!document.getElementById("hide_chat")){
-		document.getElementById("hide_chat").addEventListener("click",function(){
-					if(!chat_disabled){
-						document.getElementById("chat_box").innerHTML = " ";
-						console.log("hide chat box");
-						chat_disabled = true;
-					}else{
-						document.getElementById("chat_box").innerHTML = chat_box;
-						initChatControls();
-						console.log("show chat box");
-						chat_disabled = false;
-					}
-		});
-	}
-}	
+	client_home(socket);
+	client_order(socket);
+	client_contact(socket);
+	client_about(socket);
+	client_printco(socket);
+	client_terms(socket);
 	
 </script>
 </body>

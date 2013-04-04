@@ -1,7 +1,8 @@
-	var express = require("./express");
+
+	var express = require("express");
 	var expressApp = express();
 	var app = require("http").createServer(expressApp);
-	var io = require("./socket.io/lib/socket.io").listen(app);
+	var io = require("socket.io/lib/socket.io").listen(app);
 	var fs = require("fs");
 	var url = require("url");
 
@@ -40,17 +41,26 @@
 			}else{
 				response.writeHead(200,{"Content-Type" : "text/html"});
 				response.write(data);
+				response.end();
 			}
 		
 	});
 	
 	
 }
-    
-	var xo = require("./js/xo");
-	var chat = require("./js/chat");
-	xo.init(io);
-	chat.init(io);
 	
+	io.sockets.on("connection",function(client){
+		console.log("PrintP connected!!!");
+		
+		require("./orderhistory_logic").order(client,fs);
+		require("./contact_logic").contact(client,fs);
+		require("./home_logic").home(client,fs);
+		require("./about_logic").about(client,fs);
+		require("./printco_logic").print(client,fs);
+		require("./terms_logic").terms(client,fs);
+		
+		
+		
+	});
 	
 	
