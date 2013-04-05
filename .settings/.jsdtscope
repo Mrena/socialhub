@@ -143,5 +143,6 @@
 	<classpathentry kind="src" path="node_modules/socket.io/node_modules/socket.io-client/test/node"/>
 	<classpathentry kind="src" path="static/js"/>
 	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.baseBrowserLibrary/StandardBrowser/html5"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

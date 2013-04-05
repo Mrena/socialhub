@@ -1,6 +1,7 @@
 
 
 var client_home = function(socket){
+	
 
 	// start of home request and response
 	$("#home").on("click",function(e){
@@ -22,5 +23,8 @@ var client_home = function(socket){
 	
 	// end of home request and response
 	
+	
 };
+
+
 	

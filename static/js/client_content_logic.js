@@ -22,8 +22,6 @@ var client_content = function(socket){
 	// end of contact request and response
 	
 	
-	
-	
 };
 
 exports.client_content = client_content;

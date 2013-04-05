@@ -17,6 +17,10 @@
 	
 	});
 	
+	expressApp.get("/startup.html",function(request,response){
+		handler(request,response);
+	});
+	
 	function handler(request,response){
 	
 		var pathname = url.parse(request.url).pathname;
@@ -28,6 +32,8 @@
 	    	break;
 		case "/chat.html" : route(pathname,response);
 			break;
+		case "/startup.html" : route(pathname,response);
+		   break;
 	
 		}
 	}
@@ -58,6 +64,7 @@
 		require("./about_logic").about(client,fs);
 		require("./printco_logic").print(client,fs);
 		require("./terms_logic").terms(client,fs);
+		require("./startup_logic").startup(client,fs);
 		
 		
 		

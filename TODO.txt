@@ -1,0 +1,8 @@
+
+--- Tables and Log Files ---
+- Add a button to create the required tables, which will return a list of the names of tables which the system was able to create.
+- Add a button to create the required log files, which will return a list of the names of the log files which the system was able to create.
+- whenever a person enters the startup page the system should check if the tables and log files have been created, and only show buttons to create if they are not i.e "touch the tables and files".
+- 
+
+
