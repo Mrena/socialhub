@@ -7,13 +7,10 @@ var terms = function(client,fs){
 		 fs.readFile("./web_content/terms.txt",'utf8',function(error,content){
 			if(error)
 				throw error;
-			
 			client.emit("terms",content);
 			
 		});
 	});
-	
-	
 	
 };
 

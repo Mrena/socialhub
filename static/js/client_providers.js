@@ -3,62 +3,57 @@
 var client_providers = function(socket){
 	
 	var validateProviderInfo = function(f_name,l_name,username,password,email_address,physical_address,operating_area){
-		var isValid = true;
-		console.log("before all "+isValid+f_name.length);
-		 var validate_f_name = /^[a-z]([0-9a-z_])+$/i;
+			var isValid = true;
+			var validate_f_name = /^[a-z]([0-9a-z_])+$/i;
 		if( !(validate_f_name.test(f_name))){
 				$("#f_name_error").html("Please enter a valid first name. Your first name should not contain special characters, and needs to be greater than 3 and less than 16 characters.");
-			isValid = false;
-				
+			isValid = false;	
 		}
-		console.log("after first name "+isValid);
 		
-		var validate_l_name = /^[a-z]([0-9a-z_])+$/i;
+			var validate_l_name = /^[a-z]([0-9a-z_])+$/i;
 		if( (!validate_l_name.test(l_name))){
 				$("#l_name_error").html("Please enter a valid last name. Your last name should not contain special characters, and needs to be greater than 3 and less than 16 characters.");
 			isValid = false;
 		}
-		console.log("after last name "+isValid);
-		var validate_username = /^[a-z]([0-9a-z_])+$/i;
+		
+			var validate_username = /^[a-z]([0-9a-z_])+$/i;
 		if( !(validate_username.test(username)) && (username.length > 3 && username.length < 16)){
 				$("#username_error").html("Please enter a valid username. Your username should not contain special characters, and needs to be greater than 3 and less than 16 characters.");
 			isValid = false;
 		}
-		console.log("after username "+isValid);
 		
-		var validate_password = /^[a-z]([0-9a-z_])+$/i;
+			var validate_password = /^[a-z]([0-9a-z_])+$/i;
 		if( !(validate_password.test(password)) && (password.length > 4 && operating_area.length < 20)){
 					$("#password_error").html("Please enter a valid password. Your password should not contain special characters, and needs to be greater than 4 and less than 10 characters.");
 			isValid = false;
 		}
-		console.log("after password "+isValid);
 		
-		var validate_email_address = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i;
+			var validate_email_address = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i;
 		if(!(validate_email_address.test(email_address))){
 				$("#email_address_error").html("Please enter a valid email address.");
 			isValid = false;
 			
 		}
-		console.log("after email address "+isValid);
 		
 		if(physical_address==""){
 				$("#physical_address_error").html("Please enter a valid physical address. Your physical address should not contain special characters, and needs to be greater than 5 and less than 40 characters.");
 			isValid = false;
 		}
-		console.log("after physical address "+isValid);
 		
-		var validate_operating_area = /^[a-z]([0-9a-z_])+$/i;
+			var validate_operating_area = /^[a-z]([0-9a-z_])+$/i;
 		if( !(validate_operating_area.test(operating_area)) && (operating_area.length > 3 && operating_area.length < 15)){
 				$("#operating_area_error").html("Please enter a valid operating area. Your operating area should not contain special characters, and needs to be greater than 5 and less than 15 characters.");
 			isValid = false;
 		}
 		
-		console.log("after operating area "+isValid);
 		return isValid;
 	};
 	
-
-	socket.emit("get_printing_providers");
+	$("#get_service_providers").on("click",function(e){
+		socket.emit("get_printing_providers");
+	 e.preventDefault();
+	});
+	
 	
 	socket.on("printing_providers",function(providers){
 		providers = JSON.parse(providers);
@@ -99,6 +94,14 @@ var client_providers = function(socket){
 				};
 				
 				socket.emit("submit_provider",JSON.stringify(providerInfo));
+				
+				$("#f_name").val("");
+				$("#l_name").val("");
+				$("#username").val("");
+				$("#password").val("");
+				$("#email_address").val("");
+				$("#physical_address").val("");
+				$("#operating_area").val("");
 				console.log("provider submitted");
 				
 			}else{
@@ -110,9 +113,11 @@ var client_providers = function(socket){
 	
 	
 	socket.on("provider_submitted",function(){
-		socket.emit("get_printing_providers");
+		setTimeout(function(){
+			socket.emit("get_printing_providers");
+		},1000);
+		
 	});
-	
 	
 };
 

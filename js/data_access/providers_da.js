@@ -8,8 +8,6 @@ var startup_da_parent = require("./startup_da_parent");
 		    mysql_con.connect();
 		    var query = "SELECT f_name,l_name,username,email_address,physical_address,operating_area,service_code FROM Photographers";
 		    startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,rows,fields){
-		    			
-		    	
 		    	var providers = Array();
 		    	rows.forEach(function(row){
 		    		providers.push(row);
@@ -28,8 +26,10 @@ var startup_da_parent = require("./startup_da_parent");
 				mysql_con.connect();
 				
 				var query = "INSERT INTO Photographers VALUES('"+objProvider.f_name+"','"+objProvider.l_name+"','"+objProvider.username+"','"+objProvider.password+"','"+objProvider.email_address+"','"+objProvider.physical_address+"','"+objProvider.operating_area+"',"+service_code+")";
-				startup_da_parent.runQuery(query,mysql_con);
-				client.emit("provider_submiited");
+				startup_da_parent.runQuery(query,mysql_con,client,function(client){
+					client.emit("provider_submiited");
+				});
+				
 				
 	};
 

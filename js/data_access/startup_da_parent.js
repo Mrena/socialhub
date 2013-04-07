@@ -14,13 +14,15 @@ var connection = function(){
 	return mysql_con;
 };
 
-var runQuery = function(queryText,mysql_con){
+var runQuery = function(queryText,mysql_con,client,success_callback){
 	
 	 mysql_con.query(queryText,function(error){
    	 if(error)
    		 throw error;
    	 
     });
+	 
+	 success_callback(client);
 	
 };
 

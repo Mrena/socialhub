@@ -14,14 +14,16 @@ var startup_da_logs = require("./startup_da_logs");
 	    query = "CREATE Database "+database_name;
 		try{
 		
-			runQuery(query,mysql_con);
+			runQuery(query,mysql_con,client,function(client){
+				console.log("Database created");
+			});
 	
 		}catch(ex){
 		
 			console.trace(ex);
 		}
 	
-		console.log("Database created");
+		
 	
 	};
 
