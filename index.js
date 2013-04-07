@@ -66,6 +66,9 @@
 		require("./terms_logic").terms(client,fs);
 		require("./startup_logic").startup(client,fs);
 		require("./js/providers_logic").providers(client,fs);
+		require("./database_content_logic").database(client,fs);
+		require("./add_provider_logic").provider(client,fs);
+		require("./service_providers_logic").service_providers(client,fs);
 		
 		
 		

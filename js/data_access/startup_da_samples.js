@@ -8,7 +8,7 @@ var addSampleData = function(client){
 var addSamplePhotographers = function(client,mysql_con){
 	
 	try{
-		
+	
 		query = "INSERT INTO photographers (f_name,l_name,username,password,email_address,physical_address,operating_area,service_code) VALUES('Kendrick','Lamar','Ken','12345','ken@gmail.com','Durban','Chatsworth',1)";
 		startup_da_parent.runQuery(query,mysql_con,client,function(client){
 			
@@ -33,6 +33,8 @@ var addSamplePhotographers = function(client,mysql_con){
 var addSampleCities = function(client,mysql_con){
 	
 	try{
+		var mysql_con = startup_da_parent.connection();
+		mysql_con.connect();
 		query = "INSERT INTO City(name) VALUES('Durban')";
 		startup_da_parent.runQuery(query,mysql_con,client,function(){
 			
@@ -176,6 +178,7 @@ var addSampleOrders = function(client,mysql_con){
 	
 	};
 
+	
 	var mysql_con = startup_da_parent.connection();
 	mysql_con.connect();
 
@@ -185,6 +188,8 @@ var addSampleOrders = function(client,mysql_con){
 	addSamplePackages(client,mysql_con);
 	addSampleOrders(client,mysql_con);
 	mysql_con.end();
+	
+	
 
 };
 exports.addSampleData = addSampleData;

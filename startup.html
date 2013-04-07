@@ -2,6 +2,16 @@
 <html>
 <head><title>Start-Up file</title>
 <script src="static/js/jquery-1.8.3.min.js"></script>
+<link rel="stylesheet" href="static/css/jquery-ui-1.10.0.custom.css" />
+	<link rel="stylesheet" href="static/css/jquery.ui.base.css" />
+	<link rel="stylesheet" href="static/css/jquery.ui.menu.css" />
+    <link rel="stylesheet" href="static/css/jquery.ui.button.min.css" />
+    <link rel="stylesheet" href="static/css/jquery.ui.tabs.css" />
+    <link rel="stylesheet" href="static/css/mainStyle.css" />
+    <link rel="stylesheet" href="static/css/jquery-ui.css" />
+ 	<script src="static/js/effect.js"></script>
+ 	<script src="static/js/jquery.ui.core.js"></script>
+ 	<script src="static/js/jquery-ui-1.10.0.custom.js"></script>
 <style>
     body {
       padding : 10px;
@@ -23,77 +33,81 @@
 	    color : rgb(100,77,22);
 	    color : rgba(100,77,22,0.9);
 	}
-	button {
-	    height : 30px;
-	}
-	.error {
-		color : red;
+		button {
+	    	height : 30px;
+		}
+		.error {
+			color : red;
 	
 		}
+		ul#menu {
+          	float: right;
+          	position : relative;
+          	list-style: none;
+        }
+        li.menu {
+       		float: left;
+       		position : relative;
+       		padding : 5px;
+       		list-style: none;
+    	}
+      	a {
+    		  text-decoration : none;
+    	}
+    	
+    	#notification {
+    			width : 960px;
+    			height : 20px;
+    			display : block;
+    			position : relative;
+    			padding : 5px;
+    			background : rgb(100,252,0);
+    			background : rgba(100,252,0,0.5);
+    	}
+    	#content {
+    	     padding : 7px;
+    	}
 </style>
 </head>
 <body>
-<div data-role="fieldset">
-<label for="database_name">Database Name:</label>
-<input type="text" id="database_name" value="PrintP" disabled>
-<!-- <input type="button" id="submit_database_name" value="Create Database">-->
-</div><br />
-<h3>Database Tables</h3>
-<table border="1">
-<thead><tr><td>Table Name</td><td>Created</td><td>Sample Added</td></tr></thead>
-<tbody>
-<tr><td>Photograhers</td><td id="photographers_created">No</td><td id="sample_photographers_added">No</td></tr>
-<tr><td>City</td><td id="city_created">No</td><td id="sample_cities_added">No</td></tr>
-<tr><td>Areas</td><td id="areas_created">No</td><td id="sample_areas_added">No</td></tr>
-<tr><td>Packages</td><td id="packages_created">No</td><td id="sample_packages_added">No</td></tr>
-<tr><td>Orders</td><td id="orders_created">No</td><td id="sample_orders_added">No</td></tr>
-<!-- <tr><td>UserIDs</td><td id="userIDs_created">No</td><td id="sample_userIDs_added">No</td></tr> -->
-</tbody>
-</tbody><tfoot><tr><td></td><td></td><td></td></tr></tfoot>
-</table>
-<div data-role="fieldcontain">
-<button id="create_tables">Create Database Tables</button>
-<button id="add_samples">Add Sample Data</button>
+<div data-role="page">
+<div data-role="header"><h3>PrintP Admin</h3></div>
+<div data-role="content">
+<br />
+<ul id="menu">
+	<li class="menu"><a href="#" id="databases">Databases</a> | </li>
+	<li class="menu"><a href="#" id="service_providers">Service Providers</a> | </li>
+	<li class="menu"><a href="#" id="add_provider">Add Service Provider</a></li>
+</ul>
+
+<div id="content" class="ui-widget-content ui-corner-all">
+	<div data-role="fieldset">
+	<label for="database_name">Database Name:</label>
+	<input type="text" id="database_name" value="PrintP" disabled>
+	<!-- <input type="button" id="submit_database_name" value="Create Database">-->
+	</div><br />
+	<h3>Database Tables</h3>
+	<table border="1">
+	<thead><tr><td>Table Name</td><td>Created</td><td>Sample Added</td></tr></thead>
+	<tbody>
+		<tr><td>Photograhers</td><td id="photographers_created">No</td><td id="sample_photographers_added">No</td></tr>
+		<tr><td>City</td><td id="city_created">No</td><td id="sample_cities_added">No</td></tr>
+		<tr><td>Areas</td><td id="areas_created">No</td><td id="sample_areas_added">No</td></tr>
+		<tr><td>Packages</td><td id="packages_created">No</td><td id="sample_packages_added">No</td></tr>
+		<tr><td>Orders</td><td id="orders_created">No</td><td id="sample_orders_added">No</td></tr>
+		<!-- <tr><td>UserIDs</td><td id="userIDs_created">No</td><td id="sample_userIDs_added">No</td></tr> -->
+		</tbody><tfoot><tr><td></td><td></td><td></td></tr></tfoot>
+	</table>
+	<div data-role="fieldcontain">
+		<button id="create_tables">Create Database Tables</button>
+		<button id="add_samples">Add Sample Data</button>
+	</div>
+
 </div>
 
-<h3>Printing Service Providers</h3>
-<span id="providers"></span>
-<button id="get_service_providers">Get Service Providers</button>
-
-<h3>Add Service Provider</h3>
-<div data-role="fliedcontain">
-	<div data-role="fieldset">
-		<label for="f_name">First Name:</label><br />
-		<input type="text" id="f_name" /><span class="error" id="f_name_error"></span>
-	</div>
-	<div data-role="fieldset">
-		<label for="l_name">Last Name:</label><br />
-		<input type="l_name" id="l_name" /><span class="error" id="l_name_error"></span>
-	</div>
-	<div data-role="fieldset">
-		<label for="username">Username:</label><br />
-		<input type="text" id="username" /><span class="error" id="username_error"></span>
-	</div>
-	<div data-role="fieldset">
-		<label for="password">Password:</label><br />
-		<input type="password" id="password" /><span class="error" id="password_error"></span>
-	</div>
-	<div data-role="fieldset">
-		<label for="email_address">Email Address</label><br />
-		<input type="email" id="email_address" /><span class="error" id="email_address_error"></span>
-	</div>
-	<div data-role="fieldset">
-		<label for="physical_address">Physical Address</label><br />
-		<input type="email" id="physical_address" /><span class="error" id="physical_address_error"></span>
-	</div>
-	<div data-role="fieldset">
-		<label for="operating_area">Operating Area</label><br />
-		<input type="email" id="operating_area" /><span class="error" id="operating_area_error"></span>
-	</div>
-	<button id="submit_provider">Submit Provider</button>
 </div>
-
-
+	<div data-role="footer"></div>
+</div>
 <script src="/socket.io/lib/socket.io.js"></script>
 <script src="static/js/client_sample_data_logic.js"></script>
 <script src="static/js/client_create_database_logic.js"></script>
@@ -103,11 +117,58 @@
 	
 	client_create_database(socket);
 	client_sample_data(socket);
-	client_providers(socket);
 	
 	
+	$("#databases").on("click",function(e){
+		socket.emit("get_database_content");
+		e.preventDefault();
+	});
 	
-
+	socket.on("database_content",function(data){
+		
+		$("#content").fadeOut("fast",function(){
+			$(this).html(data);
+		}).fadeIn("slow",function(){
+			client_create_database(socket);
+			client_sample_data(socket);
+		});
+		
+	});
+	
+	
+	$("#add_provider").on("click",function(e){
+		socket.emit("get_add_provider");
+		e.preventDefault();
+	});
+	
+	socket.on("add_provider",function(data){
+		
+		$("#content").fadeOut("fast",function(){
+			$(this).html(data);
+			}).fadeIn("slow",function(){
+				client_providers(socket);
+		});
+		
+		
+	});
+		
+		$("#service_providers").on("click",function(e){
+			
+			socket.emit("get_service_providers");
+			
+			e.preventDefault();
+		});
+		
+		socket.on("service_providers",function(data){
+			
+			$("#content").fadeOut("fast",function(){
+				$(this).html(data);
+				}).fadeIn("slow",function(){
+					client_providers(socket);
+			});
+			
+		
+	});
 </script>
 </body>
 </html>

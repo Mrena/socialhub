@@ -7,51 +7,66 @@ var client_providers = function(socket){
 			var validate_f_name = /^[a-z]([0-9a-z_])+$/i;
 		if( !(validate_f_name.test(f_name))){
 				$("#f_name_error").html("Please enter a valid first name. Your first name should not contain special characters, and needs to be greater than 3 and less than 16 characters.");
-			isValid = false;	
+				$("#f_name").val("");
+				isValid = false;	
 		}
 		
 			var validate_l_name = /^[a-z]([0-9a-z_])+$/i;
 		if( (!validate_l_name.test(l_name))){
 				$("#l_name_error").html("Please enter a valid last name. Your last name should not contain special characters, and needs to be greater than 3 and less than 16 characters.");
-			isValid = false;
+				$("#l_name").val("");
+				isValid = false;
 		}
 		
 			var validate_username = /^[a-z]([0-9a-z_])+$/i;
-		if( !(validate_username.test(username)) && (username.length > 3 && username.length < 16)){
+		if( (!validate_username.test(username))){
 				$("#username_error").html("Please enter a valid username. Your username should not contain special characters, and needs to be greater than 3 and less than 16 characters.");
-			isValid = false;
+				$("#username").val("");
+				isValid = false;
 		}
 		
 			var validate_password = /^[a-z]([0-9a-z_])+$/i;
-		if( !(validate_password.test(password)) && (password.length > 4 && operating_area.length < 20)){
+		if( (!validate_password.test(password))){
 					$("#password_error").html("Please enter a valid password. Your password should not contain special characters, and needs to be greater than 4 and less than 10 characters.");
-			isValid = false;
+					$("#password").val("");
+					isValid = false;
 		}
 		
 			var validate_email_address = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i;
 		if(!(validate_email_address.test(email_address))){
 				$("#email_address_error").html("Please enter a valid email address.");
-			isValid = false;
+				$("#email_address").val("");
+				isValid = false;
 			
 		}
 		
 		if(physical_address==""){
 				$("#physical_address_error").html("Please enter a valid physical address. Your physical address should not contain special characters, and needs to be greater than 5 and less than 40 characters.");
-			isValid = false;
+				$("#physical_address").val("");
+				isValid = false;
 		}
 		
 			var validate_operating_area = /^[a-z]([0-9a-z_])+$/i;
-		if( !(validate_operating_area.test(operating_area)) && (operating_area.length > 3 && operating_area.length < 15)){
+		if( (!validate_operating_area.test(operating_area)) && (operating_area.length > 3 && operating_area.length < 15)){
 				$("#operating_area_error").html("Please enter a valid operating area. Your operating area should not contain special characters, and needs to be greater than 5 and less than 15 characters.");
-			isValid = false;
+				$("#operating_area").val("");
+				isValid = false;
 		}
 		
 		return isValid;
 	};
 	
+	if(localStorage["tables"]){
+		var tables = JSON.parse(localStorage['tables']);
+			if(tables.photographers_created=="No"){
+				$("#get_service_providers").attr("disabled","disabled");
+			}
+	}
+	
+	
 	$("#get_service_providers").on("click",function(e){
 		socket.emit("get_printing_providers");
-	 e.preventDefault();
+		e.preventDefault();
 	});
 	
 	
@@ -120,8 +135,3 @@ var client_providers = function(socket){
 	});
 	
 };
-
-
-
-
-

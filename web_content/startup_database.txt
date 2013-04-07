@@ -1,0 +1,22 @@
+<div data-role="fieldset">
+<label for="database_name">Database Name:</label>
+<input type="text" id="database_name" value="PrintP" disabled>
+<!-- <input type="button" id="submit_database_name" value="Create Database">-->
+</div><br />
+<h3>Database Tables</h3>
+<table border="1">
+<thead><tr><td>Table Name</td><td>Created</td><td>Sample Added</td></tr></thead>
+<tbody>
+<tr><td>Photograhers</td><td id="photographers_created">No</td><td id="sample_photographers_added">No</td></tr>
+<tr><td>City</td><td id="city_created">No</td><td id="sample_cities_added">No</td></tr>
+<tr><td>Areas</td><td id="areas_created">No</td><td id="sample_areas_added">No</td></tr>
+<tr><td>Packages</td><td id="packages_created">No</td><td id="sample_packages_added">No</td></tr>
+<tr><td>Orders</td><td id="orders_created">No</td><td id="sample_orders_added">No</td></tr>
+<!-- <tr><td>UserIDs</td><td id="userIDs_created">No</td><td id="sample_userIDs_added">No</td></tr> -->
+</tbody>
+</tbody><tfoot><tr><td></td><td></td><td></td></tr></tfoot>
+</table>
+<div data-role="fieldcontain">
+<button id="create_tables">Create Database Tables</button>
+<button id="add_samples">Add Sample Data</button>
+</div>

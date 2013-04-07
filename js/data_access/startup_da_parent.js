@@ -39,6 +39,8 @@ var runSelectQuery = function(query,client,mysql_con,logic_func){
 	
 };
 
+
+
 exports.connection = connection;
 exports.runQuery = runQuery;
 exports.runSelectQuery = runSelectQuery;

@@ -22,6 +22,17 @@
 </select>
 <a id="next" href="#" onclick="nextLinkClicked()">Next</a>
 </td></tr>
+<tr>
+<td><label for="delivery">Delivery method:</label></td>
+<td>
+<select id="delivery">
+   <option value="standard">Standard: 7 day</option>
+   <option value="rush">Rush: 3 days</option>
+   <option value="express">Express: next day</option>
+   <option value="overnight">Overnight</option>
+</select>
+</td>
+</tr>
 
 <tr><td><h4>Your details:</h4></td></tr>
 
