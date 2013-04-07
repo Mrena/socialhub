@@ -70,12 +70,27 @@
 <option>Select print size</option>
 </select></td>
 </tr>
-<tr><td><label for="quantity" class="select">Number of images:</label></td><td>
-<select name="quantity" id="quantity"  onchange="quantitySizeChanged()">
-<option>Select quantity</option>
+<tr> 
+	<td><label for="quantity" class="select">Number of images:</label></td>
+	<td>
+		<select name="quantity" id="quantity"  onchange="quantitySizeChanged()">
+			<option>Select quantity</option>
+		</select>
+			<a id="next" href="#" onclick="nextLinkClicked()">Next</a>
+	</td>
+</tr>
+<tr>
+<td><label for="delivery">Delivery method:</label></td>
+<td>
+<select id="delivery">
+   <option value="standard">Standard: 7 day</option>
+   <option value="rush">Rush: 3 days</option>
+   <option value="express">Express: next day</option>
+   <option value="overnight">Overnight</option>
 </select>
-<a id="next" href="#" onclick="nextLinkClicked()">Next</a>
-</td></tr>
+</td>
+</tr>
+
 
 <tr><td><h4>Your details:</h4></td></tr>
 
@@ -115,19 +130,7 @@
 	client_printco(socket);
 	client_terms(socket);
 	
-	socket.emit("get_packages");
-	socket.on("packages", function (data) {
-
-        data = JSON.parse(data);
-
-        $.each(data, function (index, value) {
-            $.each(value, function (index, value) {
-
-                $("#printSize").append("<option id='"+value+"'>"+index+"</option>");
-
-                });
-            });
-        });
+	
 	
 	
 	socket.emit("generate_user_id");
@@ -135,22 +138,7 @@
         localStorage['printP_userId'] = data;
 
     });
-	
-	
-	socket.emit("get_cities");
-	socket.on("cities", function (data) {
-        data = JSON.parse(data);
-        $.each(data, function (index, value) {
-            $("#location").append("<option id='" + value + "'> + " + value + "</option>");
-        });
 
-    });
-
-	// populates quantity drop-down with values of 5 to 15
-    for (var i = 5; i < 16; i++)
-        $("#quantity").append("<option class='quantity1'>" + i + "</option>");
-	
-	
 </script>
 </body>
 </html>

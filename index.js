@@ -65,6 +65,7 @@
 		require("./printco_logic").print(client,fs);
 		require("./terms_logic").terms(client,fs);
 		require("./startup_logic").startup(client,fs);
+		require("./js/providers_logic").providers(client,fs);
 		
 		
 		

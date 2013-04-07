@@ -17,9 +17,19 @@
 	    color : rgb(100,77,22);
 	    color : rgba(100,77,22,0.9);
 	}
-	input {
+	tfoot td {
+	    background : orange;
+	    opacity : 0.5;
+	    color : rgb(100,77,22);
+	    color : rgba(100,77,22,0.9);
+	}
+	button {
 	    height : 30px;
 	}
+	.error {
+		color : red;
+	
+		}
 </style>
 </head>
 <body>
@@ -28,6 +38,7 @@
 <input type="text" id="database_name" value="PrintP" disabled>
 <!-- <input type="button" id="submit_database_name" value="Create Database">-->
 </div><br />
+<h3>Database Tables</h3>
 <table border="1">
 <thead><tr><td>Table Name</td><td>Created</td><td>Sample Added</td></tr></thead>
 <tbody>
@@ -38,19 +49,63 @@
 <tr><td>Orders</td><td id="orders_created">No</td><td id="sample_orders_added">No</td></tr>
 <!-- <tr><td>UserIDs</td><td id="userIDs_created">No</td><td id="sample_userIDs_added">No</td></tr> -->
 </tbody>
+</tbody><tfoot><tr><td></td><td></td><td></td></tr></tfoot>
 </table>
 <div data-role="fieldcontain">
-<input type="button" id="create_tables" value="Create Database Tables" />
-<input type="button" id="add_samples" value="Add Sample Data" />
+<button id="create_tables">Create Database Tables</button>
+<button id="add_samples">Add Sample Data</button>
 </div>
+
+<h3>Printing Service Providers</h3>
+<span id="providers"></span>
+</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>
+
+<h3>Add Service Provider</h3>
+<div data-role="fliedcontain">
+	<div data-role="fieldset">
+		<label for="f_name">First Name:</label><br />
+		<input type="text" id="f_name" /><span class="error" id="f_name_error"></span>
+	</div>
+	<div data-role="fieldset">
+		<label for="l_name">Last Name:</label><br />
+		<input type="l_name" id="l_name" /><span class="error" id="l_name_error"></span>
+	</div>
+	<div data-role="fieldset">
+		<label for="username">Username:</label><br />
+		<input type="text" id="username" /><span class="error" id="username_error"></span>
+	</div>
+	<div data-role="fieldset">
+		<label for="password">Password:</label><br />
+		<input type="password" id="password" /><span class="error" id="password_error"></span>
+	</div>
+	<div data-role="fieldset">
+		<label for="email_address">Email Address</label><br />
+		<input type="email" id="email_address" /><span class="error" id="email_address_error"></span>
+	</div>
+	<div data-role="fieldset">
+		<label for="physical_address">Physical Address</label><br />
+		<input type="email" id="physical_address" /><span class="error" id="physical_address_error"></span>
+	</div>
+	<div data-role="fieldset">
+		<label for="operating_area">Operating Area</label><br />
+		<input type="email" id="operating_area" /><span class="error" id="operating_area_error"></span>
+	</div>
+	<button id="submit_provider">Submit Provider</button>
+</div>
+
+
 <script src="/socket.io/lib/socket.io.js"></script>
 <script src="static/js/client_sample_data_logic.js"></script>
 <script src="static/js/client_create_database_logic.js"></script>
+<script src="static/js/client_providers.js"></script>
 <script>
 	var socket = io.connect();
 	
 	client_create_database(socket);
 	client_sample_data(socket);
+	client_providers(socket);
+	
+	
 
 </script>
 </body>

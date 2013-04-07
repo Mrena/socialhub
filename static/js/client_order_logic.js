@@ -12,10 +12,11 @@ var client_order = function(socket){
 		});
 	
 	socket.on("order_history",function(data){
-		
+		$("#menu").hide();
 		$("#page").fadeOut("slow",function(){
 			$("#page").html(data);
 			$("#page").fadeIn();
+			$("#menu").show("slow");
 		});
 		
 	});

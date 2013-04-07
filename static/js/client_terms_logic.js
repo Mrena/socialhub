@@ -11,9 +11,11 @@ var client_terms = function(socket){
 	
 	socket.on("terms",function(data){
 		
+		$("#menu").hide();
 		$("#page").fadeOut("slow",function(){
 			$("#page").html(data);
 			$("#page").fadeIn();
+			$("#menu").show("slow");
 		});
 		
 		

@@ -11,9 +11,11 @@ var client_printco = function(socket){
 	
 	socket.on("printco",function(data){
 		
+		$("#menu").hide();
 		$("#page").fadeOut("slow",function(){
 			$("#page").html(data);
 			$("#page").fadeIn();
+			$("#menu").show("slow");
 		});
 		
 		

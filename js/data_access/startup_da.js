@@ -40,7 +40,7 @@ var startup_da_logs = require("./startup_da_logs");
 	var createLogFiles = function(client){
 		startup_da_logs.createLogFiles(client);
 	};
-
+	
 exports.createDatabase = createDatabase;
 exports.createLogFiles = createLogFiles;
 exports.createTables = createTables;

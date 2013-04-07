@@ -10,10 +10,11 @@ var client_about = function(socket){
 	});
 	
 	socket.on("about",function(data){
-		
+		$("#menu").hide();
 		$("#page").fadeOut("slow",function(){
 			$("#page").html(data);
 			$("#page").fadeIn();
+			$("#menu").show("slow");
 		});
 		
 		

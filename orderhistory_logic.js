@@ -4,7 +4,7 @@ var order = function(client,fs){
 	
 	client.on("get_order_history",function(){
 		
-		 fs.readFile("./orderhistory.txt",'utf8',function(error,content){
+		 fs.readFile("./web_content/orderhistory.txt",'utf8',function(error,content){
 			if(error)
 				throw error;
 			

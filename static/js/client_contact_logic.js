@@ -10,10 +10,11 @@ var client_contact = function(socket){
 	});
 	
 	socket.on("contact",function(data){
-		
+		$("#menu").hide();
 		$("#page").fadeOut("slow",function(){
 			$("#page").html(data);
 			$("#page").fadeIn();
+			$("#menu").show("slow");
 		});
 		
 		

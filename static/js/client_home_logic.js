@@ -2,7 +2,8 @@
 
 var client_home = function(socket){
 	
-
+	
+	
 	// start of home request and response
 	$("#home").on("click",function(e){
 		socket.emit("get_home");
@@ -11,10 +12,15 @@ var client_home = function(socket){
 	});
 	
 	socket.on("home",function(data){
-		
+		$("#menu").hide();
 		$("#page").fadeOut("slow",function(){
+			
 			$("#page").html(data);
+			initCities();
+			initNumberOfImages();
+			initPackages();
 			$("#page").fadeIn();
+			$("#menu").show("slow");
 		});
 		
 		
@@ -22,8 +28,48 @@ var client_home = function(socket){
 		});
 	
 	// end of home request and response
+	var initNumberOfImages = function(){
+		
+		// populates quantity drop-down with values of 5 to 15
+	    for (var i = 5; i < 16; i++)
+	        $("#quantity").append("<option class='quantity1'>" + i + "</option>");
+		
+	};
+	
+	var initPackages = function(){
+		
+		socket.emit("get_packages");
+		socket.on("packages", function (data) {
+
+	        data = JSON.parse(data);
+
+	        $.each(data, function (index, value) {
+	            $.each(value, function (index, value) {
+
+	                $("#printSize").append("<option id='"+value+"'>"+index+"</option>");
+
+	                });
+	            });
+	        });
+	};
+	
+	var initCities = function(){
+		
+		socket.emit("get_cities");
+		socket.on("cities", function (cities) {
+			$("#location").html("<option>Select location</option>");
+	        cities.forEach(function(city){
+	        	
+	        	$("#location").append("<option id='" + city + "'> + " + city + "</option>");
+	        });
+	    });
+		
+	};
 	
 	
+	initCities();
+	initPackages();
+	initNumberOfImages();
 };
 
 

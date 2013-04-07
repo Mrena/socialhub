@@ -24,11 +24,13 @@ var runQuery = function(queryText,mysql_con){
 	
 };
 
-var runSelectQuery = function(query){
+var runSelectQuery = function(query,client,mysql_con,logic_func){
 	
 	 mysql_con.query(query,function(error,rows,fields){
    	 if(error)
    		 throw error;
+   	    
+   	 logic_func(client,rows,fields);
    	 
     });
 	
@@ -37,4 +39,4 @@ var runSelectQuery = function(query){
 
 exports.connection = connection;
 exports.runQuery = runQuery;
-exports = runSelectQuery;
+exports.runSelectQuery = runSelectQuery;
