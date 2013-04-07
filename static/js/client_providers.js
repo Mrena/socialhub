@@ -102,15 +102,41 @@ var client_providers = function(socket){
 	socket.on("printing_providers",function(providers){
 		providers = JSON.parse(providers);
 		console.log(providers[0].f_name);
-		var pros = "<table border='1'><thead><tr><td>First Name</td><td>Last Name</td><td>Username</td><td>Email Address</td><td>Physical Address</td><td>Operating Area</td></tr></thead><tbody>";
+		var pros = "<table border='1'><thead><tr><td>First Name</td><td>Last Name</td><td>Username</td><td>Email Address</td><td>Physical Address</td><td>Operating Area</td><td>Operations</td></tr></thead><tbody>";
+		var row = 0;
+		/*providers.forEach(function(provider){
+			pros+="<tr id='row_"+row+"'><td>"+provider.f_name+"</td><td>"+provider.l_name+"</td><td>"+provider.username+"</td><td>"+provider.email_address+"</td><td>"+provider.physical_address+"</td><td>"+provider.operating_area+"</td><td><button id='edit_"+row+"'>Edit</button><button id='delete_"+row+"'>Delete</button></td></tr>";
+			row++;
+		});*/
 		
-		providers.forEach(function(provider){
-			pros+="<tr><td>"+provider.f_name+"</td><td>"+provider.l_name+"</td><td>"+provider.username+"</td><td>"+provider.email_address+"</td><td>"+provider.physical_address+"</td><td>"+provider.operating_area+"</td></tr>";
+		$.each(providers,function(index,value){
+			pros+="<tr id='row_"+index+"'><td>"+value.f_name+"</td><td>"+value.l_name+"</td><td>"+value.username+"</td><td>"+value.email_address+"</td><td>"+value.physical_address+"</td><td>"+value.operating_area+"</td><td><button id='edit_"+index+"'>Edit</button><button id='delete_"+index+"'>Delete</button></td></tr>";
+		
 		});
 		
-		pros += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
+		
+		pros += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
 		$("#providers").html(pros);
 		
+		// add event listeners for delete and edit buttons
+	$.each(providers,function(index,value){
+			$("#delete_"+index).on("click",function(e){
+				
+				console.log(index);
+				var username = $("#row_"+index+" td:eq(2)").html();
+				console.log(username);
+				socket.emit("delete_service_provider",username);
+				e.preventDefault();
+			});
+			
+			$("#edit_"+index).on("click",function(e){
+				
+				
+				
+				e.preventDefault();
+			});
+			
+		});
 		
 	});
 	

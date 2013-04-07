@@ -17,29 +17,30 @@ var connection = function(){
 var runQuery = function(queryText,mysql_con,client,success_callback){
 	
 	 mysql_con.query(queryText,function(error){
-   	 if(error)
-   		 throw error;
+		 if(error){
+			 throw error;
+		 }
    	 
+   	 success_callback(client);
     });
 	 
-	 success_callback(client);
+	
 	
 };
 
-var runSelectQuery = function(query,client,mysql_con,logic_func){
+var runSelectQuery = function(query,client,mysql_con,success_callback){
 	
 	 mysql_con.query(query,function(error,rows,fields){
-   	 if(error)
-   		 throw error;
-   	    
-   	 logic_func(client,rows,fields);
+		 if(error){
+			 throw error;
+		 }
    	 
+   	    
+   	 success_callback(client,rows,fields);
     });
 	
 	
 };
-
-
 
 exports.connection = connection;
 exports.runQuery = runQuery;

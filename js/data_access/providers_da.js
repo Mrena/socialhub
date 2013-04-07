@@ -38,15 +38,11 @@ var startup_da_parent = require("./startup_da_parent");
 				});	
 	};
 	
-	var filterServiceProviders = function(client,filter_obj){
-		filter_obj = JSON.parse(filter_obj);
-		var filter_category = filter_obj.filter_category,
-			filter_value = filter_obj.filter_value;
+	var filterServiceProviders = function(client,filter_category,filter_value){
+		
 		
 		var mysql_con = startup_da_parent.connection();
 			mysql_con.connect();
-			console.log("filter field "+filter_category);
-			console.log("filter value "+filter_value);
 			var query = "SELECT * FROM Photographers WHERE "+filter_category+" LIKE '"+filter_value+"%'";
 			startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,rows,fields){
 				
@@ -59,8 +55,23 @@ var startup_da_parent = require("./startup_da_parent");
 				
 			});
 	};
+	
+	var deleteServiceProvider = function(client,username){
+		
+		var mysql_con = startup_da_parent.connection();
+			mysql_con.connect();
+			var query = "DELETE FROM Photographers WHERE username='"+username+"'";
+			    startup_da_parent.runQuery(query,mysql_con,client,function(client){
+			    	getPrintingProviders(client);
+			    });
+	};
+	
+	
+	
+	
 
 
 	exports.getPrintingProviders = getPrintingProviders;
 	exports.submitPrintingProvider = submitPrintingProvider;
 	exports.filterServiceProviders = filterServiceProviders;
+	exports.deleteServiceProvider = deleteServiceProvider;
