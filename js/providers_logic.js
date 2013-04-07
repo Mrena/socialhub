@@ -15,6 +15,11 @@ var providers = function(client,fs){
 		
 	});
 	
+	client.on("filter_service_providers",function(filter_obj){
+		
+		providers_da.filterServiceProviders(client,filter_obj);
+	});
+	
 	
 	
 	

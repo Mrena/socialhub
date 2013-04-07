@@ -163,6 +163,7 @@
 			
 			$("#content").fadeOut("fast",function(){
 				$(this).html(data);
+				$("#filter_option").hide();
 				}).fadeIn("slow",function(){
 					client_providers(socket);
 			});

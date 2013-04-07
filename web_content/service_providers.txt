@@ -1,3 +1,5 @@
 <h3>Printing Service Providers</h3>
 <button id="get_service_providers">Get All Service Providers</button>
+<span id="filter_option">Filter by<select id="filter_fields"><option>Select filter field</option></select>
+Value :<input type="text" id="filter_value" /></span>
 <span id="providers"></span>

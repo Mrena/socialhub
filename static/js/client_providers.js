@@ -61,10 +61,39 @@ var client_providers = function(socket){
 			if(tables.photographers_created=="No"){
 				$("#get_service_providers").attr("disabled","disabled");
 			}
-	}
+	};
+	
+	var isValidFilter = function(filter_value,filter_category,success_callback){
+		
+		var validate_string = /^[a-z]([0-9a-z_])+$/i;
+		 if(validate_string.test(filter_value)){
+			 success_callback(filter_value,filter_category);
+		 }
+		
+	};
+	
+	$("#filter_value").on("keyup",function(e){
+		var filter_value = $.trim($("#filter_value").val()),
+			filter_category = $("#filter_fields").val();
+			
+		if(filter_category!=""){
+			isValidFilter(filter_value,filter_category,function(filter_value,filter_category){
+					var filter_obj = {
+							"filter_value" : filter_value,
+							"filter_category" : filter_category	
+					};
+				socket.emit("filter_service_providers",JSON.stringify(filter_obj));
+			});
+			
+		}else{
+			
+		}
+		e.preventDefault();
+	});
 	
 	
 	$("#get_service_providers").on("click",function(e){
+		
 		socket.emit("get_printing_providers");
 		e.preventDefault();
 	});
@@ -82,8 +111,20 @@ var client_providers = function(socket){
 		pros += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
 		$("#providers").html(pros);
 		
+		
 	});
 	
+	socket.on("printing_providers_fields",function(fields){
+		
+		fields = JSON.parse(fields);
+		$("#filter_option").show("fast",function(){
+			$("#filter_fields").html("<option>Select filter field</option>");
+			for(key in fields){
+				console.log(fields[key]);
+				$("#filter_fields").append("<option id='"+fields[key]+"'>"+fields[key]+"</option>");
+			}
+		});
+	});
 	
 	$("#submit_provider").on("click",function(e){
 		$(".error").html("");
