@@ -27,6 +27,8 @@ var client_home = function(socket){
 		
 		});
 	
+	
+	
 	// end of home request and response
 	var initNumberOfImages = function(){
 		
@@ -39,19 +41,21 @@ var client_home = function(socket){
 	var initPackages = function(){
 		
 		socket.emit("get_packages");
-		socket.on("packages", function (data) {
-
-	        data = JSON.parse(data);
-
-	        $.each(data, function (index, value) {
-	            $.each(value, function (index, value) {
-
-	                $("#printSize").append("<option id='"+value+"'>"+index+"</option>");
-
-	                });
-	            });
-	        });
+		
 	};
+	
+	
+	socket.on("packages",function(packages) {
+
+        packages = JSON.parse(packages);
+
+             packages.forEach(function(obj_package){
+            	 $("#printSize").append("<option id='"+obj_package.price+"'>"+obj_package.print_size+"</option>");
+             });
+                
+
+            
+        });
 	
 	var initCities = function(){
 		

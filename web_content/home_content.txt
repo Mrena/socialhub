@@ -45,5 +45,5 @@
 <tr><td><label for="directions">Special directions:</label><br /></td><td><textarea name="directions" id="directions"  ></textarea></td></tr>
 
 </table>
-<input type="button" id="save" name="save" title="Saves your current details so you won't have to re-type it later." value="Save" class="ui-button" onclick="saveDetails()"  /><br /><br /><input type="submit" id="submit" name="submit" value="Send" class="ui-button control"   onfocus="validateFields()" onmouseover="validateFields()"  />
+<input type="button" id="save" name="save" title="Saves your current details so you won't have to re-type it later." value="Save" class="ui-button"  /><input type="submit" id="submit" name="submit" value="Send" class="ui-button control"  />
 </form>

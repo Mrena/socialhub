@@ -115,7 +115,7 @@ var createTables = function(client){
     			    //createUserIDsTable(mysql_con,client);
     			    
     			    console.log("Tables created");
-    			    mysql_con.end();	
+    			    //mysql_con.end();	
 
 };
 

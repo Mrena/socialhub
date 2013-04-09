@@ -3,7 +3,7 @@
 	var startup_da_parent = require("./startup_da_parent");
 	
 	
-	var get_cities = function(client){
+	var getCities = function(client){
 		
 		var mysql_con = startup_da_parent.connection();
 		var query = "SELECT name FROM City";
@@ -25,8 +25,27 @@
 		
 		
 	    };
+	    
+	    
+	    var getPackages = function(client){
+	    	
+	    	var mysql_con = startup_da_parent.connection();
+			var query = "SELECT print_size,price FROM Packages";
+			startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,rows,fields){
+				
+				var packages = Array();
+				rows.forEach(function(row){
+					packages.push({"print_size" : row.print_size,"price" : row.price});
+				});
+				
+				client.emit("packages",JSON.stringify(packages));
+			});
+	    	
+	    };
 	
 	
-exports.get_cities = get_cities;	
+	    exports.getCities = getCities;
+	    exports.getPackages = getPackages;
+
 
 

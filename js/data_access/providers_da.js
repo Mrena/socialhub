@@ -67,11 +67,60 @@ var startup_da_parent = require("./startup_da_parent");
 	};
 	
 	
+	var updateServiceProvider = function(client,objProvider){
+		
+		var mysql_con = startup_da_parent.connection();
+			mysql_con.connect();
+			
+			var query = "UPDATE Photographers SET f_name = '"+objProvider.f_name+"',l_name='"+objProvider.l_name+"',physical_address='"+objProvider.physical_address+"',operating_area='"+objProvider.operating_area+"' WHERE username = '"+objProvider.username+"'";
+				startup_da_parent.runQuery(query,mysql_con,client,function(client){
+					getPrintingProviders(client);
+				
+				});
+		};
+		
+		
+	var updateProviderPassword = function(client,old_password,new_password,username){
+		
+		var mysql_con = startup_da_parent.connection();
+		mysql_con.connect();
+		
+		var query = "UPDATE Photographers SET password = '"+new_password+"  WHERE username = '"+username+"' AND password='"+old_password+"' ";
+			startup_da_parent.runQuery(query,mysql_con,client,function(client){
+				client.emit("password_updated");
+			});
+		
+		
+	};	
 	
 	
-
+	var getAllOperatingAreas = function(client){
+		
+		var mysql_con = startup_da_parent.connection();
+		mysql_con.connect();
+		var query = "SELECT operating_area FROM Photographers";
+		startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,rows,fields){
+			
+			var operating_areas = Array();
+	    	rows.forEach(function(row){
+	    		operating_areas.push(row.operating_area);
+	    	});
+	    	
+	    	client.emit("operating_areas",JSON.stringify(operating_areas));
+			
+		});
+		
+	};
+	
+	
+	
 
 	exports.getPrintingProviders = getPrintingProviders;
 	exports.submitPrintingProvider = submitPrintingProvider;
 	exports.filterServiceProviders = filterServiceProviders;
 	exports.deleteServiceProvider = deleteServiceProvider;
+	exports.updateServiceProvider = updateServiceProvider;
+	exports.updateProviderPassword = updateProviderPassword;
+	exports.getAllOperatingAreas = getAllOperatingAreas;
+	
+	

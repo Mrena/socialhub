@@ -67,6 +67,10 @@
     	#content {
     	     padding : 7px;
     	}
+    	.red_background {
+    			background : red;
+    			background : rgba(255,0,0,0.3);
+    		}
 </style>
 </head>
 <body>
@@ -120,6 +124,7 @@
 	
 	
 	$("#databases").on("click",function(e){
+		$("#menu").hide();
 		socket.emit("get_database_content");
 		e.preventDefault();
 	});
@@ -129,6 +134,7 @@
 		$("#content").fadeOut("fast",function(){
 			$(this).html(data);
 		}).fadeIn("slow",function(){
+			$("#menu").show("slow");
 			client_create_database(socket);
 			client_sample_data(socket);
 		});
@@ -137,6 +143,7 @@
 	
 	
 	$("#add_provider").on("click",function(e){
+		$("#menu").hide();
 		socket.emit("get_add_provider");
 		e.preventDefault();
 	});
@@ -146,6 +153,7 @@
 		$("#content").fadeOut("fast",function(){
 			$(this).html(data);
 			}).fadeIn("slow",function(){
+				$("#menu").show("slow");
 				client_providers(socket);
 		});
 		
@@ -153,7 +161,7 @@
 	});
 		
 		$("#service_providers").on("click",function(e){
-			
+			$("#menu").hide();
 			socket.emit("get_service_providers");
 			
 			e.preventDefault();
@@ -165,6 +173,7 @@
 				$(this).html(data);
 				$("#filter_option").hide();
 				}).fadeIn("slow",function(){
+					$("#menu").show("slow");
 					client_providers(socket);
 			});
 			

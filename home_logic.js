@@ -16,7 +16,13 @@ var home = function(client,fs){
 	
 	client.on("get_cities",function(){
 		
-		home_da.get_cities(client); 
+		home_da.getCities(client); 
+		
+	});
+	
+	client.on("get_packages",function(){
+		
+		home_da.getPackages(client);
 		
 	});
 	

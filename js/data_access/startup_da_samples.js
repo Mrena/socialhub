@@ -187,7 +187,7 @@ var addSampleOrders = function(client,mysql_con){
 	addSampleAreas(client,mysql_con);
 	addSamplePackages(client,mysql_con);
 	addSampleOrders(client,mysql_con);
-	mysql_con.end();
+	//mysql_con.end();
 	
 	
 

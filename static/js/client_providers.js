@@ -56,6 +56,47 @@ var client_providers = function(socket){
 		return isValid;
 	};
 	
+	var validateProviderEdit = function(f_name,l_name,email_address,physical_address,operating_area,index){
+		
+		 var isValid = true;
+		var validate_f_name = /^[a-z]([0-9a-z_])+$/i;
+		if( !(validate_f_name.test(f_name))){
+			  	isValid = false;
+			  	$("#row_"+index+" td:eq(0)").addClass("red_background");
+			}
+		
+		
+		var validate_l_name = /^[a-z]([0-9a-z_])+$/i;
+		if((!validate_l_name.test(l_name))){
+			 	isValid = false;
+			 	$("#row_"+index+" td:eq(1)").addClass("red_background");
+			}
+		
+		
+		var validate_email_address = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i;
+		    if(!validate_email_address.test(email_address)){
+		    	 isValid = false;
+		    	 $("#row_"+index+" td:eq(3)").addClass("red_background");
+		    	
+		    }
+		
+		
+		var validate_physical_address = /^[a-z]([0-9a-z_])+$/i;
+		if(!validate_physical_address.test(physical_address)){
+			 	isValid = false;
+			 	$("#row_"+index+" td:eq(4)").addClass("red_background");
+			
+			}
+		
+		var validate_operating_area = /^[a-z]([0-9a-z_])+$/i;
+		if(!validate_operating_area.test(operating_area)){
+				isValid = false;
+				$("#row_"+index+" td:eq(5)").addClass("red_background");
+			}
+		
+		return isValid;
+	};
+	
 	if(localStorage["tables"]){
 		var tables = JSON.parse(localStorage['tables']);
 			if(tables.photographers_created=="No"){
@@ -76,16 +117,18 @@ var client_providers = function(socket){
 		var filter_value = $.trim($("#filter_value").val()),
 			filter_category = $("#filter_fields").val();
 			
-		if(filter_category!=""){
+		if(filter_category!= "" && filter_category != "Select filter field"){
 			isValidFilter(filter_value,filter_category,function(filter_value,filter_category){
 					var filter_obj = {
 							"filter_value" : filter_value,
 							"filter_category" : filter_category	
-					};
+							};
 				socket.emit("filter_service_providers",JSON.stringify(filter_obj));
 			});
 			
 		}else{
+			
+			socket.emit("get_printing_providers");
 			
 		}
 		e.preventDefault();
@@ -100,17 +143,13 @@ var client_providers = function(socket){
 	
 	
 	socket.on("printing_providers",function(providers){
+		
 		providers = JSON.parse(providers);
-		console.log(providers[0].f_name);
+		
 		var pros = "<table border='1'><thead><tr><td>First Name</td><td>Last Name</td><td>Username</td><td>Email Address</td><td>Physical Address</td><td>Operating Area</td><td>Operations</td></tr></thead><tbody>";
-		var row = 0;
-		/*providers.forEach(function(provider){
-			pros+="<tr id='row_"+row+"'><td>"+provider.f_name+"</td><td>"+provider.l_name+"</td><td>"+provider.username+"</td><td>"+provider.email_address+"</td><td>"+provider.physical_address+"</td><td>"+provider.operating_area+"</td><td><button id='edit_"+row+"'>Edit</button><button id='delete_"+row+"'>Delete</button></td></tr>";
-			row++;
-		});*/
 		
 		$.each(providers,function(index,value){
-			pros+="<tr id='row_"+index+"'><td>"+value.f_name+"</td><td>"+value.l_name+"</td><td>"+value.username+"</td><td>"+value.email_address+"</td><td>"+value.physical_address+"</td><td>"+value.operating_area+"</td><td><button id='edit_"+index+"'>Edit</button><button id='delete_"+index+"'>Delete</button></td></tr>";
+			pros+="<tr id='row_"+index+"'><td>"+value.f_name+"</td><td>"+value.l_name+"</td><td>"+value.username+"</td><td>"+value.email_address+"</td><td>"+value.physical_address+"</td><td>"+value.operating_area+"</td><td><button id='edit_"+index+"'>Edit</button><button id='submit_"+index+"'>Submit</button><button id='delete_"+index+"'>Delete</button></td></tr>";
 		
 		});
 		
@@ -118,8 +157,11 @@ var client_providers = function(socket){
 		pros += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
 		$("#providers").html(pros);
 		
-		// add event listeners for delete and edit buttons
+		// Adds event listeners for delete and edit buttons
 	$.each(providers,function(index,value){
+		
+		    $("#submit_"+index).hide();
+		
 			$("#delete_"+index).on("click",function(e){
 				
 				console.log(index);
@@ -131,6 +173,55 @@ var client_providers = function(socket){
 			
 			$("#edit_"+index).on("click",function(e){
 				
+				// Grab the values which are currently on the TDs
+				var f_name = $("#row_"+index+" td:eq(0)").html(),
+					l_name = $("#row_"+index+" td:eq(1)").html(),
+					email_address = $("#row_"+index+" td:eq(3)").html(),
+					physical_address = $("#row_"+index+" td:eq(4)").html(),
+					operating_area = $("#row_"+index+" td:eq(5)").html();
+				
+				
+					// Create text input inside the TDs and assign to the input the values which were inside the TDs
+				$("#row_"+index+" td:eq(0)").html("<input type='text' id='f_name_"+index+"' value='"+f_name+"' />");
+				$("#row_"+index+" td:eq(1)").html("<input type='text' id='l_name_"+index+"' value='"+l_name+"'  />");
+				$("#row_"+index+" td:eq(3)").html("<input type='text' id='email_address_"+index+"' value='"+email_address+"'  />");
+				$("#row_"+index+" td:eq(4)").html("<input type='text' id='physical_address_"+index+"' value='"+physical_address+"'  />");
+				$("#row_"+index+" td:eq(5)").html("<input type='text' id='operating_area_"+index+"' value='"+operating_area+"'  />");
+				
+				$("#edit_"+index).hide();
+				$("#submit_"+index).show();
+				
+				// an event listener for our newly created submit button
+				 $("#submit_"+index).on("click",function(e){
+					 
+					var f_name = $("#f_name_"+index).val(),
+						l_name = $("#l_name_"+index).val(),
+						username = $("#row_"+index+" td:eq(2)").html(),
+						email_address = $("#email_address_"+index).val(),
+						physical_address = $("#physical_address_"+index).val(),
+						operating_area = $("#operating_area_"+index).val();
+					  
+					    
+				if(validateProviderEdit(f_name,l_name,email_address,physical_address,operating_area,index)){
+					 
+				     var objProvider = {
+				    		 "f_name" : f_name,
+				    		 "l_name" : l_name,
+				    		 "username" : username,
+				    		 "email_address" : email_address,
+				    		 "physical_address" : physical_address,
+				    		 "operating_area" : operating_area
+				     };
+				     
+				     socket.emit("update_service_provider",JSON.stringify(objProvider));
+				     
+				     $("#submit_"+index).hide();
+				     $("#edit_"+index).show();
+				     
+				}
+				    
+					 e.preventDefault();
+				 });
 				
 				
 				e.preventDefault();
@@ -146,8 +237,8 @@ var client_providers = function(socket){
 		$("#filter_option").show("fast",function(){
 			$("#filter_fields").html("<option>Select filter field</option>");
 			for(key in fields){
-				console.log(fields[key]);
-				$("#filter_fields").append("<option id='"+fields[key]+"'>"+fields[key]+"</option>");
+				if(fields[key] != "service_code")
+					$("#filter_fields").append("<option id='"+fields[key]+"'>"+fields[key]+"</option>");
 			}
 		});
 	});
