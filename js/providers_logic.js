@@ -43,6 +43,14 @@ var providers = function(client,fs){
 		
 	});
 	
+	client.on("is_provider_username_taken",function(username){
+		
+		providers_da.isProviderUsernameTaken(client,username);
+		
+	});
+	
+	
+	
 	
 	
 	

@@ -10,6 +10,6 @@
 - Users should be able to rate a service provider after they have had their pictures, and/or extras delivered.
 --- Photo Upload ---
 - A user should be able to upload more than one picture
-- A user should be able  to preview the uploaded pictures on a photo viewer on the right hand side of the upload form
+- A user should be able to preview the uploaded pictures on a photo viewer on the right hand side of the upload form
 - A user should be able to set the quantity and size of individual photos
 - A user be able to check if the service provider operating in that area offers additional services such as having photos on a frame or album.

@@ -29,4 +29,5 @@
 		<input type="email" id="operating_area" /><span class="error" id="operating_area_error"></span>
 	</div>
 	<button id="submit_provider">Submit Provider</button>
-	</div>
+	</div><br />
+	<div id="add_notification" class="ui-state-highlight"></div>

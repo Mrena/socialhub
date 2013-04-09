@@ -19,6 +19,7 @@ var client_order = function(socket){
 			$("#menu").show("slow");
 		});
 		
+		
 	});
 	// end of orderhistory request and response
 	

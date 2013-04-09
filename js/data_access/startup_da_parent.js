@@ -14,29 +14,34 @@ var connection = function(){
 	return mysql_con;
 };
 
-var runQuery = function(queryText,mysql_con,client,success_callback){
+var runQuery = function(queryText,mysql_con,client,error_callback,success_callback){
 	
 	 mysql_con.query(queryText,function(error){
 		 if(error){
-			 throw error;
+			 error_callback(client,error);
+		 }else{
+			 
+			 success_callback(client);
 		 }
    	 
-   	 success_callback(client);
+   	
     });
 	 
 	
 	
 };
 
-var runSelectQuery = function(query,client,mysql_con,success_callback){
+var runSelectQuery = function(query,client,mysql_con,error_callback,success_callback){
 	
 	 mysql_con.query(query,function(error,rows,fields){
 		 if(error){
-			 throw error;
-		 }
+			 error_callback(client,error);
+			
+		 }else{
    	 
-   	    
-   	 success_callback(client,rows,fields);
+			 success_callback(client,rows,fields);
+   	 
+		 }
     });
 	
 	

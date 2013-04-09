@@ -7,7 +7,12 @@ var startup_da_parent = require("./startup_da_parent");
 		var mysql_con = startup_da_parent.connection();
 		    mysql_con.connect();
 		    var query = "SELECT f_name,l_name,username,email_address,physical_address,operating_area,service_code FROM Photographers";
-		    startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,rows,fields){
+		    startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
+		    	
+		    	console.trace(error);
+		    	client.emit("get_printing_provider_error");
+		    	
+		    },function(client,rows,fields){
 		    	var providers = Array();
 		    	rows.forEach(function(row){
 		    		providers.push(row);
@@ -33,8 +38,14 @@ var startup_da_parent = require("./startup_da_parent");
 				mysql_con.connect();
 				
 				var query = "INSERT INTO Photographers VALUES('"+objProvider.f_name+"','"+objProvider.l_name+"','"+objProvider.username+"','"+objProvider.password+"','"+objProvider.email_address+"','"+objProvider.physical_address+"','"+objProvider.operating_area+"',"+service_code+")";
-				startup_da_parent.runQuery(query,mysql_con,client,function(client){
-					client.emit("provider_submiited");
+				startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+					
+						console.trace(error);
+						client.emit("provider_submit_error");
+					
+					},function(client){
+					
+						client.emit("provider_submitted");
 				});	
 	};
 	
@@ -44,7 +55,11 @@ var startup_da_parent = require("./startup_da_parent");
 		var mysql_con = startup_da_parent.connection();
 			mysql_con.connect();
 			var query = "SELECT * FROM Photographers WHERE "+filter_category+" LIKE '"+filter_value+"%'";
-			startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,rows,fields){
+			startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
+				
+				console.trace(error);
+				
+			},function(client,rows,fields){
 				
 				var providers = Array();
 		    	rows.forEach(function(row){
@@ -61,8 +76,13 @@ var startup_da_parent = require("./startup_da_parent");
 		var mysql_con = startup_da_parent.connection();
 			mysql_con.connect();
 			var query = "DELETE FROM Photographers WHERE username='"+username+"'";
-			    startup_da_parent.runQuery(query,mysql_con,client,function(client){
-			    	getPrintingProviders(client);
+			    startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+			    	
+			    	console.trace(error);
+			    	
+			    		},function(client){
+			    		getPrintingProviders(client);
+			    		
 			    });
 	};
 	
@@ -73,8 +93,12 @@ var startup_da_parent = require("./startup_da_parent");
 			mysql_con.connect();
 			
 			var query = "UPDATE Photographers SET f_name = '"+objProvider.f_name+"',l_name='"+objProvider.l_name+"',physical_address='"+objProvider.physical_address+"',operating_area='"+objProvider.operating_area+"' WHERE username = '"+objProvider.username+"'";
-				startup_da_parent.runQuery(query,mysql_con,client,function(client){
-					getPrintingProviders(client);
+				startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+					
+					console.trace(error);
+					
+						},function(client){
+							getPrintingProviders(client);
 				
 				});
 		};
@@ -86,8 +110,12 @@ var startup_da_parent = require("./startup_da_parent");
 		mysql_con.connect();
 		
 		var query = "UPDATE Photographers SET password = '"+new_password+"  WHERE username = '"+username+"' AND password='"+old_password+"' ";
-			startup_da_parent.runQuery(query,mysql_con,client,function(client){
-				client.emit("password_updated");
+			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+				
+				console.trace(error);
+				
+				},function(client){
+					client.emit("password_updated");
 			});
 		
 		
@@ -99,7 +127,11 @@ var startup_da_parent = require("./startup_da_parent");
 		var mysql_con = startup_da_parent.connection();
 		mysql_con.connect();
 		var query = "SELECT operating_area FROM Photographers";
-		startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,rows,fields){
+		startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
+			
+			console.trace(error);
+			
+		},function(client,rows,fields){
 			
 			var operating_areas = Array();
 	    	rows.forEach(function(row){
@@ -107,14 +139,31 @@ var startup_da_parent = require("./startup_da_parent");
 	    	});
 	    	
 	    	client.emit("operating_areas",JSON.stringify(operating_areas));
-			
 		});
 		
 	};
 	
+	var isProviderUsernameTaken = function(client,username){
+		
+		var mysql_con = startup_da_parent.connection();
+		mysql_con.connect();
+		var query = "SELECT username FROM Photographers WHERE username='"+username+"' ";
+		startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
+			
+			console.trace(error);
+			
+		},function(client,rows,fields){
+			
+			console.log("Username rows "+rows);
+			if(rows != undefined && rows[0] != undefined){
+				client.emit("provider_username_taken");
+			}
+		});
+		
+		
+	};
 	
 	
-
 	exports.getPrintingProviders = getPrintingProviders;
 	exports.submitPrintingProvider = submitPrintingProvider;
 	exports.filterServiceProviders = filterServiceProviders;
@@ -122,5 +171,4 @@ var startup_da_parent = require("./startup_da_parent");
 	exports.updateServiceProvider = updateServiceProvider;
 	exports.updateProviderPassword = updateProviderPassword;
 	exports.getAllOperatingAreas = getAllOperatingAreas;
-	
-	
+	exports.isProviderUsernameTaken = isProviderUsernameTaken;

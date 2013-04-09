@@ -7,7 +7,12 @@
 		
 		var mysql_con = startup_da_parent.connection();
 		var query = "SELECT name FROM City";
-		startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,rows,fields){
+		startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
+			
+			console.trace(error);
+			
+			
+		},function(client,rows,fields){
 			
 			console.trace("in virtual method");
 			console.log(rows[0]);
@@ -22,16 +27,18 @@
 			
 		});
 		
-		
-		
-	    };
+ };
 	    
 	    
 	    var getPackages = function(client){
 	    	
 	    	var mysql_con = startup_da_parent.connection();
 			var query = "SELECT print_size,price FROM Packages";
-			startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,rows,fields){
+			startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
+				
+				console.trace(error);
+				
+			},function(client,rows,fields){
 				
 				var packages = Array();
 				rows.forEach(function(row){

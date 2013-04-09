@@ -12,7 +12,7 @@
 <tr><td>Areas</td><td id="areas_created">No</td><td id="sample_areas_added">No</td></tr>
 <tr><td>Packages</td><td id="packages_created">No</td><td id="sample_packages_added">No</td></tr>
 <tr><td>Orders</td><td id="orders_created">No</td><td id="sample_orders_added">No</td></tr>
-<!-- <tr><td>UserIDs</td><td id="userIDs_created">No</td><td id="sample_userIDs_added">No</td></tr> -->
+<tr><td>UserIDs</td><td id="userIDs_created">No</td><td id="sample_userIDs_added">No</td></tr>
 </tbody>
 </tbody><tfoot><tr><td></td><td></td><td></td></tr></tfoot>
 </table>

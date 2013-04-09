@@ -34,6 +34,8 @@
 			break;
 		case "/startup.html" : route(pathname,response);
 		   break;
+		case "/provider.html" :  route(pathname,response);
+		   break;
 	
 		}
 	}
@@ -56,7 +58,6 @@
 }
 	
 	io.sockets.on("connection",function(client){
-		console.log("PrintP connected!!!");
 		
 		require("./orderhistory_logic").order(client,fs);
 		require("./contact_logic").contact(client,fs);
@@ -69,8 +70,6 @@
 		require("./database_content_logic").database(client,fs);
 		require("./add_provider_logic").provider(client,fs);
 		require("./service_providers_logic").service_providers(client,fs);
-		
-		
 		
 	});
 	

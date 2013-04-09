@@ -4,14 +4,14 @@ var client_providers = function(socket){
 	
 	var validateProviderInfo = function(f_name,l_name,username,password,email_address,physical_address,operating_area){
 			var isValid = true;
-			var validate_f_name = /^[a-z]([0-9a-z_])+$/i;
+			var validate_f_name = /^[a-z]([0-9a-z])+$/i;
 		if( !(validate_f_name.test(f_name))){
 				$("#f_name_error").html("Please enter a valid first name. Your first name should not contain special characters, and needs to be greater than 3 and less than 16 characters.");
 				$("#f_name").val("");
 				isValid = false;	
 		}
 		
-			var validate_l_name = /^[a-z]([0-9a-z_])+$/i;
+			var validate_l_name = /^[a-z]([0-9a-z])+$/i;
 		if( (!validate_l_name.test(l_name))){
 				$("#l_name_error").html("Please enter a valid last name. Your last name should not contain special characters, and needs to be greater than 3 and less than 16 characters.");
 				$("#l_name").val("");
@@ -46,7 +46,7 @@ var client_providers = function(socket){
 				isValid = false;
 		}
 		
-			var validate_operating_area = /^[a-z]([0-9a-z_])+$/i;
+			var validate_operating_area = /^[a-z]([0-9a-z])+$/i;
 		if( (!validate_operating_area.test(operating_area)) && (operating_area.length > 3 && operating_area.length < 15)){
 				$("#operating_area_error").html("Please enter a valid operating area. Your operating area should not contain special characters, and needs to be greater than 5 and less than 15 characters.");
 				$("#operating_area").val("");
@@ -59,14 +59,14 @@ var client_providers = function(socket){
 	var validateProviderEdit = function(f_name,l_name,email_address,physical_address,operating_area,index){
 		
 		 var isValid = true;
-		var validate_f_name = /^[a-z]([0-9a-z_])+$/i;
+		var validate_f_name = /^[a-z]([0-9a-z])+$/i;
 		if( !(validate_f_name.test(f_name))){
 			  	isValid = false;
 			  	$("#row_"+index+" td:eq(0)").addClass("red_background");
 			}
 		
 		
-		var validate_l_name = /^[a-z]([0-9a-z_])+$/i;
+		var validate_l_name = /^[a-z]([0-9a-z])+$/i;
 		if((!validate_l_name.test(l_name))){
 			 	isValid = false;
 			 	$("#row_"+index+" td:eq(1)").addClass("red_background");
@@ -81,14 +81,14 @@ var client_providers = function(socket){
 		    }
 		
 		
-		var validate_physical_address = /^[a-z]([0-9a-z_])+$/i;
+		var validate_physical_address = /^[a-z]([0-9a-z])+$/i;
 		if(!validate_physical_address.test(physical_address)){
 			 	isValid = false;
 			 	$("#row_"+index+" td:eq(4)").addClass("red_background");
 			
 			}
 		
-		var validate_operating_area = /^[a-z]([0-9a-z_])+$/i;
+		var validate_operating_area = /^[a-z]([0-9a-z])+$/i;
 		if(!validate_operating_area.test(operating_area)){
 				isValid = false;
 				$("#row_"+index+" td:eq(5)").addClass("red_background");
@@ -111,6 +111,13 @@ var client_providers = function(socket){
 			 success_callback(filter_value,filter_category);
 		 }
 		
+	};
+	
+	var clearNotification = function(){
+		
+		setTimeout(function(){
+			$("#add_notification").html("");
+		},3000);
 	};
 	
 	$("#filter_value").on("keyup",function(e){
@@ -138,6 +145,7 @@ var client_providers = function(socket){
 	$("#get_service_providers").on("click",function(e){
 		
 		socket.emit("get_printing_providers");
+		$("#filter_value").val("");
 		e.preventDefault();
 	});
 	
@@ -157,7 +165,7 @@ var client_providers = function(socket){
 		pros += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
 		$("#providers").html(pros);
 		
-		// Adds event listeners for delete and edit buttons
+	// Adds event listeners for delete and edit buttons
 	$.each(providers,function(index,value){
 		
 		    $("#submit_"+index).hide();
@@ -181,7 +189,7 @@ var client_providers = function(socket){
 					operating_area = $("#row_"+index+" td:eq(5)").html();
 				
 				
-					// Create text input inside the TDs and assign to the input the values which were inside the TDs
+				// Create text input inside the TDs and assign to the input the values which were inside the TDs
 				$("#row_"+index+" td:eq(0)").html("<input type='text' id='f_name_"+index+"' value='"+f_name+"' />");
 				$("#row_"+index+" td:eq(1)").html("<input type='text' id='l_name_"+index+"' value='"+l_name+"'  />");
 				$("#row_"+index+" td:eq(3)").html("<input type='text' id='email_address_"+index+"' value='"+email_address+"'  />");
@@ -222,7 +230,6 @@ var client_providers = function(socket){
 				    
 					 e.preventDefault();
 				 });
-				
 				
 				e.preventDefault();
 			});
@@ -275,7 +282,7 @@ var client_providers = function(socket){
 				$("#email_address").val("");
 				$("#physical_address").val("");
 				$("#operating_area").val("");
-				console.log("provider submitted");
+				
 				
 			}else{
 				console.log("provider not submitted");
@@ -286,10 +293,33 @@ var client_providers = function(socket){
 	
 	
 	socket.on("provider_submitted",function(){
-		setTimeout(function(){
-			socket.emit("get_printing_providers");
-		},1000);
+		$("#add_notification").html("Service provider added.");
+		clearNotification();
+	});
+	
+	socket.on("provider_submit_error",function(){
+		
+		$("#add_notification").html("Could not add service provider.");
+		 clearNotification();
+	});
+	
+	$("#username").on("keyup",function(e){
+		  $("#username_error").html("");
+		   var username = $.trim($(this).val());
+		   var validate_username = /^[a-z]([0-9a-z_])+$/i;
+		    
+		   if(validate_username.test(username)){
+		    		socket.emit("is_provider_username_taken",username);
+		   }
 		
 	});
+	
+	socket.on("provider_username_taken",function(){
+		
+		$("#username_error").html("Username taken.");
+		
+	});
+	
+	
 	
 };

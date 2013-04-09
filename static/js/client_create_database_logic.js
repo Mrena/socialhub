@@ -3,7 +3,7 @@
 	var client_create_database = function(socket){
 	
 		var created = 0,
-		total = 5,
+		total = 6,
 		tables;
 
 		if(!localStorage['tables']){

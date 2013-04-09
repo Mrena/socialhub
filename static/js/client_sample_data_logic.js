@@ -4,7 +4,7 @@
 	
 	
 		var added = 0,
-		total = 5,
+		total = 6,
 		samples;
 
 		if(!localStorage['samples']){
