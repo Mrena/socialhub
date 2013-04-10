@@ -6,8 +6,12 @@ var home = function(client,fs){
 	client.on("get_home",function(){
 		
 		 fs.readFile("./web_content/home_content.txt",'utf8',function(error,content){
-			if(error)
-				throw error;
+			 if(error){
+					
+					console.trace(error);
+					client.emit("page_not_found");
+					
+				}
 			
 			client.emit("home",content);
 			

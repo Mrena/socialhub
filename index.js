@@ -21,6 +21,12 @@
 		handler(request,response);
 	});
 	
+	expressApp.get("/provider.html",function(request,response){
+		
+		handler(request,response);
+		
+	});
+	
 	function handler(request,response){
 	
 		var pathname = url.parse(request.url).pathname;
@@ -70,6 +76,7 @@
 		require("./database_content_logic").database(client,fs);
 		require("./add_provider_logic").provider(client,fs);
 		require("./service_providers_logic").service_providers(client,fs);
+		require("./web_content.js").web_content(client,fs);
 		
 	});
 	

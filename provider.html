@@ -3,17 +3,179 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>PrintP - Service Provider</title>
+	<script src="static/js/jquery-1.8.3.min.js"></script>
+	<link rel="stylesheet" href="static/css/jquery-ui-1.10.0.custom.css" />
+	<link rel="stylesheet" href="static/css/jquery.ui.base.css" />
+	<link rel="stylesheet" href="static/css/jquery.ui.menu.css" />
+    <link rel="stylesheet" href="static/css/jquery.ui.button.min.css" />
+    <link rel="stylesheet" href="static/css/jquery.ui.tabs.css" />
+    <link rel="stylesheet" href="static/css/mainStyle.css" />
+    <link rel="stylesheet" href="static/css/jquery-ui.css" />
+ 	<script src="static/js/effect.js"></script>
+ 	<script src="static/js/jquery.ui.core.js"></script>
+ 	<script src="static/js/jquery-ui-1.10.0.custom.js"></script>
+ <style type="text/css">
+ 	body {
+      padding : 10px;
+    }
+	td {
+	  width : 200px;
+	  height : 80px;
+	}
+	
+	thead td {
+	    background : teal;
+	    opacity : 0.5;
+	    color : rgb(100,77,22);
+	    color : rgba(100,77,22,0.9);
+	}
+	tfoot td {
+	    background : orange;
+	    opacity : 0.5;
+	    color : rgb(100,77,22);
+	    color : rgba(100,77,22,0.9);
+	}
+		button {
+	    	height : 30px;
+		}
+		.error {
+			color : red;
+	
+		}
+		ul#menu {
+          	float: right;
+          	position : relative;
+          	list-style: none;
+        }
+        li.menu {
+       		float: left;
+       		position : relative;
+       		padding : 5px;
+       		list-style: none;
+    	}
+      	a {
+    		  text-decoration : none;
+    	}
+    	
+    	#notification {
+    			width : 960px;
+    			height : 20px;
+    			display : block;
+    			position : relative;
+    			padding : 5px;
+    			background : rgb(100,252,0);
+    			background : rgba(100,252,0,0.5);
+    	}
+    	#content {
+    	     padding : 7px;
+    	}
+    	.red_background {
+    			background : red;
+    			background : rgba(255,0,0,0.3);
+    		}
+    </style>
 </head>
 <body>
 <div data-role="page">
-	<div data-role="header"><h3>PrintP - Service Provider</h3></div>
-	<div data-role="content">
-	
-	
-	
-	
+	<div data-role="header"><h1 class="ui-state-highlight">PrintP - Service Provider</h1></div>
+	<div data-role="content" class="ui-widget-content ui-corner-all">
+	<br />
+	<ul id="menu">
+		<li class="menu"><a href="#" id="provider_deliveries">Orders</a> | </li>
+		<li class="menu"><a href="#" id="provider_statistics">Sales Statistics</a> | </li>
+		<li class="menu"><a href="#" id="add_provider_services">Additional Services</a> | </li>
+		<li class="menu"><a href="#" id="edit_provider_info">Edit Details</a></li>
+	</ul>
+	<div id="content">
+	<h3>Orders</h3>
+	<div id="orders"></div>
+
+	</div>
 	</div>
 	<div data-role="footer"></div>
 </div>
+<script src="/socket.io/lib/socket.io.js"></script>
+	<script>
+	var socket = io.connect();
+	
+	$("#provider_deliveries").on("click",function(e){
+		
+		$("#menu").hide();
+		socket.emit("get_provider_deliveries_page");
+		
+		e.preventDefault();
+	});
+	
+	socket.on("provider_deliveries_page",function(data){
+		
+		$("#content").fadeOut("fast",function(){
+			$(this).html(data);
+		}).fadeIn("slow",function(){
+			$("#menu").show("slow");
+			
+		});
+		
+	});
+	
+	$("#provider_statistics").on("click",function(e){
+		
+		$("#menu").hide();
+		socket.emit("get_provider_statistics_page");
+		
+		e.preventDefault();
+	});
+	
+	socket.on("provider_statistics_page",function(data){
+		
+		$("#content").fadeOut("fast",function(){
+			$(this).html(data);
+		}).fadeIn("slow",function(){
+			$("#menu").show("slow");
+			
+		});
+		
+		
+	});
+	
+	$("#add_provider_services").on("click",function(e){
+		
+		$("#menu").hide();
+		socket.emit("get_provider_services_page");
+		e.preventDefault();
+	});
+	
+	socket.on("provider_sevices_page",function(data){
+		
+		$("#content").fadeOut("fast",function(){
+			$(this).html(data);
+		}).fadeIn("slow",function(){
+			$("#menu").show("slow");
+			
+		});
+		
+		
+	});
+	
+	$("#edit_provider_info").on("click",function(e){
+		
+		$("#menu").hide();
+		socket.emit("get_edit_provider_info_page");
+		
+		e.preventDefault();
+	});
+	
+	socket.on("edit_provider_info_page",function(data){
+		
+		$("#content").fadeOut("fast",function(){
+			$(this).html(data);
+		}).fadeIn("slow",function(){
+			$("#menu").show("slow");
+			
+		});
+		
+	});
+	
+	
+	</script>
 </body>
 </html>

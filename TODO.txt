@@ -4,7 +4,7 @@
 - whenever a person enters the startup page the system should check if the tables and log files have been created, and only show buttons to create if they are not i.e "touch the tables and files". done
 - Admin should be able to get service providers by Operating Area. done
 - Admin should be able to filter service providers by a selected field. done
-- Admin should be able to edit service provider details
+- Admin should be able to edit service provider details. done
 - Admin should be able to delete service providers. done
 - Have a service provider area where service providers can see information about a delivery and download pictures they need to print and deliver, statistics of their sales are doing, submit information about additional services they would like to offer through the system and be able to edit their information.
 - Users should be able to rate a service provider after they have had their pictures, and/or extras delivered.
@@ -13,3 +13,5 @@
 - A user should be able to preview the uploaded pictures on a photo viewer on the right hand side of the upload form
 - A user should be able to set the quantity and size of individual photos
 - A user be able to check if the service provider operating in that area offers additional services such as having photos on a frame or album.
+- The system has to log every error into an error log file
+- The Admin has to have a page to view system errors from the error log file
