@@ -23,7 +23,7 @@ var createTables = function(client){
     		
     	}catch(ex){
     		
-    		console.trace("Error: "+ex);
+    		console.trace("Connection Error: "+ex);
     		return;
     	}
     };
@@ -42,7 +42,7 @@ var createTables = function(client){
     		
     		}catch(ex){
     		
-    			console.trace(ex);
+    			console.trace("Connection Error: "+ex);
     			return;
     		}
     		
@@ -64,7 +64,7 @@ var createTables = function(client){
     			
     			}catch(ex){
     				
-    				console.trace("Error: "+ex);
+    				console.trace("Connection Error: "+ex);
     				
     			}
     	};
@@ -98,11 +98,14 @@ var createTables = function(client){
     						console.trace(error);
     						
     					},function(client){
+    						
     						client.emit("orders_created");
+    						
+    						
     						});
     					
     					}catch(ex){
-    							console.trace("Error: "+ex);
+    							console.trace("Connection Error: "+ex);
     						return;
     					}
     				};
@@ -122,7 +125,7 @@ var createTables = function(client){
     				    		});
     				    	
     					}catch(ex){
-    							console.trace(ex);
+    							console.trace("Connection Error: "+ex);
     						return;
     					}
     					

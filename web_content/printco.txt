@@ -11,4 +11,23 @@ When one of our client from an area you operate or can deliver to uploads a phot
 <li>At the end of the month you pay us 1% of the generated revenue through our clients.</li>
 </ol>
 <br />
+   <div id="login_error" class="ui-state-highlight"></div>
+	<h3>Login</h3>
+	<p>
+		<label for="login_username">Username:</label>
+		<input type="text" id="login_username" /><span id="login_username_error" style="color:red"></span><br />
+		<label for="login_password">Password:</label>
+		<input type="password" id="login_password" /><span id="login_password_error" style="color:red"></span><br />
+		<span id="catcha"></span><br />
+		<span>Please enter the combination in the above image.</span><br />
+		<label for="catcha_input">Catcha:</label>
+		<input type="text" id="catcha_input" /><span id="login_catcha_error" style="color:red"></span><br /> 
+		<button id="login_submit">Login</button>
+	</p>
+	
+	 <h3>Register</h3>
+	<div>
+		<p>Due to the popularity of internet spam in South Africa, to register as a service provider, you will have to contact us via email or using the contact us form.</p>
+	</div>
+
 

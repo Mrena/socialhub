@@ -4,32 +4,7 @@ var client_home = function(socket){
 	
 	
 	
-	// start of home request and response
-	$("#home").on("click",function(e){
-		socket.emit("get_home");
-		e.preventDefault();
-		
-	});
 	
-	socket.on("home",function(data){
-		$("#menu").hide();
-		$("#page").fadeOut("slow",function(){
-			
-			$("#page").html(data);
-			initCities();
-			initNumberOfImages();
-			initPackages();
-			$("#page").fadeIn();
-			$("#menu").show("slow");
-		});
-		
-		
-		
-		});
-	
-	
-	
-	// end of home request and response
 	var initNumberOfImages = function(){
 		
 		// populates quantity drop-down with values of 5 to 15
@@ -71,9 +46,37 @@ var client_home = function(socket){
 	};
 	
 	
-	initCities();
-	initPackages();
-	initNumberOfImages();
+	//initCities();
+	//initPackages();
+	//initNumberOfImages();
+	// start of home request and response
+	$("#home").on("click",function(e){
+		socket.emit("get_home");
+		e.preventDefault();
+		
+	});
+	
+	socket.on("home",function(data){
+		$("#menu").hide();
+		$("#page").fadeOut("slow",function(){
+			
+			$("#page").html(data);
+			initCities();
+			initNumberOfImages();
+			initPackages();
+			$("#page").fadeIn();
+			$("#menu").show("slow");
+		});
+		
+		
+		
+	});
+	
+	// end of home request and response
+	
+	
+	
+	
 };
 
 

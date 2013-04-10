@@ -154,10 +154,40 @@ var startup_da_parent = require("./startup_da_parent");
 			
 		},function(client,rows,fields){
 			
-			console.log("Username rows "+rows);
+			
 			if(rows != undefined && rows[0] != undefined){
 				client.emit("provider_username_taken");
 			}
+		});
+		
+		
+	};
+	
+	var validateProvider = function(client,username,password){
+		
+		
+		var mysql_con = startup_da_parent.connection();
+		mysql_con.connect();
+		var query = "SELECT username,password FROM Photographers WHERE username='"+username+"' AND password='"+password+"' ";
+		startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
+			
+			console.trace(error);
+			
+		},function(client,rows,fields){
+			var validated = {
+					"isValid" : true
+				};
+			
+			if(rows != undefined && rows[0] != undefined){
+				
+				client.emit("service_provider_validated",JSON.stringify(validated));
+				
+					}else{
+						
+						validated.isValid = false;
+						client.emit("service_provider_validated",JSON.stringify(validated));
+						
+					}
 		});
 		
 		
@@ -172,3 +202,4 @@ var startup_da_parent = require("./startup_da_parent");
 	exports.updateProviderPassword = updateProviderPassword;
 	exports.getAllOperatingAreas = getAllOperatingAreas;
 	exports.isProviderUsernameTaken = isProviderUsernameTaken;
+	exports.validateProvider = validateProvider;

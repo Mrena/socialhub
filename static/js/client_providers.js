@@ -310,16 +310,13 @@ var client_providers = function(socket){
 		    
 		   if(validate_username.test(username)){
 		    		socket.emit("is_provider_username_taken",username);
-		   }
+		   		}
 		
 	});
 	
 	socket.on("provider_username_taken",function(){
 		
 		$("#username_error").html("Username taken.");
-		
 	});
-	
-	
 	
 };

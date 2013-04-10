@@ -81,7 +81,9 @@
 <ul id="menu">
 	<li class="menu"><a href="#" id="databases">Databases</a> | </li>
 	<li class="menu"><a href="#" id="service_providers">Service Providers</a> | </li>
-	<li class="menu"><a href="#" id="add_provider">Add Service Provider</a></li>
+	<li class="menu"><a href="#" id="add_provider">Add Service Provider</a> | </li>
+	<li class="menu"><a href="#" id="end_users">End-Users</a> | </li>
+	<li class="menu"><a href="#" id="system_errors">System Errors</a></li>
 </ul>
 
 <div id="content" class="ui-widget-content ui-corner-all">
@@ -112,15 +114,19 @@
 </div>
 	<div data-role="footer"></div>
 </div>
-<script src="/socket.io/lib/socket.io.js"></script>
-<script src="static/js/client_sample_data_logic.js"></script>
-<script src="static/js/client_create_database_logic.js"></script>
-<script src="static/js/client_providers.js"></script>
+	<script src="/socket.io/lib/socket.io.js"></script>
+	<script src="static/js/client_sample_data_logic.js"></script>
+	<script src="static/js/client_create_database_logic.js"></script>
+	<script src="static/js/client_providers.js"></script>
+	<script src="static/js/client_end_users_logic.js"></script>
+	<script src="static/js/client_system_errors.js"></script>
 <script>
 	var socket = io.connect();
 	
 	client_create_database(socket);
 	client_sample_data(socket);
+	client_end_users(socket);
+	client_system_errors(socket);
 	
 	
 	$("#databases").on("click",function(e){
@@ -179,6 +185,8 @@
 			
 		
 	});
+	
+		
 </script>
 </body>
 </html>

@@ -49,6 +49,13 @@ var providers = function(client,fs){
 		
 	});
 	
+	client.on("validate_service_provider",function(objProvider){
+			
+		objProvider = JSON.parse(objProvider);
+		providers_da.validateProvider(client,objProvider.username,objProvider.password);
+		
+	});
+	
 	
 	
 	

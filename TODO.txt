@@ -15,3 +15,6 @@
 - A user be able to check if the service provider operating in that area offers additional services such as having photos on a frame or album.
 - The system has to log every error into an error log file
 - The Admin has to have a page to view system errors from the error log file
+- A user should be able to associate his/her account with a username and password if they wish to be able to use the system on other computers/devices and have their transaction recorded as if they were using their computer.
+- Users should be able to re-order an order, and edit and re-order
+- Admin should be able view all orders ever made.

@@ -1,0 +1,2 @@
+<h3>System Errors</h3>
+<div id="error"></div>
