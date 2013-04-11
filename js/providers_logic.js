@@ -56,6 +56,25 @@ var providers = function(client,fs){
 		
 	});
 	
+	client.on("get_service_provider_edit_info",function(username){
+		// we have to store the username on the server side rather than getting it from the client side
+		// because if a user we to change the sessionStorage to another provider's username
+		// they will have access to that provider's account
+		
+		//client.get("username",function(username){
+			providers_da.getProviderEditableInfo(client,username);
+			
+		//});
+		
+	});
+	
+	client.on("submit_edit_provider",function(objProvider){
+		
+		objProvider = JSON.parse(objProvider);
+		providers_da.updateProviderInfo(client,objProvider); 
+		
+	});
+	
 	
 	
 	

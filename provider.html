@@ -94,9 +94,13 @@
 	</div>
 	<div data-role="footer"></div>
 </div>
+
 <script src="/socket.io/lib/socket.io.js"></script>
+<script src="static/js/client_edit_provider_info.js"></script>
 	<script>
 	var socket = io.connect();
+	
+	client_edit_provider_info(socket);
 	
 	$("#provider_deliveries").on("click",function(e){
 		
@@ -156,24 +160,6 @@
 		
 	});
 	
-	$("#edit_provider_info").on("click",function(e){
-		
-		$("#menu").hide();
-		socket.emit("get_edit_provider_info_page");
-		
-		e.preventDefault();
-	});
-	
-	socket.on("edit_provider_info_page",function(data){
-		
-		$("#content").fadeOut("fast",function(){
-			$(this).html(data);
-		}).fadeIn("slow",function(){
-			$("#menu").show("slow");
-			
-		});
-		
-	});
 	
 	
 	</script>

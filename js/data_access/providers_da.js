@@ -181,7 +181,8 @@ var startup_da_parent = require("./startup_da_parent");
 			if(rows != undefined && rows[0] != undefined){
 				
 				client.emit("service_provider_validated",JSON.stringify(validated));
-				
+				//client.set("username",username);
+				//console.log(username);
 					}else{
 						
 						validated.isValid = false;
@@ -189,6 +190,56 @@ var startup_da_parent = require("./startup_da_parent");
 						
 					}
 		});
+		
+		
+	};
+	
+	var getProviderEditableInfo = function(client,username){
+		
+		var mysql_con = startup_da_parent.connection();
+		mysql_con.connect();
+		var query = "SELECT f_name,l_name,password,email_address,physical_address FROM Photographers WHERE username = '"+username+"' ";
+		startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
+			
+			console.trace(error);
+			
+		},function(client,rows,fields){
+			
+			
+			if(rows[0] != undefined){
+				
+				var providerInfo = {
+						"f_name" : rows[0].f_name,
+						"l_name" : rows[0].l_name,
+						"password" : rows[0].password,
+						"email_address" : rows[0].email_address,
+						"physical_address" : rows[0].physical_address
+				};
+				
+			client.emit("service_provider_info",JSON.stringify(providerInfo));
+			
+			}
+	    	
+		});
+		
+	};
+	
+	var updateProviderInfo = function(client,objProvider){
+		
+		var mysql_con = startup_da_parent.connection();
+		mysql_con.connect();
+		
+		var query = "UPDATE Photographers SET f_name ='"+objProvider.f_name+"', l_name = '"+objProvider.l_name+"', password = '"+objProvider.password+"',email_address = '"+objProvider.email_address+"',physical_address = '"+objProvider.physical_address+"'  WHERE username = '"+objProvider.username+"' ";
+			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+				
+				console.trace(error);
+				client.emit("provider_edit_error");
+				
+				},function(client){
+					
+					client.emit("provider_edit_success");
+			});
+		
 		
 		
 	};
@@ -203,3 +254,5 @@ var startup_da_parent = require("./startup_da_parent");
 	exports.getAllOperatingAreas = getAllOperatingAreas;
 	exports.isProviderUsernameTaken = isProviderUsernameTaken;
 	exports.validateProvider = validateProvider;
+	exports.getProviderEditableInfo = getProviderEditableInfo;
+	exports.updateProviderInfo = updateProviderInfo;

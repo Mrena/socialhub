@@ -36,7 +36,7 @@ var client_printco = function(socket){
 		socket.emit("get_new_catcha");
 		
 	};
-	
+	var username,password;
 	var attachListeners = function(){
 		
 		$("#login_submit").on("click",function(e){
@@ -45,7 +45,7 @@ var client_printco = function(socket){
 			$("#login_password_error").html("");
 			$("#login_catcha_error").html("");
 			
-			var username = $.trim($("#login_username").val()),
+			 username = $.trim($("#login_username").val()),
 				password = $.trim($("#login_password").val());
 			
 			if(validateLogin(username,password)){
@@ -109,7 +109,7 @@ var client_printco = function(socket){
 		if(validated.isValid){
 			
 			socket.emit("get_service_provider_page");
-			//window.location.href = "localhost:8000/provider.html";
+			sessionStorage['logged_as'] = username;
 			
 		}else{
 			
