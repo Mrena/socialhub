@@ -11,12 +11,14 @@
 			
 			console.trace(error);
 			
+			var file_name = "home_da.js",
+			line_number = 10;
+			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			
 			
 		},function(client,rows,fields){
 			
-			console.trace("in virtual method");
-			console.log(rows[0]);
-			
+		
 			var cities = Array();
 			rows.forEach(function(row){
 				cities.push(row.name);
@@ -37,6 +39,10 @@
 			startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
 				
 				console.trace(error);
+				var file_name = "home_da.js",
+				line_number = 39;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				
 				
 			},function(client,rows,fields){
 				

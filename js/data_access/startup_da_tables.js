@@ -5,9 +5,6 @@ var startup_da_parent = require("./startup_da_parent");
 
 var createTables = function(client){
 	
-	
-    	
-    
     var createPhotographersTable = function(mysql_con,client){
     	
     	try{
@@ -16,6 +13,10 @@ var createTables = function(client){
     		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
     			
     			console.trace(error);
+    			var file_name = "startup_da_tables.js",
+				line_number = 13;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				
     			
     		},function(client){
     			client.emit("photographers_created");
@@ -35,6 +36,9 @@ var createTables = function(client){
     		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
     			
     			console.trace(error);
+    			var file_name = "startup_da_tables.js",
+				line_number = 36;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
     			
     		},function(client){
     			client.emit("city_created");
@@ -57,6 +61,9 @@ var createTables = function(client){
     			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
     				
     				console.trace(error);
+    				var file_name = "startup_da_tables.js",
+    				line_number = 61;
+    				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
     				
     			},function(client){
     				client.emit("areas_created");
@@ -77,6 +84,9 @@ var createTables = function(client){
     				startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
     					
     					console.trace(error);
+    					var file_name = "startup_da_tables.js",
+    					line_number = 84;
+    					startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
     					
     				},function(client){
     					client.emit("packages_created");
@@ -96,6 +106,9 @@ var createTables = function(client){
     					startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
     						
     						console.trace(error);
+    						var file_name = "startup_da_tables.js",
+    						line_number = 106;
+    						startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
     						
     					},function(client){
     						
@@ -119,6 +132,9 @@ var createTables = function(client){
     				    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
     				    		
     				    		console.trace(error);
+    				    		var file_name = "startup_da_tables.js",
+    							line_number = 132;
+    							startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
     				    		
     				    	},function(client){
     				    		client.emit("userIDs_created");

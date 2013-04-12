@@ -151,6 +151,21 @@
         localStorage['printP_userId'] = data;
 
     });
+	
+	socket.on("page_not_found",function(){
+		var $menu = $("#menu"),
+			$page = $("#page");
+		
+		$menu.hide("fast",function(){
+			$page.fadeOut("fast",function(){
+				$page.html("<div>The requested page could not be found. It may be moved or may never had existed. (0_o)</div>");
+					$page.fadeIn("slow",function(){
+						$menu.show("slow");
+					});
+			  });
+		});
+		
+	});
 
 </script>
 </body>

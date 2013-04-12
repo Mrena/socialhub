@@ -73,6 +73,13 @@
     			background : red;
     			background : rgba(255,0,0,0.3);
     		}
+    		#username {
+    			
+    			font : 25px;
+    			color : rgb(231,22,0);
+    			color : rgba(231,22,0,0.5);
+    		
+    		}
     </style>
 </head>
 <body>
@@ -84,8 +91,9 @@
 		<li class="menu"><a href="#" id="provider_deliveries">Orders</a> | </li>
 		<li class="menu"><a href="#" id="provider_statistics">Sales Statistics</a> | </li>
 		<li class="menu"><a href="#" id="add_provider_services">Additional Services</a> | </li>
-		<li class="menu"><a href="#" id="edit_provider_info">Edit Details</a></li>
+		<li class="menu"><a href="#" class="edit_provider_info">Edit Details</a></li>
 	</ul>
+	<div id="logged"></div>
 	<div id="content">
 	<h3>Orders</h3>
 	<div id="orders"></div>
@@ -97,70 +105,53 @@
 
 <script src="/socket.io/lib/socket.io.js"></script>
 <script src="static/js/client_edit_provider_info.js"></script>
+<script src="static/js/client_provider_deliveries.js"></script>
+<script src="static/js/client_provider_statistics.js"></script>
+<script src="static/js/client_provider_add_services.js"></script>
 	<script>
 	var socket = io.connect();
 	
 	client_edit_provider_info(socket);
+	client_provider_deliveries(socket);
+	client_provider_statistics(socket);
+	client_provider_add_services(socket);
+	if(sessionStorage['logged_as']){
+		
+	 $("#logged").html("Logged as <span id='username'>"+sessionStorage['logged_as']+"</span>");
+	 
+	}
+	else{
+		
+	 socket.emit("redirect_home");
+	 
+	 
+	}
 	
-	$("#provider_deliveries").on("click",function(e){
+	socket.on("redirected_home",function(content){
 		
-		$("#menu").hide();
-		socket.emit("get_provider_deliveries_page");
-		
-		e.preventDefault();
-	});
-	
-	socket.on("provider_deliveries_page",function(data){
-		
-		$("#content").fadeOut("fast",function(){
-			$(this).html(data);
-		}).fadeIn("slow",function(){
-			$("#menu").show("slow");
-			
-		});
-		
-	});
-	
-	$("#provider_statistics").on("click",function(e){
-		
-		$("#menu").hide();
-		socket.emit("get_provider_statistics_page");
-		
-		e.preventDefault();
-	});
-	
-	socket.on("provider_statistics_page",function(data){
-		
-		$("#content").fadeOut("fast",function(){
-			$(this).html(data);
-		}).fadeIn("slow",function(){
-			$("#menu").show("slow");
-			
+		$("html").fadeOut("fast",function(){
+			$(this).html(content);
+			$(this).fadeIn();
 		});
 		
 		
 	});
 	
-	$("#add_provider_services").on("click",function(e){
+	socket.on("page_not_found",function(){
+		var $menu = $("#menu"),
+			$content = $("#content");
 		
-		$("#menu").hide();
-		socket.emit("get_provider_services_page");
-		e.preventDefault();
-	});
-	
-	socket.on("provider_sevices_page",function(data){
-		
-		$("#content").fadeOut("fast",function(){
-			$(this).html(data);
-		}).fadeIn("slow",function(){
-			$("#menu").show("slow");
-			
+		$menu.hide("fast",function(){
+			$content.fadeOut("fast",function(){
+				$content.html("<div>The requested page could not be found. It may be moved or may never had existed. (0_o)</div>");
+					$content.fadeIn("slow",function(){
+						$menu.show("slow");
+						
+					});
+			  });
 		});
 		
-		
 	});
-	
-	
 	
 	</script>
 </body>

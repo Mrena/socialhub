@@ -20,6 +20,6 @@
 		<label for="physical_address">Physical Address</label><br />
 		<input type="email" id="physical_address" /><span class="error" id="physical_address_error"></span>
 	</div>
-	<button id="update_provider">Submit Provider</button>
+	<button id="update_provider">Update Details</button>
 	</div><br />
 	<div id="update_notification" class="ui-state-highlight"></div>

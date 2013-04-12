@@ -66,7 +66,6 @@
 	io.sockets.on("connection",function(client){
 		
 		
-		
 		require("./orderhistory_logic").order(client,fs);
 		require("./contact_logic").contact(client,fs);
 		require("./home_logic").home(client,fs);
@@ -79,6 +78,9 @@
 		require("./add_provider_logic").provider(client,fs);
 		require("./service_providers_logic").service_providers(client,fs);
 		require("./web_content.js").web_content(client,fs);
+		require("./js/system_errors").system_errors(client,fs);
+		
+		
 		
 	});
 	

@@ -11,6 +11,9 @@ var startup_da_parent = require("./startup_da_parent");
 		    	
 		    	console.trace(error);
 		    	client.emit("get_printing_provider_error");
+		    	var file_name = "providers_da.js",
+				line_number = 10;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 		    	
 		    },function(client,rows,fields){
 		    	var providers = Array();
@@ -42,6 +45,9 @@ var startup_da_parent = require("./startup_da_parent");
 					
 						console.trace(error);
 						client.emit("provider_submit_error");
+						var file_name = "providers_da.js",
+						line_number = 43;
+						startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 					
 					},function(client){
 					
@@ -58,6 +64,9 @@ var startup_da_parent = require("./startup_da_parent");
 			startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
 				
 				console.trace(error);
+				var file_name = "providers_da.js",
+				line_number = 64;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 				
 			},function(client,rows,fields){
 				
@@ -79,6 +88,9 @@ var startup_da_parent = require("./startup_da_parent");
 			    startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 			    	
 			    	console.trace(error);
+			    	var file_name = "providers_da.js",
+					line_number = 88;
+					startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 			    	
 			    		},function(client){
 			    		getPrintingProviders(client);
@@ -96,6 +108,9 @@ var startup_da_parent = require("./startup_da_parent");
 				startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 					
 					console.trace(error);
+					var file_name = "providers_da.js",
+					line_number = 108;
+					startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 					
 						},function(client){
 							getPrintingProviders(client);
@@ -109,10 +124,13 @@ var startup_da_parent = require("./startup_da_parent");
 		var mysql_con = startup_da_parent.connection();
 		mysql_con.connect();
 		
-		var query = "UPDATE Photographers SET password = '"+new_password+"  WHERE username = '"+username+"' AND password='"+old_password+"' ";
+			var query = "UPDATE Photographers SET password = '"+new_password+"  WHERE username = '"+username+"' AND password='"+old_password+"' ";
 			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 				
 				console.trace(error);
+				var file_name = "providers_da.js",
+				line_number = 128;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 				
 				},function(client){
 					client.emit("password_updated");
@@ -130,6 +148,9 @@ var startup_da_parent = require("./startup_da_parent");
 		startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
 			
 			console.trace(error);
+			var file_name = "providers_da.js",
+			line_number = 148;
+			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 			
 		},function(client,rows,fields){
 			
@@ -151,6 +172,9 @@ var startup_da_parent = require("./startup_da_parent");
 		startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
 			
 			console.trace(error);
+			var file_name = "providers_da.js",
+			line_number = 172;
+			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 			
 		},function(client,rows,fields){
 			
@@ -172,6 +196,9 @@ var startup_da_parent = require("./startup_da_parent");
 		startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
 			
 			console.trace(error);
+			var file_name = "providers_da.js",
+			line_number = 196;
+			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 			
 		},function(client,rows,fields){
 			var validated = {
@@ -202,6 +229,9 @@ var startup_da_parent = require("./startup_da_parent");
 		startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
 			
 			console.trace(error);
+			var file_name = "providers_da.js",
+			line_number = 229;
+			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 			
 		},function(client,rows,fields){
 			
@@ -229,11 +259,15 @@ var startup_da_parent = require("./startup_da_parent");
 		var mysql_con = startup_da_parent.connection();
 		mysql_con.connect();
 		
-		var query = "UPDATE Photographers SET f_name ='"+objProvider.f_name+"', l_name = '"+objProvider.l_name+"', password = '"+objProvider.password+"',email_address = '"+objProvider.email_address+"',physical_address = '"+objProvider.physical_address+"'  WHERE username = '"+objProvider.username+"' ";
+			var query = "UPDATE Photographers SET f_name ='"+objProvider.f_name+"', l_name = '"+objProvider.l_name+"', password = '"+objProvider.password+"',email_address = '"+objProvider.email_address+"',physical_address = '"+objProvider.physical_address+"'  WHERE username = '"+objProvider.username+"' ";
 			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 				
 				console.trace(error);
 				client.emit("provider_edit_error");
+				var file_name = "providers_da.js",
+				line_number = 263;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				
 				
 				},function(client){
 					

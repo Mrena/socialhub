@@ -13,6 +13,9 @@ var addSamplePhotographers = function(client,mysql_con){
 		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 			
 			console.trace(error);
+			var file_name = "startup_da_samples.js",
+			line_number = 13;
+			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 			
 		},function(client){
 			
@@ -20,6 +23,9 @@ var addSamplePhotographers = function(client,mysql_con){
 	    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 	    		
 	    		console.trace(error);
+	    		var file_name = "startup_da_samples.js",
+				line_number = 23;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 	    		
 	    	},function(client){
 	    		
@@ -47,6 +53,9 @@ var addSampleCities = function(client,mysql_con){
 		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 			
 			console.trace(error);
+			var file_name = "startup_da_samples.js",
+			line_number = 53;
+			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 			
 		},function(client){
 			
@@ -54,6 +63,9 @@ var addSampleCities = function(client,mysql_con){
 	    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 	    		
 	    		console.trace(error);
+	    		var file_name = "startup_da_samples.js",
+				line_number = 63;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 	    		
 	    	},function(client){
 	    		
@@ -76,6 +88,9 @@ var addSampleAreas = function(client,mysql_con){
 		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 			
 			console.trace(error);
+			var file_name = "startup_da_samples.js",
+			line_number = 92;
+			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 			
 		},function(client){
 			
@@ -83,6 +98,9 @@ var addSampleAreas = function(client,mysql_con){
 	    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 	    		
 	    		console.trace(error);
+	    		var file_name = "startup_da_samples.js",
+				line_number = 98;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 	    		
 	    	},function(client){
 	    		
@@ -90,6 +108,9 @@ var addSampleAreas = function(client,mysql_con){
 	        	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 	        		
 	        		console.trace(error);
+	        		var file_name = "startup_da_samples.js",
+	    			line_number = 108;
+	    			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 	        		
 	        	},function(client){
 	        		
@@ -97,6 +118,9 @@ var addSampleAreas = function(client,mysql_con){
 	            	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 	            		
 	            		console.trace(error);
+	            		var file_name = "startup_da_samples.js",
+	        			line_number = 118;
+	        			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 	            		
 	            	},function(client){
 	            		
@@ -104,6 +128,9 @@ var addSampleAreas = function(client,mysql_con){
 	                	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 	                		
 	                		console.trace(error);
+	                		var file_name = "startup_da_samples.js",
+	            			line_number = 128;
+	            			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 	                		
 	                	},function(client){
 	                		
@@ -111,6 +138,9 @@ var addSampleAreas = function(client,mysql_con){
 	                    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 	                    		
 	                    		console.trace(error);
+	                    		var file_name = "startup_da_samples.js",
+	                			line_number = 138;
+	                			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 	                    		
 	                    	},function(client){
 	                    		
@@ -118,6 +148,9 @@ var addSampleAreas = function(client,mysql_con){
 	                        	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 	                        		
 	                        		console.trace(error);
+	                        		var file_name = "startup_da_samples.js",
+	                    			line_number = 148;
+	                    			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 	                        		
 	                        	},function(client){
 	                        		
@@ -152,6 +185,9 @@ var addSamplePackages = function(client,mysql_con){
 		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 			
 			console.trace(error);
+			var file_name = "startup_da_samples.js",
+			line_number = 185;
+			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 			
 		},function(client){
 			
@@ -159,6 +195,9 @@ var addSamplePackages = function(client,mysql_con){
 	    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 	    		
 	    		console.trace(error);
+	    		var file_name = "startup_da_samples.js",
+				line_number = 195;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 	    		
 	    	},function(client){
 	    		
@@ -166,6 +205,9 @@ var addSamplePackages = function(client,mysql_con){
 	        	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 	        		
 	        		console.trace(error);
+	        		var file_name = "startup_da_samples.js",
+	    			line_number = 205;
+	    			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 	        		
 	        	},function(client){
 	        		client.emit("sample_packages_added");
@@ -190,6 +232,9 @@ var addSampleOrders = function(client,mysql_con){
 		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 			
 			console.trace(error);
+			var file_name = "startup_da_samples.js",
+			line_number = 232;
+			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 			
 		},function(client){
 			client.emit("sample_orders_added");
@@ -210,6 +255,9 @@ var addSampleOrders = function(client,mysql_con){
 			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 				
 				console.trace(error);
+				var file_name = "startup_da_samples.js",
+				line_number = 255;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
 				
 			},function(client){
 				client.emit("sample_userIDs_added");

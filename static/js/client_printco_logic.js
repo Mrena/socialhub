@@ -128,7 +128,13 @@ var client_printco = function(socket){
 	
 	socket.on("service_provider_page",function(content){
 		
-		$("html").html(content);
+		
+		$("html").fadeOut("slow",function(){
+			$(this).html(content);
+			$(this).fadeIn();
+		});
+		
+		//$("html").html(content);
 		console.log("Content added");
 		
 	});

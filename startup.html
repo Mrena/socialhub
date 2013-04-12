@@ -185,6 +185,22 @@
 			
 		
 	});
+		
+	socket.on("page_not_found",function(){
+			var $menu = $("#menu"),
+				$content = $("#content");
+			
+			$menu.hide("fast",function(){
+				$content.fadeOut("fast",function(){
+					$content.html("<div>The requested page could not be found. It may be moved or may never had existed. (0_o)</div>");
+						$content.fadeIn("slow",function(){
+							$menu.show("slow");
+							
+						});
+				  });
+			});
+			
+		});
 	
 		
 </script>

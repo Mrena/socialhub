@@ -18,3 +18,7 @@
 - A user should be able to associate his/her account with a username and password if they wish to be able to use the system on other computers/devices and have their transaction recorded as if they were using their computer.
 - Users should be able to re-order an order, and edit and re-order
 - Admin should be able view all orders ever made.
+-- Additional Services a service provider can offer --
+- To make an album out of uploaded images
+- To make a custom slideshow cd out of uploaded images
+- To make a custom video out of small videos uploaded

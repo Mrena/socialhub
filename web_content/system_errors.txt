@@ -1,2 +1,8 @@
 <h3>System Errors</h3>
-<div id="error"></div>
+	<!--<button id="get_system_errors">Get System Errors</button>-->
+	<button id="get_database_system_errors">Get Database System Errors</button>
+	<button id="get_file_system_errors">Get File System Errors</button>
+<div id="errors">
+
+
+</div>

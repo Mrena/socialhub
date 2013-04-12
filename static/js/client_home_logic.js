@@ -46,9 +46,9 @@ var client_home = function(socket){
 	};
 	
 	
-	//initCities();
-	//initPackages();
-	//initNumberOfImages();
+	initCities();
+	initPackages();
+	initNumberOfImages();
 	// start of home request and response
 	$("#home").on("click",function(e){
 		socket.emit("get_home");

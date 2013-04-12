@@ -90,7 +90,7 @@
 		};
 		
 		
-		$("#edit_provider_info").on("click",function(e){
+		$(".edit_provider_info").on("click",function(e){
 			
 			$("#menu").hide();
 			socket.emit("get_edit_provider_info_page");
