@@ -3,7 +3,7 @@
 var client_home = function(socket){
 	
 	
-	
+	try{
 	
 	var initNumberOfImages = function(){
 		
@@ -74,6 +74,19 @@ var client_home = function(socket){
 	
 	// end of home request and response
 	
+	}catch(error){
+		
+		console.log(error);
+		
+		var objError = {
+				"error" : error.message,
+				"file_name" : "client_home_logic.js",
+				"line_number" : 1
+		};
+		
+		socket.emit("log_system_error",JSON.stringify(objError));
+		
+	}
 	
 	
 	

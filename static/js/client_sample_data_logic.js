@@ -2,9 +2,11 @@
 
 	var client_sample_data = function(socket){
 	
+		
+		try{
 	
 		var added = 0,
-		total = 6,
+		total = 9,
 		samples;
 
 		if(!localStorage['samples']){
@@ -78,7 +80,6 @@
 		$("#sample_areas_added").html("Yes");
 		samples['sample_areas_added'] = "Yes";
 		increamentAndSave();
-		
 	});
 
 	socket.on("sample_userIDs_added",function(){
@@ -86,8 +87,36 @@
 		$("#sample_userIDs_added").html("Yes");
 		samples['sample_userIDs_added'] = "Yes";
 		increamentAndSave();
-		
 	});
+	
+	socket.on("sample_users_added",function(){
+		
+		$("#sample_users_added").html("Yes");
+		samples['sample_users_added'] = "Yes";
+		increamentAndSave();
+	});
+	
+	socket.on("sample_admin_added",function(){
+		
+		$("#sample_admin_added").html("Yes");
+		samples['sample_admin_added'] = "Yes";
+		increamentAndSave();
+	});
+	
+	socket.on("sample_admin_rights_added",function(){
+		
+		$("#sample_admin_rights_added").html("Yes");
+		samples['sample_admin_rights_added'] = "Yes";
+		increamentAndSave();
+	});
+	
+	socket.on("sample_alerts_added",function(){
+		
+		$("#sample_alerts_added").html("Yes");
+		samples['sample_alerts_added'] = "Yes";
+		increamentAndSave();
+	});
+	
 	
 	var isTotal = function(){
 		if(added==total){
@@ -102,6 +131,20 @@
 		isTotal();
 		localStorage['samples'] = JSON.stringify(samples);
 		};
+		
+		}catch(error){
+			
+			console.log(error);
+			
+			var objError = {
+					"error" : error.message,
+					"file_name" : "client_sample_data_logic.js",
+					"line_number" : 1
+			};
+			
+			socket.emit("log_system_error",JSON.stringify(objError));
+			
+		}
 	
 	
 };

@@ -3,7 +3,7 @@
 var client_provider_deliveries = function(socket){
 	
 	
-	
+	try{
 
 	$("#provider_deliveries").on("click",function(e){
 		
@@ -23,6 +23,20 @@ var client_provider_deliveries = function(socket){
 		});
 		
 	});
+	
+	}catch(error){
+		
+		console.log(error);
+		
+		var objError = {
+				"error" : error.message,
+				"file_name" : "client_provider_deliveries.js",
+				"line_number" : 1
+		};
+		
+		socket.emit("log_system_error",JSON.stringify(objError));
+		
+	}
 	
 	
 };

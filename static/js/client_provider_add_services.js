@@ -3,6 +3,7 @@
 var client_provider_add_services = function(socket){
 	
 	
+	try{
 	
 	$("#add_provider_services").on("click",function(e){
 		
@@ -22,6 +23,20 @@ var client_provider_add_services = function(socket){
 		
 		
 	});
+	
+	}catch(error){
+		
+		console.log(error);
+		
+		var objError = {
+				"error" : error.message,
+				"file_name" : "client_add_provider_services.js",
+				"line_number" : 1
+		};
+		
+		socket.emit("log_system_error",JSON.stringify(objError));
+		
+	}
 	
 	
 };

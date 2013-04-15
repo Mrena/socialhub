@@ -2,6 +2,9 @@
 
 var client_providers = function(socket){
 	
+	
+	try{
+	
 	var validateProviderInfo = function(f_name,l_name,username,password,email_address,physical_address,operating_area){
 			var isValid = true;
 			var validate_f_name = /^[a-z]([0-9a-z])+$/i;
@@ -318,5 +321,19 @@ var client_providers = function(socket){
 		
 		$("#username_error").html("Username taken.");
 	});
+	
+	}catch(error){
+		
+		console.log(error);
+		
+		var objError = {
+				"error" : error.message,
+				"file_name" : "client_providers.js",
+				"line_number" : 1
+		};
+		
+		socket.emit("log_system_error",JSON.stringify(objError));
+		
+	}
 	
 };

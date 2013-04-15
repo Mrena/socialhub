@@ -3,6 +3,8 @@
 var client_provider_statistics = function(socket){
 	
 	
+	try{
+	
 	$("#provider_statistics").on("click",function(e){
 		
 		$("#menu").hide();
@@ -21,5 +23,19 @@ var client_provider_statistics = function(socket){
 		});
 		
 	});
+	
+	}catch(error){
+		
+		console.log(error);
+		
+		var objError = {
+				"error" : error.message,
+				"file_name" : "client_provider_statistics.js",
+				"line_number" : 1
+		};
+		
+		socket.emit("log_system_error",JSON.stringify(objError));
+		
+	}
 	
 };

@@ -11,3 +11,4 @@ var createLogFiles = function(){
 };
 
 exports.createLogFiles = createLogFiles;
+exports.logSystemError = startup_da_parent.logSystemError;

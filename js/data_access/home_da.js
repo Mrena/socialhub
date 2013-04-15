@@ -59,6 +59,7 @@
 	
 	    exports.getCities = getCities;
 	    exports.getPackages = getPackages;
+	    exports.logSystemError = startup_da_parent.logSystemError;
 
 
 

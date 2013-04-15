@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8" content="width=device-width" />
 <title>PrintP</title>
+	<link rel="icon" href="static/icons/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="static/icons/favicon.ico" type="image/x-icon" />
 	<script src="static/js/jquery-1.8.3.min.js"></script>
 	<link rel="stylesheet" href="static/css/jquery-ui-1.10.0.custom.css" />
 	<link rel="stylesheet" href="static/css/jquery.ui.base.css" />
@@ -40,7 +42,6 @@
 		}
     		
     </style>
-	
 	<script src="static/js/jquery-1.8.3.min.js"></script>
 	<script src="static/js/jquery-ui-1.10.0.custom.min.js"></script>
 	<script src="/socket.io/lib/socket.io.js"></script>
@@ -52,13 +53,13 @@
 
 <h4>Send us your image for printing. We will deliver you a high quality print-out right to your door step. Payment on delivery.</h4>
       	<ul id="menu">
-    		  <li class="menu"><a href="#" id="home"> Home</a> | </li>
-    		  <li class="menu"><a href="#" id="orderhistory">Order History</a> | </li>
-    		  <li class="menu"><a href="#" id="contact">Comment</a> | </li>
-    		  <li class="menu"><a href="#" id="about"> About</a></li>
+    		  <li class="menu"><a href="#" id="home">Home</a>  | </li>
+    		  <li class="menu"><a href="#" id="orderhistory"> Order History</a>  | </li>
+    		  <li class="menu"><a href="#" id="contact"> Comment</a>  | </li>
+    		  <li class="menu"><a href="#" id="about"> About</a>  | </li>
+    		  <li class="menu"><a href="#" id="sign_in"> Sign in</a></li>
            </ul>
     
-   
     </header>
 <div id="page" class="ui-widget-content ui-corner-all">
     <div id="err" class="err"> </div>
@@ -127,6 +128,7 @@
         <script src="static/js/client_about_logic.js"></script>
         <script src="static/js/client_printco_logic.js"></script>
         <script src="static/js/client_terms_logic.js"></script>
+        <script src="static/js/client_end_users_logic.js"></script>
         <script src="static/js/logic.js"></script>
 <script type="text/javascript">
 
@@ -138,6 +140,7 @@
 	client_about(socket);
 	client_printco(socket);
 	client_terms(socket);
+	client_end_users(socket);
 	
 	
 	

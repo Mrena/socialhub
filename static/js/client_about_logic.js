@@ -2,6 +2,8 @@
 
 var client_about = function(socket){
 	
+	try{
+	
 	var showOperatingArea = function(){
 		 
 		  socket.emit("get_all_operating_areas");
@@ -42,7 +44,16 @@ var client_about = function(socket){
 		
 	});
 	
-	
-	
+	}catch(error){
+		
+		var objError = {
+				"error" : error.message,
+				"file_name" : "client_about_logic.js",
+				"line_number" : 1
+		};
+		
+		socket.emit("log_system_error",JSON.stringify(objError));
+		
+	}
 	
 };

@@ -2,6 +2,9 @@
 
 var client_terms = function(socket){
 	
+	
+	try{
+	
 	// start of terms request and response
 	$("#terms").on("click",function(e){
 		socket.emit("get_terms");
@@ -23,5 +26,19 @@ var client_terms = function(socket){
 		});
 	
 	// end of terms request and response
+	}catch(error){
+		
+		console.log(error);
+		
+		var objError = {
+				"error" : error.message,
+				"file_name" : "client_terms_logic.js",
+				"line_number" : 1
+		};
+		
+		socket.emit("log_system_error",JSON.stringify(objError));
+		
+	}
+	
 	
 };

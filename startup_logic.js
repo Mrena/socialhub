@@ -3,8 +3,6 @@
 
 var startup = function(client,fs){
 	
-  
-	
   client.on("create_database",function(database_name){
 	  
 	  startup_da.createDatabase(database_name,client);

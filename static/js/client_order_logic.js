@@ -2,6 +2,8 @@
 
 var client_order = function(socket){
 	
+	
+	try{
 
 	// start of orderhistory request and response
 	$("#orderhistory").click(function(e){
@@ -22,6 +24,20 @@ var client_order = function(socket){
 		
 	});
 	// end of orderhistory request and response
+	
+	}catch(error){
+		
+		console.log(error);
+		
+		var objError = {
+				"error" : error.message,
+				"file_name" : "client_order_logic.js",
+				"line_number" : 1
+		};
+		
+		socket.emit("log_system_error",JSON.stringify(objError));
+		
+	}
 	
 	
 };

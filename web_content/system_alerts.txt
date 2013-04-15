@@ -1,0 +1,20 @@
+<h3>SMS and E-Mail Alerts</h3>
+<p></p>
+<table>
+<tr><td>Get notified when a new user signs up</td>
+	<td>
+	<input type='radio' name="user_sign_up" id="user_sign_up1" value="sms" />SMS<br />
+	<input type='radio' name="user_sign_up" id="user_sign_up2" value="email" />E-Mail<br />
+	</td></tr>
+<tr><td>Get notified when a new service provider signs up</td>
+	<td>
+		<input type='radio' name="provider_sign_up" id="provider_sign_up1" value="sms" />SMS<br />
+		<input type='radio' name="provider_sign_up" id="provider_sign_up2" value="email" />E-Mail<br />
+</td></tr>
+<tr><td>Get notified when an order is made</td>
+<td>
+	<input type='radio' name="order" id="order1" value="sms" />SMS<br />
+	<input type='radio' name="order" id="order2" value="email" />E-Mail<br />	
+</td></tr>
+<tr><td></td><td></td></tr>
+</table>

@@ -2,7 +2,15 @@
 
 var client_system_errors = function(socket){
 	
+	try{
+		
+		
+	var selectedErrors = {
+			name : ""
+	};	
+	
 	var attachListeners = function(){
+		
 		
 		$("#get_database_system_errors").on("click",function(e){
 			
@@ -27,29 +35,52 @@ var client_system_errors = function(socket){
 		});
 		
 		
-	};
-	
-	var populateTable = function(errors){
-		
-		var errs = "<table border='1'><thead><tr><td>Error Code</td><td>Error Number</td><td>System Call</td><td>Fatal</td><td>File Name</td><td>Line Number</td><td>Operations</td></tr></thead><tbody>";
-		
-		try{
-		$.each(errors,function(index,value){
+		var isValidFilter = function(filter_value,filter_category,success_callback){
 			
-		if(errors[index])
-			value = JSON.parse(errors[index]);
-			console.log(value);
-			console.log(value.error);
-			errs+="<tr id='row_"+index+"'><td>"+value.error.code+"</td><td>"+value.error.errno+"</td><td>"+value.error.syscall+"</td><td>"+value.error.fatal+"</td><td>"+value.file_name+"</td><td>"+value.line_number+"</td><td><button id='delete_error_"+index+"'>Delete</button></td></tr>";
+			var validate_string = /^[a-z]([0-9a-z_])+$/i;
+			 if(validate_string.test(filter_value)){
+				 success_callback(filter_value,filter_category);
+			 }
 			
+		};
+		
+		
+		
+		$("#filter_value").on("keyup",function(e){
+			var filter_value = $.trim($("#filter_value").val()),
+				filter_category = $("#filter_fields").val();
+				
+			if(filter_category != "" && filter_category != "Select filter field"){
+				isValidFilter(filter_value,filter_category,function(filter_value,filter_category){
+						var filter_obj = {
+								"filter_value" : filter_value,
+								"filter_category" : filter_category	
+								};
+						
+					switch(selectedErrors.name){
+						   case "database" :
+						   		socket.emit("filter_database_errors",JSON.stringify(filter_obj));
+						   		console.log("Database filter category "+filter_obj.filter_category+" value "+filter_obj.filter_value);
+						   		break;
+						   case "file" :
+							   socket.emit("filter_file_errors",JSON.stringify(filter_obj));
+							   break;
+						   case "system" :
+							   socket.emit("filter_system_errors",JSON.stringify(filter_obj));
+							   break;
+						default:
+							break;
+						   		}
+				});
+				
+			}else{
+				
+				socket.emit("get_printing_providers");
+				
+			}
+			e.preventDefault();
 		});
-		}catch(ex){
-			console.log(ex);
-			
-		}
 		
-		errs += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
-		$("#errors").html(errs);
 		
 		
 		
@@ -68,23 +99,124 @@ var client_system_errors = function(socket){
 			$(this).html(data);
 			}).fadeIn("slow",function(){
 				$("#menu").show("slow");
+				$("#filter_option").fadeOut("slow");
 				attachListeners();
 			});
 		
 		});
 	
 
-	
 	socket.on("database_system_errors",function(errors){
 		
-		populateTable(errors);
+		var errs = "<table border='1'><thead><tr><td>Error Code</td><td>Error Number</td><td>System Call</td><td>Fatal</td><td>File Name</td><td>Line Number</td><td>Operations</td></tr></thead><tbody>";
+		
+		
+		$.each(errors,function(index,value){
+			
+		if(errors[index]){
+			value = JSON.parse(errors[index]);
+			if(value.error.syscall==undefined)
+				value.error.syscall = "N/A";
+			if(value.error.fatal==undefined)
+				value.error.fatal = "N/A";
+			if(value.error.errno==undefined)
+				value.error.errno = "N/A";
+			
+			
+			if(value.error.fatal && value.error.fatal == true)
+			 errs+="<tr style='color:red' id='row_"+index+"'><td>"+value.error.code+"</td><td>"+value.error.errno+"</td><td>"+value.error.syscall+"</td><td>"+value.error.fatal+"</td><td>"+value.file_name+"</td><td>"+value.line_number+"</td><td><button id='delete_error_"+index+"'>Solved</button></td></tr>";
+				else
+					 errs+="<tr id='row_"+index+"'><td>"+value.error.code+"</td><td>"+value.error.errno+"</td><td>"+value.error.syscall+"</td><td>"+value.error.fatal+"</td><td>"+value.file_name+"</td><td>"+value.line_number+"</td><td><button id='delete_error_"+index+"'>Solved</button></td></tr>";
+		}
+		
+		});
+		
+		
+		errs += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
+		$("#errors").html(errs);
+		
+		$.each(errors,function(index,value){
+			
+		
+		$("#delete_error_"+index).on("click",function(e){
+			
+			console.log(index);
+			var objFileError = { 
+				
+				error_code : $("#row_"+index+" td:eq(0)").html(),
+				error_number : $("#row_"+index+" td:eq(1)").html(),
+				error_syscall : $("#row_"+index+" td:eq(2)").html(),
+				error_fatal : $("#row_"+index+" td:eq(3)").html(),
+				error_file_name : $("#row_"+index+" td:eq(4)").html(),
+				error_line_number : $("#row_"+index+" td:eq(5)").html()
+			};
+			
+			
+			socket.emit("delete_database_system_error",JSON.stringify(objFileError));
+			e.preventDefault();
+		});
+		
+	});
+		
+		
+		$("#filter_option").fadeIn("slow");
+		selectedErrors.name = "database";
 		
 		
 	});
 	
 	socket.on("system_errors",function(errors){
 		
-		populateTable(errors);
+		var errs = "<table border='1'><thead><tr><td>Error Code</td><td>Error Number</td><td>System Call</td><td>Fatal</td><td>File Name</td><td>Line Number</td><td>Operations</td></tr></thead><tbody>";
+		
+		$.each(errors,function(index,value){
+			
+		if(errors[index]){
+			value = JSON.parse(errors[index]);
+			if(value.error.syscall==undefined)
+				value.error.syscall = "N/A";
+			if(value.error.fatal==undefined)
+				value.error.fatal = "N/A";
+			if(value.error.errno==undefined)
+				value.error.errno = "N/A";
+			
+			
+			if(value.error.fatal && value.error.fatal == true)
+			 errs+="<tr style='color:red' id='row_"+index+"'><td>"+value.error.code+"</td><td>"+value.error.errno+"</td><td>"+value.error.syscall+"</td><td>"+value.error.fatal+"</td><td>"+value.file_name+"</td><td>"+value.line_number+"</td><td><button id='delete_error_"+index+"'>Solved</button></td></tr>";
+				else
+					 errs+="<tr id='row_"+index+"'><td>"+value.error.code+"</td><td>"+value.error.errno+"</td><td>"+value.error.syscall+"</td><td>"+value.error.fatal+"</td><td>"+value.file_name+"</td><td>"+value.line_number+"</td><td><button id='delete_error_"+index+"'>Solved</button></td></tr>";
+		}
+		
+		});
+		
+		
+		errs += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
+		$("#errors").html(errs);
+		
+		$.each(errors,function(index,value){
+		
+			$("#delete_error_"+index).on("click",function(e){
+			
+				console.log(index);
+				var objFileError = { 
+						error_code : $("#row_"+index+" td:eq(0)").html(),
+						error_number : $("#row_"+index+" td:eq(1)").html(),
+						error_syscall : $("#row_"+index+" td:eq(2)").html(),
+						error_fatal : $("#row_"+index+" td:eq(3)").html(),
+						error_file_name : $("#row_"+index+" td:eq(4)").html(),
+						error_line_number : $("#row_"+index+" td:eq(5)").html()
+					};
+			
+			
+			socket.emit("delete_system_error",JSON.stringify(objFileError));
+			e.preventDefault();
+		});
+		
+		
+		});
+		
+		$("#filter_option").fadeIn("slow");
+		selectedErrors.name = "database";
 		
 	});
 	
@@ -92,45 +224,81 @@ var client_system_errors = function(socket){
 		
 		var errs = "<table border='1'><thead><tr><td>Error Code</td><td>Error Number</td><td>Path</td><td>File Name</td><td>Line Number</td><td>Operations</td></tr></thead><tbody>";
 		
-		try{
+		
 		$.each(errors,function(index,value){
 			
-		if(errors[index])
+		if(errors[index]){
 			value = JSON.parse(errors[index]);
-			console.log(value);
-			console.log(value.error);
-			errs+="<tr id='row_"+index+"'><td>"+value.error.code+"</td><td>"+value.error.errno+"</td><td>"+value.error.path+"</td><td>"+value.file_name+"</td><td>"+value.line_number+"</td><td><button id='delete_error_"+index+"'>Delete</button></td></tr>";
+			errs+="<tr id='row_"+index+"'><td>"+value.error.code+"</td><td>"+value.error.errno+"</td><td>"+value.error.path+"</td><td>"+value.file_name+"</td><td>"+value.line_number+"</td><td><button id='delete_error_"+index+"'>Solved</button></td></tr>";
 			
+			}
+		
 		});
-		}catch(ex){
-			console.log(ex);
-			
-		}
+		
 		
 		errs += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
 		$("#errors").html(errs);
 		
+		$.each(errors,function(index,value){
+		
+		$("#delete_error_"+index).on("click",function(e){
+			
+			console.log(index);
+			var objFileError = { 
+				error_code : $("#row_"+index+" td:eq(0)").html(),
+				error_number : $("#row_"+index+" td:eq(1)").html(),
+				error_path : $("#row_"+index+" td:eq(2)").html(),
+				error_file_name : $("#row_"+index+" td:eq(3)").html(),
+				error_line_number : $("#row_"+index+" td:eq(4)").html()
+			};
+			
+			
+			socket.emit("delete_file_system_error",JSON.stringify(objFileError));
+			e.preventDefault();
+		});
+		
+		});
+		
+		$("#filter_option").fadeIn("slow");
+		selectedErrors.name = "file";
 		
 	});
 	
+
 	socket.on("get_database_log_error",function(){
 		
-		
+		$("#filter_option").fadeOut("slow");
+		$("#errors").html("Error retrieving database errors.");
 		
 	});
 	
 	socket.on("get_file_log_error",function(){
-		
-		
+		$("#filter_option").fadeOut("slow");
+		$("#errors").html("Error retrieving file errors.");
 		
 	});
 	
 	socket.on("get_system_log_error",function(){
 		
+		$("#filter_option").fadeOut("slow");
+		$("#errors").html("Error retrieving system errors.");
 		
 		
 	});
 	
+	}catch(error){
+		
+		console.log(error);
+		
+		var objError = {
+				"error" : error.message,
+				"file_name" : "client_system_errors.js",
+				"line_number" : 1
+		};
+		
+		socket.emit("log_system_error",JSON.stringify(objError));
+		
+	}
 	
 	
 };

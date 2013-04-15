@@ -63,7 +63,7 @@
 	
 }
 	
-	io.sockets.on("connection",function(client){
+   io.sockets.on("connection",function(client){
 		
 		
 		require("./orderhistory_logic").order(client,fs);
@@ -79,6 +79,8 @@
 		require("./service_providers_logic").service_providers(client,fs);
 		require("./web_content.js").web_content(client,fs);
 		require("./js/system_errors").system_errors(client,fs);
+		require("./js/end_users").end_users(client,fs);
+		require("./js/data_access/watcher").watcher(client,fs);
 		
 		
 		

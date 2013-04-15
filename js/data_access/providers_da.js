@@ -4,6 +4,8 @@ var startup_da_parent = require("./startup_da_parent");
 
 	var getPrintingProviders = function(client){
 	
+		try{
+		
 		var mysql_con = startup_da_parent.connection();
 		    mysql_con.connect();
 		    var query = "SELECT f_name,l_name,username,email_address,physical_address,operating_area,service_code FROM Photographers";
@@ -31,10 +33,20 @@ var startup_da_parent = require("./startup_da_parent");
 		    	client.emit("printing_providers_fields",JSON.stringify(provider_fields));
 		    });
 		    
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "providers_da.js",
+			line_number = 5;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		}
+		    
 	};
 	
 	var submitPrintingProvider = function(client,provider){
 			
+		try{
+		
 		   	var objProvider = JSON.parse(provider),
 		   	    service_code = 1;
 			var mysql_con = startup_da_parent.connection();
@@ -53,10 +65,22 @@ var startup_da_parent = require("./startup_da_parent");
 					
 						client.emit("provider_submitted");
 				});	
+				
+				
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "providers_da.js",
+			line_number = 46;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		}	
+				
+				
 	};
 	
 	var filterServiceProviders = function(client,filter_category,filter_value){
 		
+		try{
 		
 		var mysql_con = startup_da_parent.connection();
 			mysql_con.connect();
@@ -78,9 +102,20 @@ var startup_da_parent = require("./startup_da_parent");
 		    	client.emit("printing_providers",JSON.stringify(providers));
 				
 			});
+			
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "providers_da.js",
+			line_number = 81;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		}
+			
 	};
 	
 	var deleteServiceProvider = function(client,username){
+		
+		try{
 		
 		var mysql_con = startup_da_parent.connection();
 			mysql_con.connect();
@@ -96,10 +131,23 @@ var startup_da_parent = require("./startup_da_parent");
 			    		getPrintingProviders(client);
 			    		
 			    });
+			    
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "providers_da.js",
+			line_number = 116;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		} 
+			    
+			    
 	};
 	
 	
 	var updateServiceProvider = function(client,objProvider){
+		
+		
+		try{
 		
 		var mysql_con = startup_da_parent.connection();
 			mysql_con.connect();
@@ -116,10 +164,23 @@ var startup_da_parent = require("./startup_da_parent");
 							getPrintingProviders(client);
 				
 				});
+				
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "providers_da.js",
+			line_number = 147;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		}
+				
+				
 		};
 		
 		
 	var updateProviderPassword = function(client,old_password,new_password,username){
+		
+		
+		try{
 		
 		var mysql_con = startup_da_parent.connection();
 		mysql_con.connect();
@@ -135,12 +196,23 @@ var startup_da_parent = require("./startup_da_parent");
 				},function(client){
 					client.emit("password_updated");
 			});
+			
+			
+	}catch(error){
+		// System error logging
+		console.log(error);
+		var file_name = "providers_da.js",
+		line_number = 180;
+		startup_da_parent.logSystemError(error,file_name,line_number);
+	}
 		
 		
 	};	
 	
 	
 	var getAllOperatingAreas = function(client){
+		
+		try{
 		
 		var mysql_con = startup_da_parent.connection();
 		mysql_con.connect();
@@ -162,9 +234,19 @@ var startup_da_parent = require("./startup_da_parent");
 	    	client.emit("operating_areas",JSON.stringify(operating_areas));
 		});
 		
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "providers_da.js",
+			line_number = 213;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		}
+		
 	};
 	
 	var isProviderUsernameTaken = function(client,username){
+		
+		try{
 		
 		var mysql_con = startup_da_parent.connection();
 		mysql_con.connect();
@@ -184,11 +266,21 @@ var startup_da_parent = require("./startup_da_parent");
 			}
 		});
 		
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "providers_da.js",
+			line_number = 247;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		}
+		
 		
 	};
 	
 	var validateProvider = function(client,username,password){
 		
+		
+		try{
 		
 		var mysql_con = startup_da_parent.connection();
 		mysql_con.connect();
@@ -218,10 +310,20 @@ var startup_da_parent = require("./startup_da_parent");
 					}
 		});
 		
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "providers_da.js",
+			line_number = 280;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		}
+		
 		
 	};
 	
 	var getProviderEditableInfo = function(client,username){
+		
+		try{
 		
 		var mysql_con = startup_da_parent.connection();
 		mysql_con.connect();
@@ -252,9 +354,20 @@ var startup_da_parent = require("./startup_da_parent");
 	    	
 		});
 		
+		
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "providers_da.js",
+			line_number = 324;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		}
+		
 	};
 	
 	var updateProviderInfo = function(client,objProvider){
+		
+		try{
 		
 		var mysql_con = startup_da_parent.connection();
 		mysql_con.connect();
@@ -273,8 +386,14 @@ var startup_da_parent = require("./startup_da_parent");
 					
 					client.emit("provider_edit_success");
 			});
-		
-		
+			
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "providers_da.js",
+			line_number = 368;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		}
 		
 	};
 	
@@ -290,3 +409,5 @@ var startup_da_parent = require("./startup_da_parent");
 	exports.validateProvider = validateProvider;
 	exports.getProviderEditableInfo = getProviderEditableInfo;
 	exports.updateProviderInfo = updateProviderInfo;
+	exports.logSystemError = startup_da_parent.logSystemError;
+	

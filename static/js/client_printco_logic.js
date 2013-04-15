@@ -2,6 +2,8 @@
 
 var client_printco = function(socket){
 	
+	try{
+	
 	var validateLogin = function(username,password,catcha){
 		var isValid = true;
 		
@@ -138,5 +140,19 @@ var client_printco = function(socket){
 		console.log("Content added");
 		
 	});
+	
+	}catch(error){
+		
+		console.log(error);
+		
+		var objError = {
+				"error" : error.message,
+				"file_name" : "client_printco_logic.js",
+				"line_number" : 1
+		};
+		
+		socket.emit("log_system_error",JSON.stringify(objError));
+		
+	}
 	
 };

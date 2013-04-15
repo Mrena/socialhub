@@ -16,3 +16,4 @@ var getPrintingProviders = function(client){
 
 
 exports.printingProviders = printingProviders;
+exports.logSystemError = startup_da_parent.logSystemError;

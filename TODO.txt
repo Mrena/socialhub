@@ -6,8 +6,13 @@
 - Admin should be able to filter service providers by a selected field. done
 - Admin should be able to edit service provider details. done
 - Admin should be able to delete service providers. done
+- Admin should be able to choose to receive SMS and/or E-Mail alerts about different types of errors, when a new provider signs up, when a new user signs up.
+  The options should be in a form of check boxes.
+ - Admin should be able to create accounts with less previlages, which can do some of the system administration functionality.  
 - Have a service provider area where service providers can see information about a delivery and download pictures they need to print and deliver, statistics of their sales are doing, submit information about additional services they would like to offer through the system and be able to edit their information.
 - Users should be able to rate a service provider after they have had their pictures, and/or extras delivered.
+- encrypt a user's password for saving into a database and decrypt in for editing
+- Use a base64 string for saving images into a database or simply dealing with images
 --- Photo Upload ---
 - A user should be able to upload more than one picture
 - A user should be able to preview the uploaded pictures on a photo viewer on the right hand side of the upload form
@@ -18,7 +23,10 @@
 - A user should be able to associate his/her account with a username and password if they wish to be able to use the system on other computers/devices and have their transaction recorded as if they were using their computer.
 - Users should be able to re-order an order, and edit and re-order
 - Admin should be able view all orders ever made.
+- Admin should be able to filter database system and file system errors by any field.
 -- Additional Services a service provider can offer --
 - To make an album out of uploaded images
 - To make a custom slideshow cd out of uploaded images
 - To make a custom video out of small videos uploaded
+- A service provider should be able to choose whether he/she wants to receive SMS/E-Mail alerts when new orders they will have to fulfill are made. 
+  The options should be in a form of radio buttons

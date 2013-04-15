@@ -43,7 +43,9 @@ var startup_da_logs = require("./startup_da_logs");
 		startup_da_logs.createLogFiles(client);
 	};
 	
-exports.createDatabase = createDatabase;
-exports.createLogFiles = createLogFiles;
-exports.createTables = createTables;
-exports.addSampleData = addSampleData;
+	exports.createDatabase = createDatabase;
+	exports.createLogFiles = createLogFiles;
+	exports.createTables = createTables;
+	exports.addSampleData = addSampleData;
+	exports.logSystemError = startup_da_parent.logSystemError;
+	

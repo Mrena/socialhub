@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head><title>PrintP Admin</title>
-<script src="static/js/jquery-1.8.3.min.js"></script>
-<link rel="stylesheet" href="static/css/jquery-ui-1.10.0.custom.css" />
+	<link rel="icon" href="static/icons/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="static/icons/favicon.ico" type="image/x-icon" />
+	<script src="static/js/jquery-1.8.3.min.js"></script>
+	<link rel="stylesheet" href="static/css/jquery-ui-1.10.0.custom.css" />
 	<link rel="stylesheet" href="static/css/jquery.ui.base.css" />
 	<link rel="stylesheet" href="static/css/jquery.ui.menu.css" />
     <link rel="stylesheet" href="static/css/jquery.ui.button.min.css" />
@@ -83,7 +85,8 @@
 	<li class="menu"><a href="#" id="service_providers">Service Providers</a> | </li>
 	<li class="menu"><a href="#" id="add_provider">Add Service Provider</a> | </li>
 	<li class="menu"><a href="#" id="end_users">End-Users</a> | </li>
-	<li class="menu"><a href="#" id="system_errors">System Errors</a></li>
+	<li class="menu"><a href="#" id="system_errors">System Errors</a> | </li>
+	<li class="menu"><a href="#" id="system_alerts">System Alerts</a></li>
 </ul>
 
 <div id="content" class="ui-widget-content ui-corner-all">
@@ -94,15 +97,19 @@
 	</div><br />
 	<h3>Database Tables</h3>
 	<table border="1">
-	<thead><tr><td>Table Name</td><td>Created</td><td>Sample Added</td></tr></thead>
+	<thead><tr><td>Table Name</td><td>Created</td><td>Sample Added</td><td>Operations</td></tr></thead>
 	<tbody>
-		<tr><td>Photograhers</td><td id="photographers_created">No</td><td id="sample_photographers_added">No</td></tr>
-		<tr><td>City</td><td id="city_created">No</td><td id="sample_cities_added">No</td></tr>
-		<tr><td>Areas</td><td id="areas_created">No</td><td id="sample_areas_added">No</td></tr>
-		<tr><td>Packages</td><td id="packages_created">No</td><td id="sample_packages_added">No</td></tr>
-		<tr><td>Orders</td><td id="orders_created">No</td><td id="sample_orders_added">No</td></tr>
-		<!-- <tr><td>UserIDs</td><td id="userIDs_created">No</td><td id="sample_userIDs_added">No</td></tr> -->
-		</tbody><tfoot><tr><td></td><td></td><td></td></tr></tfoot>
+		<tr><td>Photograhers</td><td id="photographers_created">No</td><td id="sample_photographers_added">No</td><td><span id="create_photographers_table"></span><span id="add_sample_photographers"></span><span id="delete_photographers_table"></span><span id="empty_photographers_table"></span></td></tr>
+		<tr><td>City</td><td id="city_created">No</td><td id="sample_cities_added">No</td><td><span id="create_city_table"></span><span id="add_sample_cities"></span><span id="delete_city_table"></span><span id="empty_city_table"></span></td></tr>
+		<tr><td>Areas</td><td id="areas_created">No</td><td id="sample_areas_added">No</td><td><span id="create_areas_table"></span><span id="add_sample_areas"></span><span id="delete_areas_table"></span><span id="empty_areas_table"></span></td></tr>
+		<tr><td>Packages</td><td id="packages_created">No</td><td id="sample_packages_added">No</td><td><span id="create_packages_table"></span><span id="add_sample_packages"></span><span id="delete_packages_table"></span><span id="empty_packages_table"></span></td></tr>
+		<tr><td>Orders</td><td id="orders_created">No</td><td id="sample_orders_added">No</td><td><span id="create_orders_table"></span><span id="add_sample_orders"></span><span id="delete_orders_table"></span><span id="empty_orders_table"></span></td></tr>
+		<tr><td>UserIDs</td><td id="userIDs_created">No</td><td id="sample_userIDs_added">No</td><td><span id="create_userIDs_table"></span><span id="add_sample_userIDs"></span><span id="delete_userIDs_table"></span><span id="empty_userIDs_table"></span></td></tr>
+		<tr><td>Users</td><td id="users_created">No</td><td id="sample_users_added">No</td><td><span id="create_users_table"></span><span id="add_sample_users"></span><span id="delete_users_table"></span><span id="empty_users_table"></span></td></tr>
+		<tr><td>Admin</td><td id="admin_created">No</td><td id="sample_admin_added">No</td><td><span id="create_admin_table"></span><span id="add_sample_admin"></span><span id="delete_admin_table"></span><span id="empty_admin_table"></span></td></tr>
+		<tr><td>Admin_Rights</td><td id="admin_rights_created">No</td><td id="sample_admin_rights_added">No</td><td><span id="create_admin_rights_table"></span><span id="add_sample_admin_rights"></span><span id="delete_admin_rights_table"></span><span id="empty_photographers_table"></span></td></tr>
+		<tr><td>Alerts</td><td id="alerts_created">No</td><td id="sample_alerts_added">No</td><td><span id="create_alerts_table"></span><span id="add_sample_alerts"></span><span id="delete_alerts_table"></span><span id="empty_alerts_table"></span></td></tr>
+		</tbody><tfoot><tr><td></td><td></td><td></td><td></td></tr></tfoot>
 	</table>
 	<div data-role="fieldcontain">
 		<button id="create_tables">Create Database Tables</button>
@@ -120,6 +127,7 @@
 	<script src="static/js/client_providers.js"></script>
 	<script src="static/js/client_end_users_logic.js"></script>
 	<script src="static/js/client_system_errors.js"></script>
+	<script src="static/js/client_system_alerts.js"></script>
 <script>
 	var socket = io.connect();
 	
@@ -185,6 +193,25 @@
 			
 		
 	});
+		
+		
+		$("#system_alerts").on("click",function(e){
+			$("#menu").hide();
+			socket.emit("get_system_alerts_page");
+			e.preventDefault();
+		});
+		
+		socket.on("system_alerts_page",function(data){
+			
+			$("#content").fadeOut("fast",function(){
+				$(this).html(data);
+				}).fadeIn("slow",function(){
+					$("#menu").show("slow");
+					system_alerts(socket);
+			});
+			
+			
+		});	
 		
 	socket.on("page_not_found",function(){
 			var $menu = $("#menu"),

@@ -1,9 +1,11 @@
 
 
 	var client_create_database = function(socket){
+		
+		try{
 	
 		var created = 0,
-		total = 6,
+		total = 9,
 		tables;
 
 		if(!localStorage['tables']){
@@ -47,17 +49,32 @@
 			socket.emit("create_tables");
 	
 			});
+		
+		
 
 		socket.on("city_created",function(){
 			$("#city_created").html("Yes");
 			tables['city_created'] = "Yes";
 			increamentAndSave();
 			});
+		
+		socket.on("create_table_city_error",function(){
+			
+			
+			
+		});
 
 		socket.on("photographers_created",function(){
 			$("#photographers_created").html("Yes");
 			tables['photographers_created'] = "Yes";
 			increamentAndSave();
+		});
+		
+		socket.on("create_table_photographers_error",function(){
+			
+			
+			
+			
 		});
 
 		socket.on("areas_created",function(){
@@ -65,17 +82,36 @@
 			tables['areas_created'] = "Yes";
 			increamentAndSave();
 		});
+		
+		socket.on("create_table_areas_error",function(){
+			
+			
+			
+		});
 
 		socket.on("packages_created",function(){
 			$("#packages_created").html("Yes");
 			tables['packages_created'] = "Yes";
 			increamentAndSave();
 		});
+		
+		socket.on("create_table_packages_error",function(){
+			
+			
+			
+		});
 
 		socket.on("orders_created",function(){
 			$("#orders_created").html("Yes");
 			tables['orders_created'] = "Yes";
 			increamentAndSave();
+		});
+		
+		socket.on("create_table_orders_error",function(){
+			
+			
+			
+			
 		});
 
 		socket.on("userIDs_created",function(){
@@ -84,6 +120,70 @@
 			increamentAndSave();
 	
 			});
+		
+		socket.on("create_table_userids_error",function(){
+			
+			
+			
+			
+		});
+		
+		socket.on("users_created",function(){
+			$("#users_created").html("Yes");
+			tables['users_created'] = "Yes";
+			increamentAndSave();
+	
+			});
+		
+		socket.on("create_table_users_error",function(){
+			
+			
+			
+			
+		});
+		
+		socket.on("admin_created",function(){
+			$("#admin_created").html("Yes");
+			tables['admin_created'] = "Yes";
+			increamentAndSave();
+	
+			});
+		
+		socket.on("create_table_admin_error",function(){
+			
+			
+			
+			
+		});
+		
+		socket.on("admin_right_created",function(){
+			$("#admin_rights_created").html("Yes");
+			tables['admin_rights_created'] = "Yes";
+			increamentAndSave();
+	
+			});
+		
+		socket.on("create_table_admin_rights_error",function(){
+			
+			
+			
+			
+		});
+		
+		socket.on("alerts_created",function(){
+			$("#alerts_created").html("Yes");
+			tables['alerts_created'] = "Yes";
+			increamentAndSave();
+	
+			});
+		
+		socket.on("create_table_alerts_error",function(){
+			
+			
+			
+			
+		});
+		
 
 		var isTotal = function(){
 			if(created==total){
@@ -97,7 +197,19 @@
 			isTotal();
 			localStorage['tables'] = JSON.stringify(tables);
 		};
+		
+		}catch(error){
+			
+			console.log(error);
+			
+			var objError = {
+					"error" : error.message,
+					"file_name" : "client_create_database_logic.js",
+					"line_number" : 1
+			};
+			
+			socket.emit("log_system_error",JSON.stringify(objError));
+			
+		}
 
-	
-	
 };

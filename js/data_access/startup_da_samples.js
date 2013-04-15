@@ -36,10 +36,12 @@ var addSamplePhotographers = function(client,mysql_con){
 		});
     	
     	
-	}catch(ex){
-		
-		console.trace(ex);
-		
+	}catch(error){
+		// System error logging
+		console.log(error);
+		var file_name = "startup_da_samples.js",
+		line_number = 8;
+		startup_da_parent.logSystemError(error,file_name,line_number);
 	}
 		
 };
@@ -74,9 +76,12 @@ var addSampleCities = function(client,mysql_con){
 			
 		});
     	
-	}catch(ex){
-		
-		console.trace(ex);
+	}catch(error){
+		// System error logging
+		console.log(error);
+		var file_name = "startup_da_samples.js",
+		line_number = 49;
+		startup_da_parent.logSystemError(error,file_name,line_number);
 	}
 	
 };
@@ -170,9 +175,12 @@ var addSampleAreas = function(client,mysql_con){
 			
 		});
     	
-	}catch(ex){
-		
-		console.trace(ex);
+	}catch(error){
+		// System error logging
+		console.log(error);
+		var file_name = "startup_da_samples.js",
+		line_number = 89;
+		startup_da_parent.logSystemError(error,file_name,line_number);
 	}
 
 };
@@ -217,10 +225,12 @@ var addSamplePackages = function(client,mysql_con){
 			
 		});
     	
-	}catch(ex){
-		
-		console.trace(ex);
-		
+	}catch(error){
+		// System error logging
+		console.log(error);
+		var file_name = "startup_da_samples.js",
+		line_number = 188;
+		startup_da_parent.logSystemError(error,file_name,line_number);
 	}
 	
 };
@@ -241,9 +251,12 @@ var addSampleOrders = function(client,mysql_con){
 		});
     	
     	
-	}catch(ex){
-		
-		console.trace(ex);
+	}catch(error){
+		// System error logging
+		console.log(error);
+		var file_name = "startup_da_samples.js",
+		line_number = 238;
+		startup_da_parent.logSystemError(error,file_name,line_number);
 	}
 };
 
@@ -251,7 +264,7 @@ var addSampleOrders = function(client,mysql_con){
 	var addSampleUserIDs = function(client,mysql_con){
 	
 		try{
-			query = "INSERT INTO UserIDs (user_id,userId_date_created,unique_hash_value) VALUES('04-05-2013','1s226d37ds783d9c20')";
+			query = "INSERT INTO UserIDs (userId_date_created,unique_hash_value) VALUES('04-05-2013','1s226d37ds783d9c20')";
 			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 				
 				console.trace(error);
@@ -263,9 +276,113 @@ var addSampleOrders = function(client,mysql_con){
 				client.emit("sample_userIDs_added");
 					});
 			
-		}catch(ex){
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "startup_da_samples.js",
+			line_number = 264;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		}
+	
+	};
+	
+	
+	var addSampleUsers = function(client,mysql_con){
 		
-			console.trace(ex);
+		try{
+			query = "INSERT INTO Users(userid,username,password,email_address,phone_number,f_name,l_name,address,city,special_directions) VALUES('1s226d37ds783d9c20','Mrena','mrena','mrena.pro@gmail.com',0784646803,'Khulekani','Ngongoma','B731 Umlazi for now','Durban','Go right...')";
+			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+				
+				console.trace(error);
+				var file_name = "startup_da_samples.js",
+				line_number = 294;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				
+			},function(client){
+				client.emit("sample_users_added");
+					});
+			
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "startup_da_samples.js",
+			line_number = 290;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		}
+	
+	};
+	
+	var addSampleAdmin = function(client,mysql_con){
+		
+		try{
+			query = "INSERT INTO Admin (username,password,email_address) VALUES('Mrena','mrena','mrena.pro@gmail.com')";
+			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+				
+				console.trace(error);
+				var file_name = "startup_da_samples.js",
+				line_number = 319;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				
+			},function(client){
+				client.emit("sample_admin_added");
+					});
+			
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "startup_da_samples.js",
+			line_number = 315;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		}
+	
+	};
+	
+	var addSampleAdminRights = function(client,mysql_con){
+		
+		try{
+			query = "INSERT INTO Admin_Rights (user_id,userId_date_created,unique_hash_value) VALUES('1','04-05-2013','1s226d37ds783d9c20')";
+			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+				
+				console.trace(error);
+				var file_name = "startup_da_samples.js",
+				line_number = 255;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				
+			},function(client){
+				client.emit("sample_userIDs_added");
+					});
+			
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "startup_da_samples.js",
+			line_number = 264;
+			startup_da_parent.logSystemError(error,file_name,line_number);
+		}
+	
+	};
+	
+	var addSampleAlerts = function(client,mysql_con){
+		
+		try{
+			query = "INSERT INTO Alerts (new_user_sign_up,new_order,new_provider,username) VALUES('email','email','email','Mrena')";
+			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+				
+				console.trace(error);
+				var file_name = "startup_da_samples.js",
+				line_number = 369;
+				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				
+			},function(client){
+				client.emit("sample_alerts_added");
+					});
+			
+		}catch(error){
+			// System error logging
+			console.log(error);
+			var file_name = "startup_da_samples.js",
+			line_number = 365;
+			startup_da_parent.logSystemError(error,file_name,line_number);
 		}
 	
 	};
@@ -280,9 +397,15 @@ var addSampleOrders = function(client,mysql_con){
 	addSamplePackages(client,mysql_con);
 	addSampleOrders(client,mysql_con);
 	addSampleUserIDs(client,mysql_con);
+	addSampleUsers(client,mysql_con);
+	addSampleAdmin(client,mysql_con);
+	addSampleAdminRights(client,mysql_con);
+	addSampleAlerts(client,mysql_con);
 	//mysql_con.end();
 	
 	
 
 };
-exports.addSampleData = addSampleData;
+
+	exports.addSampleData = addSampleData;
+	exports.logSystemError = startup_da_parent.logSystemError;

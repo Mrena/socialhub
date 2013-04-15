@@ -1,0 +1,13 @@
+<p>As a registered customer you will get to use more of our services, and as a you continue to use our services to become a valued customer, you'll get to use even more!</p>
+<table>
+<tr>
+<td>Sign in<br />
+
+
+</td>
+<td>Not registered? Register below<br />
+
+
+</td>
+</tr>
+</table>

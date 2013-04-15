@@ -3,6 +3,9 @@
 	var client_edit_provider_info = function(socket){
 	
 		
+		
+		try{
+		
 		var validateEditInfo = function(f_name,l_name,password,email_address,physical_address){
 			
 			var isValid = true;
@@ -136,6 +139,20 @@
 			$("#update_notification").html("We could not update your details. Please try again later");
 			
 		});
+		
+	}catch(error){
+			
+			console.log(error);
+			
+			var objError = {
+					"error" : error.message,
+					"file_name" : "client_edit_provider_info.js",
+					"line_number" : 1
+			};
+			
+			socket.emit("log_system_error",JSON.stringify(objError));
+			
+		}
 		
 	
 	};
