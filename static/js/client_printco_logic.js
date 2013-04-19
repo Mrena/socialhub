@@ -136,7 +136,6 @@ var client_printco = function(socket){
 			$(this).fadeIn();
 		});
 		
-		//$("html").html(content);
 		console.log("Content added");
 		
 	});

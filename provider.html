@@ -121,22 +121,17 @@
 		
 	 $("#logged").html("Logged as <span id='username'>"+sessionStorage['logged_as']+"</span>");
 	 
-	}
-	else{
+	}else{
 		
 	 socket.emit("redirect_home");
-	 
 	 
 	}
 	
 	socket.on("redirected_home",function(content){
-		
 		$("html").fadeOut("fast",function(){
 			$(this).html(content);
 			$(this).fadeIn();
 		});
-		
-		
 	});
 	
 	socket.on("page_not_found",function(){
@@ -148,7 +143,6 @@
 				$content.html("<div>The requested page could not be found. It may be moved or may never had existed. (0_o)</div>");
 					$content.fadeIn("slow",function(){
 						$menu.show("slow");
-						
 					});
 			  });
 		});

@@ -6,7 +6,7 @@ var getDatabaseSystemErrors = function(client){
 	
 	try{
 		
-	fs.readFile(__dirname+"/log_files/database_system_errors.txt","utf8",function(error,content){
+	fs.readFile(__dirname+"/log_files/database_system_errors.json","utf8",function(error,content){
 		
 		if(error){
 			console.trace(error);
@@ -14,6 +14,7 @@ var getDatabaseSystemErrors = function(client){
 			line_number = 8;
 			startup_da_parent.logFileSystemError(error,file_name,line_number);
 			client.emit("get_database_log_error");
+			
 			
 		}else{
 		
@@ -37,7 +38,7 @@ var getDatabaseSystemErrors = function(client){
 	
 		try{
 			
-		fs.readFile(__dirname+"/log_files/file_system_errors.txt","utf8",function(error,content){
+		fs.readFile(__dirname+"/log_files/file_system_errors.json","utf8",function(error,content){
 			
 			if(error){
 				console.trace(error);
@@ -69,7 +70,7 @@ var getDatabaseSystemErrors = function(client){
 	
 		try{
 			
-		fs.readFile(__dirname+"/log_files/system_errors.txt","utf8",function(error,content){
+		fs.readFile(__dirname+"/log_files/system_errors.json","utf8",function(error,content){
 			
 			if(error){
 				console.trace(error);
@@ -99,7 +100,7 @@ var getDatabaseSystemErrors = function(client){
 		
 		try{
 		
-		fs.readFile(__dirname+"/log_files/system_errors.txt","utf8",function(error,content){
+		fs.readFile(__dirname+"/log_files/system_errors.json","utf8",function(error,content){
 			
 			if(error){
 				
@@ -141,7 +142,7 @@ var getDatabaseSystemErrors = function(client){
 				}
 					
 					
-		fs.writeFile(__dirname+"/log_files/system_errors.txt",JSON.stringify(objs),"utf8",function(error){
+		fs.writeFile(__dirname+"/log_files/system_errors.json",JSON.stringify(objs),"utf8",function(error){
 			
 			if(error){
 				console.trace(error);
@@ -175,7 +176,7 @@ var getDatabaseSystemErrors = function(client){
 	var deleteFileSystemError = function(client,objError){
 		
 		try{
-		fs.readFile(__dirname+"/log_files/file_system_errors.txt","utf8",function(error,content){
+		fs.readFile(__dirname+"/log_files/file_system_errors.json","utf8",function(error,content){
 			
 			if(error){
 				console.trace(error);
@@ -217,7 +218,7 @@ var getDatabaseSystemErrors = function(client){
 								
 					
 					
-	fs.writeFile(__dirname+"/log_files/file_system_errors.txt",errorString,"utf8",function(error){
+	fs.writeFile(__dirname+"/log_files/file_system_errors.json",errorString,"utf8",function(error){
 			
 			if(error){
 				console.trace(error);
@@ -250,7 +251,7 @@ var getDatabaseSystemErrors = function(client){
 		
 		try{
 		
-		fs.readFile(__dirname+"/log_files/database_system_errors.txt","utf8",function(error,content){
+		fs.readFile(__dirname+"/log_files/database_system_errors.json","utf8",function(error,content){
 			
 			if(error){
 				console.trace(error);
@@ -318,7 +319,7 @@ var getDatabaseSystemErrors = function(client){
 				}
 					
 					
-		fs.writeFile(__dirname+"/log_files/database_system_errors.txt",errorString,"utf8",function(error){
+		fs.writeFile(__dirname+"/log_files/database_system_errors.json",errorString,"utf8",function(error){
 			
 			if(error){
 				console.trace(error);
@@ -352,7 +353,7 @@ var getDatabaseSystemErrors = function(client){
 		
 	  var filteredErrors = "";
 	  
-	  fs.readFile(__dirname+"/log_files/database_system_errors.txt","utf8",function(error,content){
+	  fs.readFile(__dirname+"/log_files/database_system_errors.json","utf8",function(error,content){
 			
 			if(error){
 				console.trace(error);
@@ -425,7 +426,7 @@ var getDatabaseSystemErrors = function(client){
 		
 		 var filteredErrors = "";
 		 
-			fs.readFile(__dirname+"/log_files/file_system_errors.txt","utf8",function(error,content){
+			fs.readFile(__dirname+"/log_files/file_system_errors.json","utf8",function(error,content){
 				
 				if(error){
 					console.trace(error);
@@ -494,11 +495,9 @@ var getDatabaseSystemErrors = function(client){
 
 	var filterSystemErrors = function(client,filter_category,filter_value){
 		
-		try{
-		
 		 var filteredErrors = "";
 		 
-		 fs.readFile(__dirname+"/log_files/system_errors.txt","utf8",function(error,content){
+		 fs.readFile(__dirname+"/log_files/system_errors.json","utf8",function(error,content){
 				
 				if(error){
 					console.trace(error);
@@ -552,17 +551,77 @@ var getDatabaseSystemErrors = function(client){
 		}
 		
 		
-		}catch(error){
-			// System error logging
-			console.log(error);
-			var file_name = "system_errors_da.js",
-			line_number = 495;
-			startup_da_parent.logSystemError(error,file_name,line_number);
-		}
+	};
+	
+	var deleteAllFileSystemErrors = function(client){
+		
+		fs.open(__dirname+"/log_files/file_system_errors.json",'w+',function(error,fd){
+			
+			if(error){
+				console.trace(error);
+				var file_name = "system_errors_da.js",
+				line_number = 557;
+				startup_da_parent.logFileSystemError(error,file_name,line_number);
+				
+			}else{
+				
+					console.log("all file system errors deleted");
+					client.emit("all_file_system_errors_deleted");
+					fs.close(fd);
+			}
+			
+		});
+		
+	};
+	
+	var deleteAllDatabaseSystemErrors = function(client){
+		
+		fs.open(__dirname+"/log_files/database_system_errors.json",'w+',function(error,fd){
+			
+			if(error){
+				
+				console.trace(error);
+				var file_name = "system_errors_da.js",
+				line_number = 578;
+				startup_da_parent.logFileSystemError(error,file_name,line_number);
+				
+			}else{
+				
+					console.log("all database system errors deleted");
+					client.emit("all_database_system_errors_deleted");
+					
+					fs.close(fd);
+			}
+			
+		});
 		
 		
 	};
-
+	
+	var deleteAllSystemErrors = function(client){
+		
+		
+		fs.open(__dirname+"/log_files/system_errors.json",'w+',function(error,fd){
+			
+			if(error){
+				
+				console.trace(error);
+				var file_name = "system_errors_da.js",
+				line_number = 603;
+				startup_da_parent.logFileSystemError(error,file_name,line_number);
+				
+			}else{
+				
+					console.log("all system errors deleted");
+					client.emit("all_system_errors_deleted");
+					fs.close(fd);
+			}
+			
+		});
+		
+	};
+	
+	
 	exports.getDatabaseSystemErrors = getDatabaseSystemErrors;
 	exports.getFileSystemErrors = getFileSystemErrors;
 	exports.getSystemErrors = getSystemErrors;
@@ -573,3 +632,7 @@ var getDatabaseSystemErrors = function(client){
 	exports.filterDatabaseErrors = filterDatabaseErrors;
 	exports.filterFileErrors = filterFileErrors;
 	exports.filterSystemErrors = filterSystemErrors;
+	exports.deleteAllSystemErrors = deleteAllSystemErrors;
+	exports.deleteAllFileSystemErrors = deleteAllFileSystemErrors;
+	exports.deleteAllDatabaseSystemErrors = deleteAllDatabaseSystemErrors;
+	

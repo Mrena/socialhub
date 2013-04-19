@@ -184,6 +184,53 @@ var system_errors = function(client,fs){
 		
 	});
 	
+	client.on("delete_all_file_system_errors",function(){
+		
+		try{
+			
+			system_errors_da.deleteAllFileSystemErrors(client);
+			
+			}catch(error){
+				
+				console.log(error);
+				var file_name = "system_errors.js",
+				line_number = 191;
+				system_errors_da.logSystemError(error,file_name,line_number);
+			}
+			
+	});
+	
+	client.on("delete_all_database_system_errors",function(){
+		
+		try{
+			
+			system_errors_da.deleteAllDatabaseSystemErrors(client);
+			
+			}catch(error){
+				
+				console.log(error);
+				var file_name = "system_errors.js",
+				line_number = 207;
+				system_errors_da.logSystemError(error,file_name,line_number);
+			}
+			
+	});
+	
+	client.on("delete_all_system_errors",function(){
+		
+		try{
+			
+			system_errors_da.deleteAllSystemErrors(client);
+			
+			}catch(error){
+				
+				console.log(error);
+				var file_name = "system_errors.js",
+				line_number = 223;
+				system_errors_da.logSystemError(error,file_name,line_number);
+			}
+			
+	});
 	
 	
 };

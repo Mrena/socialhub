@@ -1,1 +1,4 @@
-{"error":{"code":"username is not defined"},"file_name":"client_system_errors.js","line_number":1}
+{"error":{},"file_name":"startup_samples.js","line_number":10}
+{"error":{},"file_name":"startup_samples.js","line_number":10}
+{"error":{},"file_name":"startup_samples.js","line_number":10}
+{"error":{},"file_name":"startup_samples.js","line_number":10}

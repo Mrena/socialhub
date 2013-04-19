@@ -37,7 +37,7 @@
     			border-color : rgb(255,0,0);
     			border-color : rgba(255,0,0,0.4);	
     		}
-    		button {
+    	button {
 	    	height : 30px;
 		}
     		
@@ -54,6 +54,7 @@
 <h4>Send us your image for printing. We will deliver you a high quality print-out right to your door step. Payment on delivery.</h4>
       	<ul id="menu">
     		  <li class="menu"><a href="#" id="home">Home</a>  | </li>
+    		  <li class="menu"><a href="#" id="video_services">Video Services</a>  | </li>
     		  <li class="menu"><a href="#" id="orderhistory"> Order History</a>  | </li>
     		  <li class="menu"><a href="#" id="contact"> Comment</a>  | </li>
     		  <li class="menu"><a href="#" id="about"> About</a>  | </li>
@@ -108,7 +109,7 @@
 <tr><td><label for="number">Phone Number:</label><br /></td><td><input type="tel" name="number" id="number"   /></td></tr>
 <tr><td><label for="location">Location:</label><br /></td><td><select name="location" id="location"   onchange="locationChanged()">
 																<option>Select location</option>
-																</select></td><td><span id="specific"></span></td></td></tr>
+																</select></td><td><span id="specific"></span></td></tr>
 <tr><td><label for="address">Home Address:</label><br /></td><td><textarea name="address" id="address"  ></textarea></td></tr>
 <tr><td><label for="directions">Special directions:</label><br /></td><td><textarea name="directions" id="directions"  ></textarea></td></tr>
 
@@ -116,7 +117,7 @@
 <input type="button" id="save" name="save" title="Saves your current details so you won't have to re-type it later." value="Save" class="ui-button"  /><input type="submit" id="submit" name="submit" value="Send" class="ui-button control" />
 </form>
 
-</div>
+</div><br />
     <footer>
     <div class="ui-widget-content ui-corner-all" style="text-align: right"><a href="#" id="printco">Printing Providers</a> - <a href="#" id="terms">T&C</a></div>
     
@@ -129,6 +130,7 @@
         <script src="static/js/client_printco_logic.js"></script>
         <script src="static/js/client_terms_logic.js"></script>
         <script src="static/js/client_end_users_logic.js"></script>
+        <script src="static/js/client_video_services.js"></script>
         <script src="static/js/logic.js"></script>
 <script type="text/javascript">
 
@@ -141,6 +143,7 @@
 	client_printco(socket);
 	client_terms(socket);
 	client_end_users(socket);
+	client_video_services(socket);
 	
 	
 	

@@ -59,7 +59,7 @@ var logDatabaseSystemError = function(error,file_name,line_number){
 			"line_number" : line_number
 		};
 	
-	fs.appendFile(__dirname+"/log_files/database_system_errors.txt",JSON.stringify(system_error).concat('\n'),'utf8',function(err){
+	fs.appendFile(__dirname+"/log_files/database_system_errors.json",JSON.stringify(system_error).concat('\n'),'utf8',function(err){
 		if(err){
 			console.trace(err);
 			// if we can't read both files email the error to Admin for immediate attention.
@@ -79,7 +79,7 @@ var logFileSystemError = function(error,file_name,line_number){
 			"line_number" : line_number
 		};
 
-	fs.appendFile('./js/data_access/log_files/file_system_errors.txt',JSON.stringify(system_error).concat('\n'),'utf8',function(err){
+	fs.appendFile('./js/data_access/log_files/file_system_errors.json',JSON.stringify(system_error).concat('\n'),'utf8',function(err){
 		if(err){
 			console.trace(err);
 			// if we can't read both files email the error to Admin for immediate attention.
@@ -98,7 +98,7 @@ var logSystemError = function(error,file_name,line_number){
 			"line_number" : line_number
 		};
 
-	fs.appendFile('./js/data_access/log_files/system_errors.txt',JSON.stringify(system_error).concat('\n'),'utf8',function(err){
+	fs.appendFile('./js/data_access/log_files/system_errors.json',JSON.stringify(system_error).concat('\n'),'utf8',function(err){
 		if(err){
 			console.trace(err);
 			// if we can't read both files email the error to Admin for immediate attention.

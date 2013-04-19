@@ -6,7 +6,7 @@ var web_content = function(client,fs){
 		
 		try{
 		
-		fs.readFile("./web_content/provider_deliveries.txt",'utf8',function(error,content){
+		fs.readFile("./web_content/provider_deliveries.html",'utf8',function(error,content){
 			if(error){
 				
 				console.trace(error);
@@ -41,7 +41,7 @@ var web_content = function(client,fs){
 		
 		try{
 		
-		fs.readFile("./web_content/provider_statistics.txt",'utf8',function(error,content){
+		fs.readFile("./web_content/provider_statistics.html",'utf8',function(error,content){
 			if(error){
 				
 				console.trace(error);
@@ -75,7 +75,7 @@ var web_content = function(client,fs){
 		
 	 try{
 		
-		fs.readFile("./web_content/add_provider_services.txt",'utf8',function(error,content){
+		fs.readFile("./web_content/add_provider_services.html",'utf8',function(error,content){
 			if(error){
 				
 				console.trace(error);
@@ -108,7 +108,7 @@ var web_content = function(client,fs){
 		
 	 try{
 		
-		fs.readFile("./web_content/edit_provider_info.txt",'utf8',function(error,content){
+		fs.readFile("./web_content/edit_provider_info.html",'utf8',function(error,content){
 			if(error){
 				
 				console.trace(error);
@@ -141,7 +141,7 @@ client.on("get_system_errors_page",function(){
 		
 	try{
 	
-		fs.readFile("./web_content/system_errors.txt",'utf8',function(error,content){
+		fs.readFile("./web_content/system_errors.html",'utf8',function(error,content){
 			if(error){
 				
 				console.trace(error);
@@ -176,7 +176,7 @@ client.on("get_end_users_page",function(){
 	
 	try{
 	
-	fs.readFile("./web_content/end_users.txt",'utf8',function(error,content){
+	fs.readFile("./web_content/end_users.html",'utf8',function(error,content){
 		if(error){
 			
 			console.trace(error);
@@ -280,7 +280,7 @@ client.on("get_about",function(){
 	
 	try{
 	
-	 fs.readFile("./web_content/about.txt",'utf8',function(error,content){
+	 fs.readFile("./web_content/about.html",'utf8',function(error,content){
 		if(error){
 			
 			console.trace(error);
@@ -313,7 +313,7 @@ client.on("get_contact",function(){
 	
 	try{
 	
-	 fs.readFile("./web_content/contact.txt",'utf8',function(error,content){
+	 fs.readFile("./web_content/contact.html",'utf8',function(error,content){
 		 if(error){
 				
 			 console.trace(error);
@@ -347,7 +347,7 @@ client.on("get_database_content",function(){
 	
 	try{
 	
-	 fs.readFile("./web_content/startup_database.txt",'utf8',function(error,content){
+	 fs.readFile("./web_content/startup_database.html",'utf8',function(error,content){
 		 if(error){
 				
 			 	console.trace(error);
@@ -380,7 +380,7 @@ client.on("get_home",function(){
 	
 	try{
 	
-	 fs.readFile("./web_content/home_content.txt",'utf8',function(error,content){
+	 fs.readFile("./web_content/home_content.html",'utf8',function(error,content){
 		 if(error){
 				
 			 console.trace(error);
@@ -412,7 +412,7 @@ client.on("get_order_history",function(){
 	
 	try{
 	
-	 fs.readFile("./web_content/orderhistory.txt",'utf8',function(error,content){
+	 fs.readFile("./web_content/orderhistory.html",'utf8',function(error,content){
 		 if(error){
 				
 			 console.trace(error);
@@ -446,7 +446,7 @@ client.on("get_printco",function(){
 	
 	try{
 	
-	 fs.readFile("./web_content/printco.txt",'utf8',function(error,content){
+	 fs.readFile("./web_content/printco.html",'utf8',function(error,content){
 		 if(error){
 				
 			 console.trace(error);
@@ -477,7 +477,7 @@ client.on("get_service_providers",function(){
 	
 	try{
 	
-	 fs.readFile("./web_content/service_providers.txt",'utf8',function(error,content){
+	 fs.readFile("./web_content/service_providers.html",'utf8',function(error,content){
 		 if(error){
 				
 			 	console.trace(error);
@@ -511,7 +511,7 @@ client.on("get_terms",function(){
 	
 	try{
 	
-	 fs.readFile("./web_content/terms.txt",'utf8',function(error,content){
+	 fs.readFile("./web_content/terms.html",'utf8',function(error,content){
 		 if(error){
 				
 			 	console.trace(error);
@@ -545,7 +545,7 @@ client.on("get_system_alerts_page",function(){
 	
 	try{
 		
-		 fs.readFile("./web_content/system_alerts.txt",'utf8',function(error,content){
+		 fs.readFile("./web_content/system_alerts.html",'utf8',function(error,content){
 			 if(error){
 					
 				 	console.trace(error);
@@ -579,7 +579,7 @@ client.on("get_sign_in_page",function(){
 	
 	try{
 		
-		 fs.readFile("./web_content/sign_in.txt",'utf8',function(error,content){
+		 fs.readFile("./web_content/sign_in.html",'utf8',function(error,content){
 			 if(error){
 					
 				 	console.trace(error);
@@ -608,8 +608,38 @@ client.on("get_sign_in_page",function(){
 	
 });
 
-
-
+client.on("get_video_services_page",function(){
+	
+	try{
+		
+		 fs.readFile("./web_content/video_services.html",'utf8',function(error,content){
+			 if(error){
+					
+				 	console.trace(error);
+					client.emit("page_not_found");
+					
+					var file_name = "web_content.js",
+					line_number = 615;
+					web_content_parent.logFileSystemError(error,file_name,line_number);
+					
+				}else{
+			 
+					client.emit("video_services_page",content);
+				}
+			
+		});
+		 
+		 
+		}catch(error){
+		
+			console.log(error);
+			var file_name = "web_content.js",
+			line_number = 611;
+			web_content_parent.logSystemError(error,file_name,line_number);
+	} 
+	
+	
+});
 
 };
 

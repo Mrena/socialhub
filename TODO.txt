@@ -8,7 +8,14 @@
 - Admin should be able to delete service providers. done
 - Admin should be able to choose to receive SMS and/or E-Mail alerts about different types of errors, when a new provider signs up, when a new user signs up.
   The options should be in a form of check boxes.
- - Admin should be able to create accounts with less previlages, which can do some of the system administration functionality.  
+- Admin should be able to create accounts with less privilages, which can do some of the system administration functionality.  
+- Admin should not be able to navigate other pages other than the database page, and the system errors page if he has not created all the required tables
+- Admin should have a way to simulate errors
+- In the Admin area when you click the name of the table, you see the currently selected table structure
+- Add date and time in the system errors table
+- Use a web worker to the user is idle, if its exceeds 5 minutes, notify the user that he/she will be logged out in the next minutes. The user needs to press cancel to continue being logged.
+- Table operations should be enabled and disabled appropriately.
+- The system should be able delete all error logs
 - Have a service provider area where service providers can see information about a delivery and download pictures they need to print and deliver, statistics of their sales are doing, submit information about additional services they would like to offer through the system and be able to edit their information.
 - Users should be able to rate a service provider after they have had their pictures, and/or extras delivered.
 - encrypt a user's password for saving into a database and decrypt in for editing
@@ -30,3 +37,7 @@
 - To make a custom video out of small videos uploaded
 - A service provider should be able to choose whether he/she wants to receive SMS/E-Mail alerts when new orders they will have to fulfill are made. 
   The options should be in a form of radio buttons
+
+  Optimization
+  - Use event delegation whenever possible 
+  - send less data to and from the server

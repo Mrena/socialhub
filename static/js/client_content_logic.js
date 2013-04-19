@@ -13,14 +13,15 @@ var client_content = function(socket){
 	});
 	
 	socket.on("contact",function(data){
-		
+		$("#menu").hide();
 		$("#page").fadeOut("slow",function(){
-			$("#page").html(data);
-			$("#page").fadeIn();
+			$(this).html(data);
+			$(this).fadeIn("slow",function(){
+				$("#menu").show("slow");
+			});
 		});
 		
-		
-		});
+	});
 	
 	// end of contact request and response
 	

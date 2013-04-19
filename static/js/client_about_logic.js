@@ -19,11 +19,13 @@ var client_about = function(socket){
 	
 	socket.on("about",function(data){
 		$("#menu").hide();
+		
 		$("#page").fadeOut("slow",function(){
-			$("#page").html(data);
+			$(this).html(data);
 			showOperatingArea();
-			$("#page").fadeIn();
-			$("#menu").show("slow");
+			$("#page").fadeIn("slow",function(){
+				$("#menu").show("slow");
+			});
 		});
 		
 		

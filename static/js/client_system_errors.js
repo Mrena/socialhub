@@ -134,6 +134,24 @@ var client_system_errors = function(socket){
 		
 		errs += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
 		$("#errors").html(errs);
+		$("#errors").append("<br /><button id='delete_all_database_system_errors'>Delete All Database System Errors</button>");
+		
+		$("#delete_all_database_system_errors").on("click",function(e){
+			
+			socket.emit("delete_all_database_system_errors");
+			console.log("delete all database system errors emitted");
+			
+			e.preventDefault();
+		});
+		
+		socket.on("all_database_system_errors_deleted",function(){
+			
+			socket.emit("get_database_system_errors");
+			
+		});
+		
+	
+		
 		
 		$.each(errors,function(index,value){
 			
@@ -192,6 +210,19 @@ var client_system_errors = function(socket){
 		
 		errs += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
 		$("#errors").html(errs);
+		$("#errors").append("<br /><button id='delete_all_system_errors'>Delete All System Errors</button>");
+		$("#delete_all_system_errors").on("click",function(e){
+			
+			socket.emit("delete_all_system_errors");
+			console.log("delete all system errors emitted");
+			e.preventDefault();
+		});
+		
+		socket.on("all_system_errors_deleted",function(){
+			
+			socket.emit("get_system_errors");
+			
+		});
 		
 		$.each(errors,function(index,value){
 		
@@ -238,6 +269,21 @@ var client_system_errors = function(socket){
 		
 		errs += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
 		$("#errors").html(errs);
+		$("#errors").append("<br /><button id='delete_all_file_system_errors'>Delete All File System Errors</button>");
+		
+		$("#delete_all_file_system_errors").on("click",function(e){
+			
+			socket.emit("delete_all_file_system_errors");
+			console.log("delete all file system errors emitted");
+			
+			e.preventDefault();
+		});
+		
+		socket.on("all_file_system_errors_deleted",function(){
+			
+			socket.emit("get_file_system_errors");
+			
+		});
 		
 		$.each(errors,function(index,value){
 		

@@ -1,0 +1,49 @@
+  <div id="err" class="err"> </div>
+    
+    <br />
+<form id="mainForm" enctype="multipart/form-data" action="php/handle_img.php" method="post">
+<input type="hidden" name="MAX_FILE_SIZE" value="5000000" />
+<input type="hidden" name="imgNum" id="imgNum" value="1" />
+ <input type="hidden" id="priceIn" name="priceIn" value="0" />
+    <input type="hidden" id="userId" name="userId" value="null" />
+    <div style="color: teal">Price: <span id="price">R0.00</span></div>
+<table>
+
+
+<tr><td><label for="image">Image:</label></td><td><span id="img"> <input type="file" name="image" id="image" /></span></td><td><!--<a id="add" onclick="addUp()" href="#">another</a><br />--></td></tr>
+<tr><td><label for="printSize">Print Size:</label><br /></td>
+<td><select  name="printSize" id="printSize"   onchange="quantitySizeChanged()">
+<option>Select print size</option>
+</select></td>
+</tr>
+<tr><td><label for="quantity" class="select">Number of images:</label></td><td>
+<select name="quantity" id="quantity"  onchange="quantitySizeChanged()">
+<option>Select quantity</option>
+</select>
+<a id="next" href="#" onclick="nextLinkClicked()">Next</a>
+</td></tr>
+<tr>
+<td><label for="delivery">Delivery method:</label></td>
+<td>
+<select id="delivery">
+   <option value="standard">Standard: 7 day</option>
+   <option value="rush">Rush: 3 days</option>
+   <option value="express">Express: next day</option>
+   <option value="overnight">Overnight</option>
+</select>
+</td>
+</tr>
+
+<tr><td><h4>Your details:</h4></td></tr>
+
+<tr><td><label for="name">Name:</label><br /></td><td><input type="text" name="name" id="name"   /><br /></td></tr>
+<tr><td><label for="number">Phone Number:</label><br /></td><td><input type="tel" name="number" id="number"   /></td></tr>
+<tr><td><label for="location">Location:</label><br /></td><td><select name="location" id="location"   onchange="locationChanged()">
+																<option>Select location</option>
+																</select></td><td><span id="specific"></span></td></td></tr>
+<tr><td><label for="address">Home Address:</label><br /></td><td><textarea name="address" id="address"  ></textarea></td></tr>
+<tr><td><label for="directions">Special directions:</label><br /></td><td><textarea name="directions" id="directions"  ></textarea></td></tr>
+
+</table>
+<input type="button" id="save" name="save" title="Saves your current details so you won't have to re-type it later." value="Save" class="ui-button"  /><input type="submit" id="submit" name="submit" value="Send" class="ui-button control"  />
+</form>

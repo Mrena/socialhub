@@ -27,6 +27,20 @@
 		
 	});
 	
+	expressApp.get("/admin.html",function(request,response){
+		
+		handler(request,response);
+		
+	});
+	
+	expressApp.get("/*",function(request,response){
+		
+		pageNotFound(request,response);
+		
+	});
+	
+	
+	
 	function handler(request,response){
 	
 		var pathname = url.parse(request.url).pathname;
@@ -42,6 +56,8 @@
 		   break;
 		case "/provider.html" :  route(pathname,response);
 		   break;
+		case "/admin.html" : route(pathname,response);
+			break;
 	
 		}
 	}
@@ -63,6 +79,22 @@
 	
 }
 	
+function pageNotFound(request,response){
+	
+fs.readFile(__dirname+"/pagenotfound.html",function(error,data){
+	if(error){
+		response.writeHead(404);
+		response.end("Page not found");
+	}else{
+		response.writeHead(200,{"Content-Type" : "text/html"});
+		response.write(data);
+		response.end();
+		}
+
+	});
+	
+}	
+	
    io.sockets.on("connection",function(client){
 		
 		
@@ -81,6 +113,8 @@
 		require("./js/system_errors").system_errors(client,fs);
 		require("./js/end_users").end_users(client,fs);
 		require("./js/data_access/watcher").watcher(client,fs);
+		require("./js/startup_samples").startup_samples(client,fs);
+		require("./js/startup_tables").startup_tables(client,fs);
 		
 		
 		
