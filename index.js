@@ -94,27 +94,40 @@ fs.readFile(__dirname+"/pagenotfound.html",function(error,data){
 	});
 	
 }	
+
+var startup_da_parent = require(__dirname+"/js/data_access/startup_da_parent");
+var mysql_con;
+ (function(){
+	 
+	 
+	 mysql_con = startup_da_parent.connection();
+	 mysql_con.connect();
+	 
+ })();
+ 
+ console.log(mysql_con);
+
 	
    io.sockets.on("connection",function(client){
 		
 		
-		require("./orderhistory_logic").order(client,fs);
-		require("./contact_logic").contact(client,fs);
-		require("./home_logic").home(client,fs);
-		require("./about_logic").about(client,fs);
-		require("./printco_logic").print(client,fs);
-		require("./terms_logic").terms(client,fs);
-		require("./startup_logic").startup(client,fs);
-		require("./js/providers_logic").providers(client,fs);
-		require("./database_content_logic").database(client,fs);
-		require("./add_provider_logic").provider(client,fs);
-		require("./service_providers_logic").service_providers(client,fs);
-		require("./web_content.js").web_content(client,fs);
-		require("./js/system_errors").system_errors(client,fs);
-		require("./js/end_users").end_users(client,fs);
-		require("./js/data_access/watcher").watcher(client,fs);
-		require("./js/startup_samples").startup_samples(client,fs);
-		require("./js/startup_tables").startup_tables(client,fs);
+		require("./orderhistory_logic").order(client,mysql_con,fs);
+		require("./contact_logic").contact(client,mysql_con,fs);
+		require("./home_logic").home(client,mysql_con,fs);
+		require("./about_logic").about(client,mysql_con,fs);
+		require("./printco_logic").print(client,mysql_con,fs);
+		require("./terms_logic").terms(client,mysql_con,fs);
+		require("./startup_logic").startup(client,mysql_con,fs);
+		require("./js/providers_logic").providers(client,mysql_con,fs);
+		require("./database_content_logic").database(client,mysql_con,fs);
+		require("./add_provider_logic").provider(client,mysql_con,fs);
+		require("./service_providers_logic").service_providers(client,mysql_con,fs);
+		require("./web_content.js").web_content(client,mysql_con,fs);
+		require("./js/system_errors").system_errors(client,mysql_con,fs);
+		require("./js/end_users").end_users(client,mysql_con,fs);
+		require("./js/data_access/watcher").watcher(client,mysql_con,fs);
+		require("./js/startup_samples").startup_samples(client,mysql_con,fs);
+		require("./js/startup_tables").startup_tables(client,mysql_con,fs);
 		
 		
 		

@@ -1,1 +1,10 @@
 {"error":{"code":"ER_DUP_ENTRY","index":0},"file_name":"startup_da_samples.js","line_number":10}
+{"error":{"code":"ER_DUP_ENTRY","index":0},"file_name":"startup_da_samples.js","line_number":53}
+{"error":{"code":"ER_DUP_ENTRY","index":0},"file_name":"startup_da_samples.js","line_number":185}
+{"error":{"code":"ER_DUP_ENTRY","index":0},"file_name":"startup_da_samples.js","line_number":294}
+{"error":{"code":"ER_DUP_ENTRY","index":0},"file_name":"startup_da_samples.js","line_number":319}
+{"error":{"code":"ER_DUP_ENTRY","index":0},"file_name":"startup_da_samples.js","line_number":369}
+{"error":{"code":"ER_NO_SUCH_TABLE","index":0},"file_name":"home_da.js","line_number":10}
+{"error":{"code":"ER_NO_SUCH_TABLE","index":0},"file_name":"home_da.js","line_number":39}
+{"error":{"code":"ER_NO_SUCH_TABLE","index":0},"file_name":"home_da.js","line_number":10}
+{"error":{"code":"ER_NO_SUCH_TABLE","index":0},"file_name":"home_da.js","line_number":39}

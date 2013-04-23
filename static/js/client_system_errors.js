@@ -87,7 +87,6 @@ var client_system_errors = function(socket){
 	};
 	
 	$("#system_errors").on("click",function(e){
-		$("#menu").hide();
 		socket.emit("get_system_errors_page");
 		
 		e.preventDefault();
@@ -95,13 +94,10 @@ var client_system_errors = function(socket){
 	
 	socket.on("system_errors_page",function(data){
 		
-		$("#content").fadeOut("fast",function(){
-			$(this).html(data);
-			}).fadeIn("slow",function(){
-				$("#menu").show("slow");
+			$("#content").html(data);
 				$("#filter_option").fadeOut("slow");
 				attachListeners();
-			});
+			
 		
 		});
 	
@@ -134,7 +130,7 @@ var client_system_errors = function(socket){
 		
 		errs += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
 		$("#errors").html(errs);
-		$("#errors").append("<br /><button id='delete_all_database_system_errors'>Delete All Database System Errors</button>");
+		$("#errors").append("<br /><a href='#' data-role='button' id='delete_all_database_system_errors' class='ui-btn ui-shadow ui-btn-inline ui-btn-up-b'><span class='ui-btn-inner'><span class='ui-btn-text' style='color:white;'>Delete All Database System Errors</span></span></a>");
 		
 		$("#delete_all_database_system_errors").on("click",function(e){
 			
@@ -210,7 +206,7 @@ var client_system_errors = function(socket){
 		
 		errs += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
 		$("#errors").html(errs);
-		$("#errors").append("<br /><button id='delete_all_system_errors'>Delete All System Errors</button>");
+		$("#errors").append("<br /><a href='#' data-role='button' id='delete_all_system_errors' class='ui-btn ui-shadow ui-btn-inline ui-btn-up-b'><span class='ui-btn-inner'><span class='ui-btn-text' style='color:white;'>Delete All System Errors</span></span></a>");
 		$("#delete_all_system_errors").on("click",function(e){
 			
 			socket.emit("delete_all_system_errors");
@@ -269,7 +265,7 @@ var client_system_errors = function(socket){
 		
 		errs += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
 		$("#errors").html(errs);
-		$("#errors").append("<br /><button id='delete_all_file_system_errors'>Delete All File System Errors</button>");
+		$("#errors").append("<br /><a href='#' data-role='button' id='delete_all_file_system_errors' class='ui-btn ui-shadow ui-btn-inline ui-btn-up-b'><span class='ui-btn-inner'><span class='ui-btn-text' style='color:white;'>Delete All File System Errors</span></span></a>");
 		
 		$("#delete_all_file_system_errors").on("click",function(e){
 			

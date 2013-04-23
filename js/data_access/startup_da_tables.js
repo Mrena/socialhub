@@ -3,8 +3,7 @@ var fs = require("fs");
 var startup_da_parent = require("./startup_da_parent");
 
 
-
-var createPhotographersTable = function(mysql_con,client){
+var createPhotographersTable = function(client,mysql_con){
 	
 	
 	var query = "CREATE TABLE IF NOT EXISTS Photographers(f_name VARCHAR(50),l_name VARCHAR(50),username VARCHAR(50) PRIMARY KEY NOT NULL,password VARCHAR(50) NOT NULL,email_address VARCHAR(50) NOT NULL UNIQUE,physical_address VARCHAR(50),operating_area VARCHAR(100) NOT NULL,service_code BINARY)";
@@ -42,7 +41,7 @@ var createPhotographersTable = function(mysql_con,client){
 };
 
 
-var createCityTable = function(mysql_con,client){
+var createCityTable = function(client,mysql_con){
 
 	query = "CREATE TABLE IF NOT EXISTS City(city_id INTEGER PRIMARY KEY AUTO_INCREMENT,name VARCHAR(50) UNIQUE)";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -75,7 +74,7 @@ var createCityTable = function(mysql_con,client){
 };
 
 
-var createAreasTable = function(mysql_con,client){
+var createAreasTable = function(client,mysql_con){
 	
 		query = "CREATE TABLE IF NOT EXISTS Areas(area_id INTEGER PRIMARY KEY AUTO_INCREMENT,city VARCHAR(50) REFERENCES City(name),location VARCHAR(100))";
 		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -110,7 +109,7 @@ var createAreasTable = function(mysql_con,client){
 
 	
 	
-	var createPackagesTable = function(mysql_con,client){
+	var createPackagesTable = function(client,mysql_con){
 		
 			query = "CREATE TABLE IF NOT EXISTS Packages(package_id INTEGER PRIMARY KEY AUTO_INCREMENT,print_size VARCHAR(50) UNIQUE,price DECIMAL)";
 			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -143,7 +142,7 @@ var createAreasTable = function(mysql_con,client){
 	};
 		
 		
-		var createOrdersTable = function(mysql_con,client){
+		var createOrdersTable = function(client,mysql_con){
 			
 				query = "CREATE TABLE IF NOT EXISTS Orders(order_id INTEGER PRIMARY KEY AUTO_INCREMENT,order_from VARCHAR(50) NOT NULL,order_from_id VARCHAR(1000) NOT NULL,order_to VARCHAR(50) NOT NULL,order_date VARCHAR(10) NOT NULL,order_location VARCHAR(50) NOT NULL,order_image_number INTEGER NOT NULL,order_price DECIMAL NOT NUll,order_fullfilled BINARY,order_fullfilled_date VARCHAR(10),order_comments VARCHAR(50))";
 				startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -176,7 +175,7 @@ var createAreasTable = function(mysql_con,client){
 		};
 
 			
-			var createUserIDsTable = function(mysql_con,client){
+			var createUserIDsTable = function(client,mysql_con){
 				
 					query = "CREATE TABLE IF NOT EXISTS UserIDs(user_id INTEGER PRIMARY KEY AUTO_INCREMENT,userId_date_created VARCHAR(50) NOT NULL,userId_hash_value VARCHAR(500) NOT NULL)";
 			    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -209,7 +208,7 @@ var createAreasTable = function(mysql_con,client){
 			   
 			};
 			
-			var createUsersTable = function(mysql_con,client){
+			var createUsersTable = function(client,mysql_con){
 				
 					query = "CREATE TABLE IF NOT EXISTS Users(user_id VARCHAR(500) REFERENCES UserIDs(userID_hash_value),username VARCHAR(50) PRIMARY KEY NOT NULL,password VARCHAR(500) NOT NULL,email_address VARCHAR(50) UNIQUE NOT NULL,phone_number INTEGER NOT NULL,f_name VARCHAR(50),l_name VARCHAR(50),address VARCHAR(50),city VARCHAR(50),special_directions VARCHAR(50))";
 			    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -244,7 +243,7 @@ var createAreasTable = function(mysql_con,client){
 			};
 			
 			
-			var createAdminTable = function(mysql_con,client){
+			var createAdminTable = function(client,mysql_con){
 				
 					query = "CREATE TABLE IF NOT EXISTS Admin(username VARCHAR(50) PRIMARY KEY NOT NULL,password VARCHAR(50) NOT NULL,email_address VARCHAR(50) UNIQUE NOT NULL)";
 			    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -279,7 +278,7 @@ var createAreasTable = function(mysql_con,client){
 			};
 			
 			
-			var createAdminRightsTable = function(mysql_con,client){
+			var createAdminRightsTable = function(client,mysql_con){
 				
 					query = "CREATE TABLE IF NOT EXISTS Admin_Rights(admin_rights_id INTEGER PRIMARY KEY AUTO_INCREMENT, username VARCHAR(50) REFERENCES Admin(username),database_area INTEGER NOT NULL,service_providers_area INTEGER NOT NULL,end_users_area INTEGER NOT NULL, system_errors_area INTEGER NOT NULL, system_alerts_area INTEGER NOT NULL)";
 			    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -311,7 +310,7 @@ var createAreasTable = function(mysql_con,client){
 			  
 			};
 			
-			var createAlertsTable = function(mysql_con,client){
+			var createAlertsTable = function(client,mysql_con){
 				
 					query = "CREATE TABLE IF NOT EXISTS Alerts(new_user_sign_up VARCHAR(5) NOT NULL,new_order VARCHAR(5) NOT NULL,new_provider VARCHAR(5),username VARCHAR(50) REFERENCES Admin(username))";
 			    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -345,7 +344,7 @@ var createAreasTable = function(mysql_con,client){
 			};
 			
 			
-			var createDeliveryMethodTable = function(mysql_con,client){
+			var createDeliveryMethodTable = function(client,mysql_con){
 				
 			
 					query = "CREATE TABLE IF NOT EXISTS DeliveryMethod(name VARCHAR(50) PRIMARY KEY NOT NULL,description VARCHAR(50) NOT NULL,price DOUBLE NOT NULL)";
@@ -379,32 +378,26 @@ var createAreasTable = function(mysql_con,client){
 			  
 			};
 
-var createTables = function(client){
+var createTables = function(client,mysql_con){
 	
   
-    				var mysql_con = startup_da_parent.connection();
-    			    mysql_con.connect();
-    			    createPhotographersTable(mysql_con,client);
-    			    createCityTable(mysql_con,client);
-    			    createAreasTable(mysql_con,client);
-    			    createPackagesTable(mysql_con,client);
-    			    createOrdersTable(mysql_con,client);
-    			    createUserIDsTable(mysql_con,client);
-    			    createUsersTable(mysql_con,client);
-    			    createAdminTable(mysql_con,client);
-    			    createAdminRightsTable(mysql_con,client);
-    			    createAlertsTable(mysql_con,client);
-    			    createDeliveryMethodTable(mysql_con,client);
+    			    createPhotographersTable(client,mysql_con);
+    			    createCityTable(client,mysql_con);
+    			    createAreasTable(client,mysql_con);
+    			    createPackagesTable(client,mysql_con);
+    			    createOrdersTable(client,mysql_con);
+    			    createUserIDsTable(client,mysql_con);
+    			    createUsersTable(client,mysql_con);
+    			    createAdminTable(client,mysql_con);
+    			    createAdminRightsTable(client,mysql_con);
+    			    createAlertsTable(client,mysql_con);
+    			    createDeliveryMethodTable(client,mysql_con);
     			    
-    			    console.log("Tables created");
-    			    //mysql_con.end();	
+    			    console.log("Tables created");	
 
 };
 
-var createTablesTable = function(client){
-	
-		var mysql_con = startup_da_parent.connection();
-		mysql_con.connect();
+var createTablesTable = function(client,mysql_con){
 	
 		query = "CREATE TABLE IF NOT EXISTS Tables(name VARCHAR(50) PRIMARY KEY NOT NULL,created BINARY NOT NULL,samples_added BINARY)";
     	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -438,17 +431,12 @@ var createTablesTable = function(client){
     			
     		});
     		
-    		
-    		
     });
     	
 };
 
 
-var resetSystem = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var resetSystem = function(client,mysql_con){
 	
 	var query = "DROP TABLE admin, admin_rights, alerts, areas, city, deliverymethod, orders, packages, photographers, tables, userids, users";
 	
@@ -469,116 +457,83 @@ var resetSystem = function(client){
 	
 };
 
-var createOnlyPhotographersTable = function(client){
+var createOnlyPhotographersTable = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
-	
-	createPhotographersTable(mysql_con,client);
+	createPhotographersTable(client,mysql_con);
 
 
 };
 
-var createOnlyPackagesTable = function(client){
+var createOnlyPackagesTable = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
-	
-	createPackagesTable(mysql_con,client);
+	createPackagesTable(client,mysql_con);
 	
 };
 
-var createOnlyOrdersTable = function(client){
+var createOnlyOrdersTable = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
-	
-	createOrdersTable(mysql_con,client);
+	createOrdersTable(client,mysql_con);
 	
 };
 
-var createOnlyAreasTable = function(client){
+var createOnlyAreasTable = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
-	
-	createAreasTable(mysql_con,client);
+	createAreasTable(client,mysql_con);
 	
 	
 };
 
-var createOnlyCityTable = function(client){
+var createOnlyCityTable = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
-	
-	createCityTable(mysql_con,client);
+	createCityTable(client,mysql_con);
 	
 	
 };
 
-var createOnlyUserIDsTable = function(client){
+var createOnlyUserIDsTable = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
-	
-	createUserIDsTable(mysql_con,client);
+
+	createUserIDsTable(client,mysql_con);
 	
 	
 };
 
-var createOnlyUsersTable = function(client){
+var createOnlyUsersTable = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
-	
-	createUsersTable(mysql_con,client);
+	createUsersTable(client,mysql_con);
 	
 	
 };
 
-var createOnlyAdminTable = function(client){
+var createOnlyAdminTable = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
-	
-	createAdminTable(mysql_con,client);
+	createAdminTable(client,mysql_con);
 	
 };
 
-var createOnlyAdminRightsTable = function(client){
+var createOnlyAdminRightsTable = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
-	
-	createAdminRightsTable(mysql_con,client);
+	createAdminRightsTable(client,mysql_con);
 	
 };
 
-var createOnlyAlertsTable = function(client){
+var createOnlyAlertsTable = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
-	
-	createAlertsTable(mysql_con,client);
+	createAlertsTable(client,mysql_con);
 	
 };
 
-var createOnlyDeliveryMethodTable = function(client){
+var createOnlyDeliveryMethodTable = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
-	
-	createDeliveryMethodTable(mysql_con,client);
+
+	createDeliveryMethodTable(client,mysql_con);
 	
 	
 };
 
 
-var deletePhotographersTable = function(client){
+var deletePhotographersTable = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
 	
 	var query = "DROP TABLE IF EXISTS Photographers";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -622,10 +577,8 @@ var deletePhotographersTable = function(client){
 	
 };
 
-var deletePackagesTable = function(client){
+var deletePackagesTable = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
 	
 	var query = "DROP TABLE IF EXISTS Packages";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -669,10 +622,7 @@ var deletePackagesTable = function(client){
 	
 };
 
-var deleteOrdersTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var deleteOrdersTable = function(client,mysql_con){
 	
 	var query = "DROP TABLE IF EXISTS Orders";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -716,10 +666,7 @@ var deleteOrdersTable = function(client){
 	
 };
 
-var deleteAreasTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var deleteAreasTable = function(client,mysql_con){
 	
 	var query = "DROP TABLE IF EXISTS Areas";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -763,10 +710,7 @@ var deleteAreasTable = function(client){
 	
 };
 
-var deleteCityTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var deleteCityTable = function(client,mysql_con){
 	
 	var query = "DROP TABLE IF EXISTS City";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -811,10 +755,7 @@ var deleteCityTable = function(client){
 	
 };
 
-var deleteDeliveryMethodTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var deleteDeliveryMethodTable = function(client,mysql_con){
 	
 	var query = "DROP TABLE IF EXISTS DeliveryMethod";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -858,10 +799,7 @@ var deleteDeliveryMethodTable = function(client){
 	
 };
 
-var deleteUserIDsTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var deleteUserIDsTable = function(client,mysql_con){
 	
 	var query = "DROP TABLE IF EXISTS UserIDs";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -907,10 +845,7 @@ var deleteUserIDsTable = function(client){
 	
 };
 
-var deleteUsersTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var deleteUsersTable = function(client,mysql_con){
 	
 	var query = "DROP TABLE IF EXISTS Users";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -954,10 +889,7 @@ var deleteUsersTable = function(client){
 	
 };
 
-var deleteAdminTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var deleteAdminTable = function(client,mysql_con){
 	
 	var query = "DROP TABLE IF EXISTS Admin";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1001,10 +933,7 @@ var deleteAdminTable = function(client){
 	
 };
 
-var deleteAdminRightsTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var deleteAdminRightsTable = function(client,mysql_con){
 	
 	var query = "DROP TABLE IF EXISTS Admin_Rights";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1048,10 +977,7 @@ var deleteAdminRightsTable = function(client){
 	
 };
 
-var deleteAlertsTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var deleteAlertsTable = function(client,mysql_con){
 	
 	var query = "DROP TABLE IF EXISTS Alerts";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1097,10 +1023,7 @@ var deleteAlertsTable = function(client){
 };
 
 
-var emptyPhotographersTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var emptyPhotographersTable = function(client,mysql_con){
 	
 	var query = "TRUNCATE TABLE Photographers";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1132,10 +1055,7 @@ var emptyPhotographersTable = function(client){
 	
 };
 
-var emptyPackagesTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var emptyPackagesTable = function(client,mysql_con){
 	
 		var query = "TRUNCATE TABLE Packages";
 		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1167,10 +1087,7 @@ var emptyPackagesTable = function(client){
 	
 };
 
-var emptyOrdersTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var emptyOrdersTable = function(client,mysql_con){
 	
 	var query = "TRUNCATE TABLE Orders";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1202,10 +1119,7 @@ var emptyOrdersTable = function(client){
 	
 };
 
-var emptyAreasTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var emptyAreasTable = function(client,mysql_con){
 	
 		var query = "TRUNCATE TABLE Areas";
 		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1237,10 +1151,7 @@ var emptyAreasTable = function(client){
 	
 };
 
-var emptyCityTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var emptyCityTable = function(client,mysql_con){
 	
 	var query = "TRUNCATE TABLE City";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1272,10 +1183,7 @@ var emptyCityTable = function(client){
 	
 };
 
-var emptyDeliveryMethodTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var emptyDeliveryMethodTable = function(client,mysql_con){
 	
 	var query = "TRUNCATE TABLE DeliveryMethod";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1307,10 +1215,7 @@ var emptyDeliveryMethodTable = function(client){
 	
 };
 
-var emptyUserIDsTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var emptyUserIDsTable = function(client,mysql_con){
 	
 	var query = "TRUNCATE TABLE UserIDs";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1342,10 +1247,7 @@ var emptyUserIDsTable = function(client){
 	
 };
 
-var emptyUsersTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var emptyUsersTable = function(client,mysql_con){
 	
 	var query = "TRUNCATE TABLE Users";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1377,10 +1279,7 @@ var emptyUsersTable = function(client){
 	
 };
 
-var emptyAdminTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var emptyAdminTable = function(client,mysql_con){
 	
 	var query = "TRUNCATE TABLE Admin";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1412,10 +1311,7 @@ var emptyAdminTable = function(client){
 	
 };
 
-var emptyAdminRightsTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var emptyAdminRightsTable = function(client,mysql_con){
 	
 	var query = "TRUNCATE TABLE Admin_Rights";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1447,10 +1343,7 @@ var emptyAdminRightsTable = function(client){
 	
 };
 
-var emptyAlertsTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var emptyAlertsTable = function(client,mysql_con){
 	
 	var query = "TRUNCATE TABLE Alerts";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1482,10 +1375,7 @@ var emptyAlertsTable = function(client){
 	
 };
 
-var emptyCityTable = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var emptyCityTable = function(client,mysql_con){
 	
 	var query = "TRUNCATE TABLE City";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1518,11 +1408,8 @@ var emptyCityTable = function(client){
 };
 
 
-var getTablesData = function(client){
+var getTablesData = function(client,mysql_con){
 	
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
 	var query = "SELECT * FROM Tables";
 	startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
 		

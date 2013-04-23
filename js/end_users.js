@@ -1,12 +1,12 @@
 var end_users_da = require("./data_access/end_users_da");
 var system_alerts_da = require("./data_access/system_alerts_da");
 
-var end_users = function(client,fs){
+var end_users = function(client,mysql_con,fs){
 	
 	client.on("get_all_end_users",function(){
 		try{
 			
-		end_users_da.getAllEndUsers(client);
+		end_users_da.getAllEndUsers(client,mysql_con);
 		
 		}catch(error){
 			console.log(error);
@@ -22,7 +22,7 @@ var end_users = function(client,fs){
 			
 		objEndUser = JSON.parse(objEndUser);	
 			
-		end_users_da.submitEndUser(client,objEndUser);
+		end_users_da.submitEndUser(client,mysql_con,objEndUser);
 		system_alerts_da.sendUserSignUpAlert(client);
 		
 		}catch(error){
@@ -33,7 +33,6 @@ var end_users = function(client,fs){
 		}
 		
 	});
-	
 	
 	
 };

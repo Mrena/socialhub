@@ -26,6 +26,8 @@ var startup_da_logs = require("./startup_da_logs");
 		
 	
 	};
+	
+	/*
 
 	var createTables = function(client){
 	
@@ -33,7 +35,7 @@ var startup_da_logs = require("./startup_da_logs");
 
 	};
 
-
+*/
 	var addSampleData = function(client){
 	
 		startup_da_samples.addSampleData(client);
@@ -45,7 +47,7 @@ var startup_da_logs = require("./startup_da_logs");
 	
 	exports.createDatabase = createDatabase;
 	exports.createLogFiles = createLogFiles;
-	exports.createTables = createTables;
+	//exports.createTables = createTables;
 	exports.addSampleData = addSampleData;
 	exports.logSystemError = startup_da_parent.logSystemError;
 	

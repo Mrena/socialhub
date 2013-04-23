@@ -16,6 +16,7 @@
 - Use a web worker to the user is idle, if its exceeds 5 minutes, notify the user that he/she will be logged out in the next minutes. The user needs to press cancel to continue being logged.
 - Table operations should be enabled and disabled appropriately.
 - The system should be able delete all error logs
+- The system should track admin actions, e.g who deleted what
 - Have a service provider area where service providers can see information about a delivery and download pictures they need to print and deliver, statistics of their sales are doing, submit information about additional services they would like to offer through the system and be able to edit their information.
 - Users should be able to rate a service provider after they have had their pictures, and/or extras delivered.
 - encrypt a user's password for saving into a database and decrypt in for editing
@@ -37,6 +38,7 @@
 - To make a custom video out of small videos uploaded
 - A service provider should be able to choose whether he/she wants to receive SMS/E-Mail alerts when new orders they will have to fulfill are made. 
   The options should be in a form of radio buttons
+- Develop a Google Chrome plug-in to block all other URLs other than the one of the system, but provide an option to the admin to add more allowed URLs
 
   Optimization
   - Use event delegation whenever possible 

@@ -1,9 +1,10 @@
-<div data-role="fieldset">
-<label for="database_name">Database Name:</label>
-<input type="text" id="database_name" value="PrintP" disabled>
-<!-- <input type="button" id="submit_database_name" value="Create Database">-->
-</div><br />
+
 <h3>Database Tables</h3>
+<div data-role="fieldcontain">
+<a href="#" data-role="button" id="create_tables" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Create Database Tables</span></span></a>
+<a href="#" data-role="button" id="add_samples" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Add Sample Data</span></span></a>
+<a href="#" data-role="button" id="reset_system" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Reset System</span></span></a>
+</div>
 <table border="1">
 <thead><tr><td>Table Name</td><td>Created</td><td>Sample Added</td><td>Operations</td><td>Summary Error Messages</td></tr></thead>
 	<tbody>
@@ -21,8 +22,10 @@
 	</tbody>
 		<tfoot><tr><td></td><td></td><td></td><td></td><td></td></tr></tfoot>
 </table>
-<div data-role="fieldcontain">
-<button id="create_tables">Create Database Tables</button>
-<button id="add_samples">Add Sample Data</button>
-<button id="reset_system" disabled="disabled">Reset System</button>
+
+<br />
+<div data-role="fieldset">
+<label for="database_name">Database Name:</label>
+<input type="text" id="database_name" value="PrintP" disabled>
+<!-- <input type="button" id="submit_database_name" value="Create Database">-->
 </div>

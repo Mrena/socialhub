@@ -1,6 +1,6 @@
 
 
-var about = function(client,fs){
+var about = function(client,mysql_con,fs){
 	
 	
 	

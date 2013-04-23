@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var fs = require("fs");
-
+var i = 0;
 var connection = function(){
 	
 	try{
@@ -11,7 +11,7 @@ var connection = function(){
 		database : "printp"
 			
 	});
-	
+	console.log("connection: "+(i++));
 	return mysql_con;
 	
 	}catch(err){

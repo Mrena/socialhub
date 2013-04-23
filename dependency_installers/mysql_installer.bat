@@ -1,0 +1,2 @@
+﻿cmd
+npm install mysql

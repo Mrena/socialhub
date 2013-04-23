@@ -2,12 +2,14 @@ var mysql = require('mysql');
 var fs = require("fs");
 var startup_da_parent = require("./startup_da_parent");
 
-var getAllEndUsers = function(client){
+
+
+var getAllEndUsers = function(client,mysql_con){
 	
 	try{
 	
-	var mysql_con = startup_da_parent.connection();
-    mysql_con.connect();
+	
+   
     var query = "SELECT * FROM Users";
     startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
     	
@@ -32,6 +34,7 @@ var getAllEndUsers = function(client){
     	
     	client.emit("all_end_users",JSON.stringify(end_users));
     	client.emit("end_users_fields",JSON.stringify(end_users_fields));
+  
     });
 	
 	}catch(error){
@@ -44,10 +47,9 @@ var getAllEndUsers = function(client){
 	
 };
 
-	var submitEndUser = function(client,objEndUser){
+	var submitEndUser = function(client,mysql_con,objEndUser){
 	
-		var mysql_con = startup_da_parent.connection();
-	    mysql_con.connect();
+		
 	    var query = "INSERT INTO Users (username,password,email_address,phone_number,f_name,l_name,address,city) VALUES("+objEndUser.username+","+objEndUser.password+","+objEndUser.email_address+","+objEndUser.phone_number+","+objEndUser.f_name+","+objEndUser.l_name+","+objEndUser.physical_address+","+objEndUser.city+")";
 	    startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
 	    	

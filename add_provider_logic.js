@@ -1,13 +1,13 @@
 var web_content_parent = require("./web_content_parent");
 
 
-var provider = function(client,fs){
+var provider = function(client,mysql_con,fs){
 	
 	client.on("get_add_provider",function(){
 		
 		try{
 		
-		 fs.readFile("./web_content/add_provider.txt",'utf8',function(error,content){
+		 fs.readFile("./web_content/add_provider.html",'utf8',function(error,content){
 			 if(error){
 					
 				 	console.trace(error);

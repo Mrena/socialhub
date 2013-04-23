@@ -1,6 +1,6 @@
 var web_content_parent = require("./web_content_parent");
 
-var web_content = function(client,fs){
+var web_content = function(client,mysql_con,fs){
 	
   client.on("get_provider_deliveries_page",function(){
 		
@@ -635,6 +635,39 @@ client.on("get_video_services_page",function(){
 			console.log(error);
 			var file_name = "web_content.js",
 			line_number = 611;
+			web_content_parent.logSystemError(error,file_name,line_number);
+	} 
+	
+	
+});
+
+client.on("get_add_end_user_form",function(){
+	
+	try{
+		
+		 fs.readFile("./web_content/add_end_user_form.html",'utf8',function(error,content){
+			 if(error){
+					
+				 	console.trace(error);
+					client.emit("page_not_found");
+					
+					var file_name = "web_content.js",
+					line_number = 615;
+					web_content_parent.logFileSystemError(error,file_name,line_number);
+					
+				}else{
+			 
+					client.emit("add_end_user_form",content);
+				}
+			
+		});
+		 
+		 
+		}catch(error){
+		
+			console.log(error);
+			var file_name = "web_content.js",
+			line_number = 648;
 			web_content_parent.logSystemError(error,file_name,line_number);
 	} 
 	

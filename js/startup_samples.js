@@ -1,13 +1,13 @@
 var startup_da_samples = require("./data_access/startup_da_samples");
 
 
-var startup_samples = function(client,fs){
+var startup_samples = function(client,mysql_con,fs){
 	
 	
 	client.on("add_sample_photographers",function(){
 		try{
 		
-			startup_da_samples.addOnlySamplePhotographers(client);
+			startup_da_samples.addOnlySamplePhotographers(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -24,7 +24,7 @@ var startup_samples = function(client,fs){
 		
 		try{
 			
-			startup_da_samples.addOnlySamplePackages(client);
+			startup_da_samples.addOnlySamplePackages(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -39,7 +39,7 @@ var startup_samples = function(client,fs){
 		
 		try{
 			
-			startup_da_samples.addOnlySampleOrders(client);
+			startup_da_samples.addOnlySampleOrders(client,mysql_con);
 			
 			
 		}catch(error){
@@ -55,7 +55,7 @@ var startup_samples = function(client,fs){
 		
 		try{
 			
-			startup_da_samples.addOnlySampleAreas(client);
+			startup_da_samples.addOnlySampleAreas(client,mysql_con);
 			
 			
 		}catch(error){
@@ -71,7 +71,7 @@ var startup_samples = function(client,fs){
 		
 		try{
 			
-			startup_da_samples.addOnlySampleCities(client);
+			startup_da_samples.addOnlySampleCities(client,mysql_con);
 			
 			
 		}catch(error){
@@ -87,7 +87,7 @@ var startup_samples = function(client,fs){
 		
 		try{
 			
-			startup_da_samples.addOnlySampleUserIDs(client);
+			startup_da_samples.addOnlySampleUserIDs(client,mysql_con);
 			
 			
 		}catch(error){
@@ -103,7 +103,7 @@ var startup_samples = function(client,fs){
 		
 		try{
 			
-			startup_da_samples.addOnlySampleUsers(client);
+			startup_da_samples.addOnlySampleUsers(client,mysql_con);
 			
 			
 		}catch(error){
@@ -119,7 +119,7 @@ var startup_samples = function(client,fs){
 		
 		try{
 			
-			startup_da_samples.addOnlySampleAdmin(client);
+			startup_da_samples.addOnlySampleAdmin(client,mysql_con);
 			
 			
 		}catch(error){
@@ -136,7 +136,7 @@ var startup_samples = function(client,fs){
 		
 		try{
 			
-			startup_da_samples.addOnlySampleAdminRights(client);
+			startup_da_samples.addOnlySampleAdminRights(client,mysql_con);
 			
 			
 		}catch(error){
@@ -152,7 +152,7 @@ var startup_samples = function(client,fs){
 		
 		try{
 			
-			startup_da_samples.addOnlySampleAlerts(client);
+			startup_da_samples.addOnlySampleAlerts(client,mysql_con);
 			
 			
 		}catch(error){
@@ -168,7 +168,7 @@ var startup_samples = function(client,fs){
 		  
 	try{
 		
-		  startup_da_samples.createDatabase(database_name,client);
+		  startup_da_samples.createDatabase(database_name,client,mysql_con);
 		  
 	}catch(error){
 		console.log(error);
@@ -183,7 +183,7 @@ var startup_samples = function(client,fs){
 		 
 	 try{
 		 
-		 startup_da_samples.addSampleData(client);
+		 startup_da_samples.addSampleData(client,mysql_con);
 		 
  	}catch(error){
 		console.log(error);
@@ -198,7 +198,7 @@ var startup_samples = function(client,fs){
 	 
 	 try{
 		 
-		 startup_da_samples.addOnlySampleDeliveryMethod(client);
+		 startup_da_samples.addOnlySampleDeliveryMethod(client,mysql_con);
 		 
  	}catch(error){
 		console.log(error);

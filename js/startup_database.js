@@ -3,7 +3,7 @@
 
 
 
- 	var startup_database = function(client,fs){
+ 	var startup_database = function(client,mysql_con,fs){
 	
 	
 	

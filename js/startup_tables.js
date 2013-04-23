@@ -1,13 +1,13 @@
 var startup_da_tables = require("./data_access/startup_da_tables");
 
 
-var startup_tables = function(client,fs){
+var startup_tables = function(client,mysql_con,fs){
 	
 	
 	client.on("create_tables_table",function(){
 		try{
 			
-		startup_da_tables.createTablesTable(client);
+		startup_da_tables.createTablesTable(client,mysql_con);
 		
 		}catch(error){
 			
@@ -23,7 +23,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.createOnlyPhotographersTable(client);
+			startup_da_tables.createOnlyPhotographersTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -39,7 +39,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.createOnlyPackagesTable(client);
+			startup_da_tables.createOnlyPackagesTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -55,7 +55,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.createOnlyOrdersTable(client);
+			startup_da_tables.createOnlyOrdersTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -73,7 +73,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.createOnlyAreasTable(client);
+			startup_da_tables.createOnlyAreasTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -88,7 +88,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.createOnlyCityTable(client);
+			startup_da_tables.createOnlyCityTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -105,7 +105,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.createOnlyUserIDsTable(client);
+			startup_da_tables.createOnlyUserIDsTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -122,7 +122,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.createOnlyUsersTable(client);
+			startup_da_tables.createOnlyUsersTable(client,mysql_con);
 			
 			
 		}catch(error){
@@ -137,7 +137,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.createOnlyAdminTable(client);
+			startup_da_tables.createOnlyAdminTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -152,7 +152,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.createOnlyAdminRightsTable(client);
+			startup_da_tables.createOnlyAdminRightsTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -169,7 +169,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.createOnlyAlertsTable(client);
+			startup_da_tables.createOnlyAlertsTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -185,7 +185,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.createOnlyDeliveryMethodTable(client);
+			startup_da_tables.createOnlyDeliveryMethodTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -201,7 +201,7 @@ var startup_tables = function(client,fs){
 		
 	try{
 			
-		startup_da_tables.deletePhotographersTable(client);
+		startup_da_tables.deletePhotographersTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -217,7 +217,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.deletePackagesTable(client);
+			startup_da_tables.deletePackagesTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -232,7 +232,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.deleteOrdersTable(client);
+			startup_da_tables.deleteOrdersTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -247,7 +247,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.deleteAreasTable(client);
+			startup_da_tables.deleteAreasTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -264,7 +264,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.deleteCityTable(client);
+			startup_da_tables.deleteCityTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -279,7 +279,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.deleteUserIDsTable(client);
+			startup_da_tables.deleteUserIDsTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -296,7 +296,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.deleteUsersTable(client);
+			startup_da_tables.deleteUsersTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -311,7 +311,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.deleteAdminTable(client);
+			startup_da_tables.deleteAdminTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -326,7 +326,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.deleteAdminRightsTable(client);
+			startup_da_tables.deleteAdminRightsTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -341,7 +341,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.deleteAlertsTable(client);
+			startup_da_tables.deleteAlertsTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -356,7 +356,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.deleteDeliveryMethodTable(client);
+			startup_da_tables.deleteDeliveryMethodTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -373,7 +373,7 @@ var startup_tables = function(client,fs){
 		
 	try{
 			
-		startup_da_tables.emptyPhotographersTable(client);
+		startup_da_tables.emptyPhotographersTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -389,7 +389,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.emptyPackagesTable(client);
+			startup_da_tables.emptyPackagesTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -405,7 +405,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.emptyOrdersTable(client);
+			startup_da_tables.emptyOrdersTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -420,7 +420,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.emptyAreasTable(client);
+			startup_da_tables.emptyAreasTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -436,7 +436,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.emptyCityTable(client);
+			startup_da_tables.emptyCityTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -451,7 +451,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.emptyUserIDsTable(client);
+			startup_da_tables.emptyUserIDsTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -466,7 +466,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.emptyUsersTable(client);
+			startup_da_tables.emptyUsersTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -481,7 +481,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.emptyAdminTable(client);
+			startup_da_tables.emptyAdminTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -496,7 +496,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.emptyAdminRightsTable(client);
+			startup_da_tables.emptyAdminRightsTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -511,7 +511,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.emptyAlertsTable(client);
+			startup_da_tables.emptyAlertsTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -526,7 +526,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.emptyDeliveryMethodTable(client);
+			startup_da_tables.emptyDeliveryMethodTable(client,mysql_con);
 			
 		}catch(error){
 			console.log(error);
@@ -541,7 +541,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.resetSystem(client);	
+			startup_da_tables.resetSystem(client,mysql_con);	
 			
 		}catch(error){
 			console.log(error);
@@ -556,7 +556,7 @@ var startup_tables = function(client,fs){
 		
 		try{
 			
-			startup_da_tables.getTablesData(client);	
+			startup_da_tables.getTablesData(client,mysql_con);	
 			
 		}catch(error){
 			console.log(error);
@@ -571,7 +571,7 @@ var startup_tables = function(client,fs){
 		 
     try{
 		 
-		 startup_da_tables.createTables(client);
+		 startup_da_tables.createTables(client,mysql_con);
 		 
 	 }catch(error){
 			console.log(error);

@@ -2,10 +2,8 @@
 	var fs = require("fs");
 	var startup_da_parent = require("./startup_da_parent");
 	
-	
-	var getCities = function(client){
+	var getCities = function(client,mysql_con){
 		
-		var mysql_con = startup_da_parent.connection();
 		var query = "SELECT name FROM City";
 		startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
 			
@@ -29,12 +27,12 @@
 			
 		});
 		
- };
+	};
 	    
 	    
-	    var getPackages = function(client){
+	    var getPackages = function(client,mysql_con){
 	    	
-	    	var mysql_con = startup_da_parent.connection();
+	    	
 			var query = "SELECT print_size,price FROM Packages";
 			startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
 				

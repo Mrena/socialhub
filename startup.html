@@ -14,6 +14,7 @@
  	<script src="static/js/effect.js"></script>
  	<script src="static/js/jquery.ui.core.js"></script>
  	<script src="static/js/jquery-ui-1.10.0.custom.js"></script>
+ 	<link rel="stylesheet" href="static/css/jquery.mobile-1.2.0.css" />
 <style>
     body {
       padding : 10px;
@@ -50,7 +51,7 @@
         li.menu {
        		float: left;
        		position : relative;
-       		padding : 5px;
+       		/*padding : 5px;*/
        		list-style: none;
     	}
       	a {
@@ -81,21 +82,22 @@
 <div data-role="content">
 <br />
 <ul id="menu">
-	<li class="menu"><a href="#" id="databases">Databases</a> | </li>
-	<li class="menu"><a href="#" id="service_providers">Service Providers</a> | </li>
-	<li class="menu"><a href="#" id="add_provider">Add Service Provider</a> | </li>
-	<li class="menu"><a href="#" id="end_users">End-Users</a> | </li>
-	<li class="menu"><a href="#" id="system_errors">System Errors</a> | </li>
-	<li class="menu"><a href="#" id="system_alerts">System Alerts</a></li>
-</ul>
+    		  <li class="menu"><a href="#" data-role="button" id="databases" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Database Manager</span></span></a></li>
+    		  <li class="menu"><a href="#" data-role="button" id="service_providers" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Service Providers</span></span></a></li>
+    		 <!--  <li class="menu"><a href="#" data-role="button" id="add_provider" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Add Service Provider</span></span></a></li>-->
+    		  <li class="menu"><a href="#" data-role="button" id="end_users" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">End Users</span></span></a></li>
+    		  <li class="menu"><a href="#" data-role="button" id="system_errors" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">System Errors</span></span></a></li>
+    		  <li class="menu"><a href="#" data-role="button" id="system_alerts" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">System Alerts</span></span></a></li>
+           </ul>
 
-<div id="content" class="ui-widget-content ui-corner-all">
-	<div data-role="fieldset">
-	<label for="database_name">Database Name:</label>
-	<input type="text" id="database_name" value="PrintP" disabled>
-	<!-- <input type="button" id="submit_database_name" value="Create Database">-->
-	</div><br />
+
+<div id="content" class="ui-widget-content">
 	<h3>Database Tables</h3>
+	<div data-role="fieldcontain">
+	<a href="#" data-role="button" id="create_tables" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Create Database Tables</span></span></a>
+	<a href="#" data-role="button" id="add_samples" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Add Sample Data</span></span></a>
+	<a href="#" data-role="button" id="reset_system" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Reset System</span></span></a>
+</div>
 	<table border="1">
 	<thead><tr><td>Table Name</td><td>Created</td><td>Sample Added</td><td>Operations</td><td>Summary Error Messages</td></tr></thead>
 	<tbody>
@@ -113,15 +115,16 @@
 	</tbody>
 		<tfoot><tr><td></td><td></td><td></td><td></td><td></td></tr></tfoot>
 	</table>
-	<div data-role="fieldcontain">
-		<button id="create_tables">Create Database Tables</button>
-		<button id="add_samples">Add Sample Data</button>
-		<button id="reset_system" disabled="disabled">Reset System</button>
+    <br />
+<div data-role="fieldset">
+	<label for="database_name">Database Name:</label>
+	<input type="text" id="database_name" value="PrintP" disabled>
+	<!--  <input type="button" id="submit_database_name" value="Create Database"> -->
 	</div>
-
+	
+</div>
 </div>
 
-</div>
 	<div data-role="footer"></div>
 </div>
 	<script src="/socket.io/lib/socket.io.js"></script>
@@ -144,22 +147,18 @@
 	
 	
 	$("#databases").on("click",function(e){
-		$("#menu").hide();
+	
 		socket.emit("get_database_content");
-		
 		e.preventDefault();
 	});
 	
 	socket.on("database_content",function(data){
 		
-		$("#content").fadeOut("fast",function(){
-			$(this).html(data);
-		}).fadeIn("slow",function(){
-			$("#menu").show("slow");
+			$("#content").html(data);
 			client_create_database(socket);
 			client_sample_data(socket);
 			socket.emit("get_tables_data");
-		});
+	
 		
 	});
 	
@@ -178,74 +177,36 @@
 	});
 	
 	
-	$("#add_provider").on("click",function(e){
-		$("#menu").hide();
-		socket.emit("get_add_provider");
-		e.preventDefault();
-	});
-	
-	socket.on("add_provider",function(data){
-		
-		$("#content").fadeOut("fast",function(){
-			$(this).html(data);
-			}).fadeIn("slow",function(){
-				$("#menu").show("slow");
-				client_providers(socket);
-		});
-		
-		
-	});
-		
-		$("#service_providers").on("click",function(e){
-			$("#menu").hide();
+	$("#service_providers").on("click",function(e){
+
 			socket.emit("get_service_providers");
-			
 			e.preventDefault();
 		});
 		
-		socket.on("service_providers",function(data){
+	socket.on("service_providers",function(data){
 			
-			$("#content").fadeOut("fast",function(){
-				$(this).html(data);
-				$("#filter_option").hide();
-				}).fadeIn("slow",function(){
-					$("#menu").show("slow");
-					client_providers(socket);
-			});
+			$("#content").html(data);
+			$("#filter_option").hide();
+			client_providers(socket);
 			
 	});
 		
 		
-		$("#system_alerts").on("click",function(e){
-			$("#menu").hide();
+	$("#system_alerts").on("click",function(e){
 			socket.emit("get_system_alerts_page");
 			e.preventDefault();
 		});
 		
-		socket.on("system_alerts_page",function(data){
+	socket.on("system_alerts_page",function(data){
 			
-			$("#content").fadeOut("fast",function(){
-				$(this).html(data);
-				}).fadeIn("slow",function(){
-					$("#menu").show("slow");
-					system_alerts(socket);
-			});
-			
+			$("#content").html(data);
+			system_alerts(socket);
 		});	
 		
 	socket.on("page_not_found",function(){
-			var $menu = $("#menu"),
-				$content = $("#content");
-			
-			$menu.hide("fast",function(){
-				$content.fadeOut("fast",function(){
+			var	$content = $("#content");
 					$content.html("<div>The requested page could not be found. It may be moved or may never had existed. (0_o)</div>");
-						$content.fadeIn("slow",function(){
-							$menu.show("slow");
-							
-						});
-				  });
-			});
+						
 			
 		});
 	

@@ -2,7 +2,7 @@
 	var system_errors_da = require(__dirname+"/system_errors_da");
 
 
-	var watcher = function(client,fs){
+	var watcher = function(client,mysql_con,fs){
 	
 		var watchAllLogs = function(client){
 			

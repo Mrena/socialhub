@@ -1,13 +1,9 @@
 var startup_da_parent = require("./startup_da_parent");
 
-
-	var updateAdminAlerts = function(client,username,alert_type,alert_value){
+	var updateAdminAlerts = function(client,mysql_con,username,alert_type,alert_value){
 	
 			
 		try{
-			
-			var mysql_con = startup_da_parent.connection();
-			mysql_con.connect();
 			
 				var query = "UPDATE Alerts SET "+alert_type+" = '"+alert_value+"'  WHERE username = '"+username+"' ";
 				startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -52,9 +48,6 @@ var startup_da_parent = require("./startup_da_parent");
 		
 		try{
 			
-			var mysql_con = startup_da_parent.connection();
-			mysql_con.connect();
-			
 				var query = "SELECT new_user_sign_up,username FROM Alerts";
 				startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 					
@@ -87,9 +80,6 @@ var startup_da_parent = require("./startup_da_parent");
 	var sendProviderSignUpAlert = function(client){
 		
 		try{
-			
-			var mysql_con = startup_da_parent.connection();
-			mysql_con.connect();
 			
 				var query = "SELECT new_provider,username FROM Alerts";
 				startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -126,9 +116,6 @@ var startup_da_parent = require("./startup_da_parent");
 		
 		
 		try{
-			
-			var mysql_con = startup_da_parent.connection();
-			mysql_con.connect();
 			
 				var query = "SELECT new_order,username FROM Alerts";
 				startup_da_parent.runQuery(query,mysql_con,client,function(client,error){

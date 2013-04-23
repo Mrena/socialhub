@@ -3,7 +3,6 @@ var fs = require("fs");
 var startup_da_parent = require("./startup_da_parent");
 
 
-
 var addSamplePhotographers = function(client,mysql_con){
 	
 		query = "INSERT INTO photographers (f_name,l_name,username,password,email_address,physical_address,operating_area,service_code) VALUES('Kendrick','Lamar','Ken','12345','ken@gmail.com','Durban','Chatsworth',1)";
@@ -54,8 +53,6 @@ var addSamplePhotographers = function(client,mysql_con){
 
 var addSampleCities = function(client,mysql_con){
 	
-		var mysql_con = startup_da_parent.connection();
-		mysql_con.connect();
 		query = "INSERT INTO City(name) VALUES('Durban')";
 		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 			
@@ -553,12 +550,8 @@ var addSampleOrders = function(client,mysql_con){
 	};
 	
 
-var addSampleData = function(client){
+var addSampleData = function(client,mysql_con){
 	
-
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
 
 	addSamplePhotographers(client,mysql_con);
 	addSampleCities(client,mysql_con);
@@ -577,109 +570,80 @@ var addSampleData = function(client){
 
 };
 
-var addOnlySamplePhotographers = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var addOnlySamplePhotographers = function(client,mysql_con){
 	
 	addSamplePhotographers(client,mysql_con);
 	
 	
 };
 
-var addOnlySampleCities = function(client){
+var addOnlySampleCities = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
 	
 	addSampleCities(client,mysql_con);
 	
 	
 };
 
-var addOnlySampleAreas = function(client){
+var addOnlySampleAreas = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
 	
 	addSampleAreas(client,mysql_con);
 	
 	
 };
 
-var addOnlySamplePackages = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var addOnlySamplePackages = function(client,mysql_con){
 	
 	addSamplePackages(client,mysql_con);
 	
 };
 
-var addOnlySampleOrders = function(client){
+var addOnlySampleOrders = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
 	
 	addSampleOrders(client,mysql_con);
 	
 	
 };
 
-var addOnlySampleUserIDs = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var addOnlySampleUserIDs = function(client,mysql_con){
 	
 	addSampleUserIDs(client,mysql_con);
 	
 	
 };
 
-var addOnlySampleUsers = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var addOnlySampleUsers = function(client,mysql_con){
 	
 	addSampleUsers(client,mysql_con);
 	
 	
 };
 
-var addOnlySampleAdmin = function(client){
+var addOnlySampleAdmin = function(client,mysql_con){
 	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
-	
+
 	addSampleAdmin(client,mysql_con);
 	
 	
 };
 
-var addOnlySampleAdminRights = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var addOnlySampleAdminRights = function(client,mysql_con){
 	
 	addSampleAdminRights(client,mysql_con);
 	
 	
 };
 
-var addOnlySampleAlerts = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var addOnlySampleAlerts = function(client,mysql_con){
 	
 	addSampleAlerts(client,mysql_con);
 	
 	
 };
 
-var addOnlySampleDeliveryMethod = function(client){
-	
-	var mysql_con = startup_da_parent.connection();
-	mysql_con.connect();
+var addOnlySampleDeliveryMethod = function(client,mysql_con){
 	
 	addSampleDeliveryMethod(client,mysql_con);
 	

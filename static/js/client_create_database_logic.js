@@ -120,12 +120,17 @@
         	tablesData.forEach(function(tableData){
         		
         		if(tableData.created){
-        			
-        			$("#create_tables").attr("disabled","disabled");
+        			var $create_tables = $("#create_tables");
+        			 $create_tables.attr("disabled","disabled");
+        			 $create_tables.addClass("ui-state-disabled");
         			$("#reset_system").removeAttr("disabled");
         			
         			if(tableData.samples_added){
-        				$("#add_samples").attr("disabled","disabled");
+        				var $add_samples = $("#add_samples");
+        				$add_samples.attr("disabled","disabled")
+        				.addClass("ui-state-disabled")
+        				.unbind();
+        				
         				 return;
         			}
         		}
@@ -140,14 +145,25 @@
         	
         	populateMainButtonsState(tablesData);
         	populateResetButtonState(tablesData);
-		
+		    
+        	/*var tablesLen = tablesData.length,
+        	    created = 0;
+        	 console.log(tablesLen); */
         	tablesData.forEach(function(tableData){
 			
 			   populateTableCreatedData(tableData.created,tableData.name);
 			   populateTableSamplesAddedData(tableData.samples_added,tableData.name);
 			   populateButtonsState(tableData.name,tableData.created,tableData.samples_added);
-		
+			   
+			  /* if(tablesData.created){
+				   ++created;
+			   }*/
+			   
 			});
+        	
+        /*	if(created < tablesLen){
+        		$("#add_samples").addClass("ui-state-disabled").unbind();
+        	}*/
 	
         };
 
@@ -165,7 +181,7 @@
         };
         
         
-		socket.emit("startup");
+		//socket.emit("startup");
 
 		$("#submit_database_name").on("click",function(e){
 	
@@ -180,7 +196,8 @@
 		$("#create_tables").on("click",function(e){
 	
 			socket.emit("create_tables_table");
-			$(this).attr("disabled","disabled");
+			console.log("Create tables table emitted");
+			$(this).attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 			
 			e.preventDefault();
 	
@@ -189,16 +206,24 @@
 		socket.on("tables_table_created",function(){
 			
 			socket.emit("create_tables");
+			console.log("Create tables emitted");
 			
 		});
 		
-		$("#reset_system").on("click",function(e){
+		
+		var attachResetListener = function(){
+		
+			$("#reset_system").on("click",function(e){
 			
-			socket.emit("reset_system");
-			$(this).attr("disabled","disabled");
+				socket.emit("reset_system");
+				$(this).attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 			
-			e.preventDefault();
-		});
+				e.preventDefault();
+			});
+		
+		};
+		
+		attachResetListener();
 		
 		socket.on("system_reset",function(){
 			
@@ -208,7 +233,7 @@
 		
 		socket.on("system_reset_error",function(){
 			
-			$("#reset_system").removeAttr("disabled");
+			$("#reset_system").removeAttr("disabled").on("click",attachResetListener);
 			
 		});
 		
@@ -759,17 +784,17 @@
 			 console.log(id);
 			switch(id.toString()){
 				case "create_photographers_table": $(this).attr("disabled","disabled");
-												   $("#reset_system").attr("disabled","disabled");
+												   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 												   disableAllOperationsButton($(this));
 												   socket.emit("create_photographers_table");
 					break;
 				case "add_sample_photographers":  $(this).attr("disabled","disabled");
-												  $("#add_samples").attr("disabled","disabled");
+												  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 												  disableAllOperationsButton($(this));
 												  socket.emit("add_sample_photographers");
 					break;
 				case "delete_photographers_table": $(this).attr("disabled","disabled");
-												   $("#add_samples").attr("disabled","disabled");
+												   $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 												   $("#reset_system").attr("disabled","disabled");
 												   disableAllOperationsButton($(this));
 												   socket.emit("delete_photographers_table");
@@ -789,18 +814,18 @@
 			 console.log(id);
 			switch(id.toString()){
 				case "create_areas_table": 	$(this).attr("disabled","disabled");
-											$("#reset_system").attr("disabled","disabled");
+											$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 											disableAllOperationsButton($(this));
 										    socket.emit("create_areas_table");
 					break;
 				case "add_sample_areas":  $(this).attr("disabled","disabled");
-										  $("#add_samples").attr("disabled","disabled");
+										  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 										  disableAllOperationsButton($(this));
 										  socket.emit("add_sample_areas");
 					break;
 				case "delete_areas_table": $(this).attr("disabled","disabled");
-										   $("#add_samples").attr("disabled","disabled");
-										   $("#reset_system").attr("disabled","disabled");
+										   $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+										   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 										   disableAllOperationsButton($(this));
 										   socket.emit("delete_areas_table");
 					break;
@@ -819,18 +844,18 @@
 			 console.log(id);
 			switch(id.toString()){
 				case "create_city_table": 	$(this).attr("disabled","disabled");
-											$("#reset_system").attr("disabled","disabled");
+											$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 											disableAllOperationsButton($(this));
 										    socket.emit("create_city_table");
 					break;
 				case "add_sample_cities":  $(this).attr("disabled","disabled");
-										   $("#add_samples").attr("disabled","disabled");
+										   $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 										   disableAllOperationsButton($(this));
 										   socket.emit("add_sample_cities");
 					break;
 				case "delete_city_table": $(this).attr("disabled","disabled");
-										  $("#add_samples").attr("disabled","disabled");
-										  $("#reset_system").attr("disabled","disabled");
+										  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+										  $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 										  disableAllOperationsButton($(this));
 										  socket.emit("delete_city_table");
 					break;
@@ -849,18 +874,18 @@
 			 console.log(id);
 			switch(id.toString()){
 				case "create_packages_table": $(this).attr("disabled","disabled");
-											  $("#reset_system").attr("disabled","disabled");
+											  $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 											  disableAllOperationsButton($(this));
 										      socket.emit("create_packages_table");
 					break;
 				case "add_sample_packages":  $(this).attr("disabled","disabled");
-											 $("#add_samples").attr("disabled","disabled");
+											 $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 											 disableAllOperationsButton($(this));
 										  	 socket.emit("add_sample_packages");
 					break;
 				case "delete_packages_table": $(this).attr("disabled","disabled");
-											  $("#add_samples").attr("disabled","disabled");
-											  $("#reset_system").attr("disabled","disabled");
+											  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											  $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 											  disableAllOperationsButton($(this));
 										   	  socket.emit("delete_packages_table");
 					break;
@@ -879,18 +904,18 @@
 			 console.log(id);
 			switch(id.toString()){
 				case "create_orders_table": $(this).attr("disabled","disabled");
-											$("#reset_system").attr("disabled","disabled");
+											$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 											disableAllOperationsButton($(this));
 										    socket.emit("create_orders_table");
 					break;
 				case "add_sample_orders":  $(this).attr("disabled","disabled");
-										   $("#add_samples").attr("disabled","disabled");
+										   $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 										   disableAllOperationsButton($(this));
 										   socket.emit("add_sample_orders");
 					break;
 				case "delete_orders_table": $(this).attr("disabled","disabled");
-											$("#add_samples").attr("disabled","disabled");
-											$("#reset_system").attr("disabled","disabled");
+											$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 											disableAllOperationsButton($(this));
 										   	socket.emit("delete_orders_table");
 					break;
@@ -909,18 +934,18 @@
 			 console.log(id);
 			switch(id.toString()){
 				case "create_delivery_method_table": $(this).attr("disabled","disabled");
-													 $("#reset_system").attr("disabled","disabled");
+													 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 													 disableAllOperationsButton($(this));
 										      		 socket.emit("create_delivery_method_table");
 					break;
 				case "add_sample_delivery_method":  $(this).attr("disabled","disabled");
-												    $("#add_samples").attr("disabled","disabled");
+												    $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 												    disableAllOperationsButton($(this));
 												    socket.emit("add_sample_delivery_method");
 					break;
 				case "delete_delivery_method_table": $(this).attr("disabled","disabled");
-													 $("#add_samples").attr("disabled","disabled");
-													 $("#reset_system").attr("disabled","disabled");
+													 $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+													 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 													 disableAllOperationsButton($(this));
 													 socket.emit("delete_delivery_method_table");
 					break;
@@ -939,18 +964,18 @@
 			 console.log(id);
 			switch(id.toString()){
 				case "create_userIDs_table": $(this).attr("disabled","disabled");
-											 $("#reset_system").attr("disabled","disabled");
+											 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 											 disableAllOperationsButton($(this));
 										     socket.emit("create_userIDs_table");
 					break;
 				case "add_sample_userIDs":  $(this).attr("disabled","disabled");
-											$("#add_samples").attr("disabled","disabled");
+											$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 											disableAllOperationsButton($(this));
 										  	socket.emit("add_sample_userIDs");
 					break;
 				case "delete_userIDs_table": $(this).attr("disabled","disabled");
-											 $("#add_samples").attr("disabled","disabled");
-											 $("#reset_system").attr("disabled","disabled");
+											 $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 											 disableAllOperationsButton($(this));
 										   	 socket.emit("delete_userIDs_table");
 					break;
@@ -969,18 +994,18 @@
 			var id = $(this).attr("id");
 			switch(id.toString()){
 				case "create_users_table": $(this).attr("disabled","disabled");
-										   $("#reset_system").attr("disabled","disabled");
+										   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 										   disableAllOperationsButton($(this));
 										   socket.emit("create_users_table");
 					break;
 				case "add_sample_users":  $(this).attr("disabled","disabled");
-										  $("#add_samples").attr("disabled","disabled");
+										  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 										  disableAllOperationsButton($(this));
 										  socket.emit("add_sample_users");
 					break;
 				case "delete_users_table": $(this).attr("disabled","disabled");
-										   $("#add_samples").attr("disabled","disabled");
-										   $("#reset_system").attr("disabled","disabled");
+										   $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+										   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 										   disableAllOperationsButton($(this));
 										   socket.emit("delete_users_table");
 					break;
@@ -999,18 +1024,18 @@
 			var id = $(this).attr("id");
 			switch(id.toString()){
 				case "create_admin_table": $(this).attr("disabled","disabled");
-										   $("#reset_system").attr("disabled","disabled");
+										   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 										   disableAllOperationsButton($(this));
 										   socket.emit("create_admin_table");
 					break;
 				case "add_sample_admin":  $(this).attr("disabled","disabled");
-										  $("#add_samples").attr("disabled","disabled");
+										  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 										  disableAllOperationsButton($(this));
 										  socket.emit("add_sample_admin");
 					break;
 				case "delete_admin_table": $(this).attr("disabled","disabled");
-										   $("#add_samples").attr("disabled","disabled");
-										   $("#reset_system").attr("disabled","disabled");
+										   $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+										   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 										   disableAllOperationsButton($(this));
 										   socket.emit("delete_admin_table");
 					break;
@@ -1029,18 +1054,18 @@
 			 console.log(id);
 			switch(id.toString()){
 				case "create_admin_rights_table":  $(this).attr("disabled","disabled");
-												   $("#reset_system").attr("disabled","disabled");
+												   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 												   disableAllOperationsButton($(this));
 												   socket.emit("create_admin_rights_table");
 					break;
 				case "add_sample_admin_rights":   $(this).attr("disabled","disabled");
-												  $("#add_samples").attr("disabled","disabled");
+												  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 												  disableAllOperationsButton($(this));
 										  		  socket.emit("add_sample_admin_rights");
 					break;
 				case "delete_admin_rights_table": $(this).attr("disabled","disabled");
-												  $("#add_samples").attr("disabled","disabled");
-												  $("#reset_system").attr("disabled","disabled");
+												  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+												  $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 												  disableAllOperationsButton($(this));
 										   	  	  socket.emit("delete_admin_rights_table");
 					break;
@@ -1058,18 +1083,18 @@
 			 var id = $(this).attr("id");
 			switch(id.toString()){
 				case "create_alerts_table": $(this).attr("disabled","disabled");
-											$("#reset_system").attr("disabled","disabled");
+											$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 											disableAllOperationsButton($(this));
 										    socket.emit("create_alerts_table");
 					break;
 				case "add_sample_alerts":  $(this).attr("disabled","disabled");
 											disableAllOperationsButton($(this));
-											$("#add_samples").attr("disabled","disabled");
+											$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 										  	socket.emit("add_sample_alerts");
 					break;
 				case "delete_alerts_table": $(this).attr("disabled","disabled");
-											$("#add_samples").attr("disabled","disabled");
-											$("#reset_system").attr("disabled","disabled");
+											$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 											disableAllOperationsButton($(this));
 										   	socket.emit("delete_alerts_table");
 					break;

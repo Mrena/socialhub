@@ -16,6 +16,7 @@
  	<script src="static/js/effect.js"></script>
  	<script src="static/js/jquery.ui.core.js"></script>
  	<script src="static/js/jquery-ui-1.10.0.custom.js"></script>
+    <link rel="stylesheet" href="static/css/jquery.mobile-1.2.0.css" />
 	<style type="text/css">
         .ui-menu { width: 150px; }
         	ul#menu {
@@ -26,7 +27,7 @@
         	li.menu {
        			float: left;
        			position : relative;
-       			padding : 5px;
+       			/*padding : 5px; */
        			list-style: none;
     		}
     		a {
@@ -52,13 +53,13 @@
 <h1 class="ui-state-highlight">PrintP</h1>
 
 <h4>Send us your image for printing. We will deliver you a high quality print-out right to your door step. Payment on delivery.</h4>
-      	<ul id="menu">
-    		  <li class="menu"><a href="#" id="home">Home</a>  | </li>
-    		  <li class="menu"><a href="#" id="video_services">Video Services</a>  | </li>
-    		  <li class="menu"><a href="#" id="orderhistory"> Order History</a>  | </li>
-    		  <li class="menu"><a href="#" id="contact"> Comment</a>  | </li>
-    		  <li class="menu"><a href="#" id="about"> About</a>  | </li>
-    		  <li class="menu"><a href="#" id="sign_in"> Sign in</a></li>
+           <ul id="menu">
+    		  <li class="menu"><a href="#" data-role="button" id="home" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Home</span></span></a></li>
+    		  <li class="menu"><a href="#" data-role="button" id="video_services" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Video Services</span></span></a></li>
+    		  <li class="menu"><a href="#" data-role="button" id="orderhistory" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Order History</span></span></a></li>
+    		  <li class="menu"><a href="#" data-role="button" id="contact" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Comment</span></span></a></li>
+    		  <li class="menu"><a href="#" data-role="button" id="about" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">About</span></span></a></li>
+    		  <li class="menu"><a href="#" data-role="button" id="sign_in" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Sign In</span></span></a></li>
            </ul>
     
     </header>
@@ -105,16 +106,33 @@
 
 <tr><td><h4>Your details:</h4></td></tr>
 
-<tr><td><label for="name">Name:</label><br /></td><td><input type="text" name="name" id="name"   /><br /></td></tr>
-<tr><td><label for="number">Phone Number:</label><br /></td><td><input type="tel" name="number" id="number"   /></td></tr>
-<tr><td><label for="location">Location:</label><br /></td><td><select name="location" id="location"   onchange="locationChanged()">
+ <tr>
+	 <td><label for="name" class="ui-hidden-accessible">Name:</label><br /></td> 
+	<td><input type="text" name="name" id="name" placeholder="First and Last Name" class="ui-input-text ui-body-d ui-corner-all ui-shadow-inset" /><br /></td>
+ </tr>
+<tr>
+	<td><label for="number" class="ui-hidden-accessible">Phone Number:</label><br /></td>
+	<td><input type="tel" name="number" id="number" placeholder="Phone Number" class="ui-input-text ui-body-d ui-corner-all ui-shadow-inset" /></td>
+</tr>
+<tr>
+		<td><label for="location" class="ui-hidden-accessible">Location:</label><br /></td>
+		<td><select name="location" id="location" onchange="locationChanged()" data-native-menu="false">
 																<option>Select location</option>
 																</select></td><td><span id="specific"></span></td></tr>
-<tr><td><label for="address">Home Address:</label><br /></td><td><textarea name="address" id="address"  ></textarea></td></tr>
-<tr><td><label for="directions">Special directions:</label><br /></td><td><textarea name="directions" id="directions"  ></textarea></td></tr>
+<tr>	
+	<td><label for="address" class="ui-hidden-accessible">Home Address:</label><br /></td>
+	<td><textarea name="address" id="address"  placeholder="Home Address" class="ui-input-text ui-body-d ui-corner-all ui-shadow-inset" style="height: 110.80000019073486px;" ></textarea></td>
+</tr>
+ <tr>
+	<td><label for="directions" class="ui-hidden-accessible">Special directions:</label><br /></td>
+	<td><textarea name="directions" id="directions" placeholder="Directions" class="ui-input-text ui-body-d ui-corner-all ui-shadow-inset" style="height: 110.80000019073486px;"></textarea></td>
+</tr>
 
 </table>
-<input type="button" id="save" name="save" title="Saves your current details so you won't have to re-type it later." value="Save" class="ui-button"  /><input type="submit" id="submit" name="submit" value="Send" class="ui-button control" />
+<!-- <input type="button" id="save" name="save" title="Saves your current details so you won't have to re-type it later." value="Save" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-b"  /> -->
+<!-- <input type="submit" id="submit" name="submit" value="Send" class="ui-button control" /> -->
+<a href="#" data-role="button" id="save_info" data-inline="true" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Save</span></span></a>
+<a href="#" data-role="button" id="submit" data-inline="true" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Send</span></span></a>
 </form>
 
 </div><br />
@@ -134,6 +152,8 @@
         <script src="static/js/logic.js"></script>
 <script type="text/javascript">
 
+
+
 	var socket = io.connect('http://localhost:8000');
 	
 	client_home(socket);
@@ -144,6 +164,20 @@
 	client_terms(socket);
 	client_end_users(socket);
 	client_video_services(socket);
+	
+	$("#save_info").on("click",function(e){
+		
+		console.log("Save clicked");
+		
+		e.preventDefault();
+	});
+	
+	$("#submit").on("click",function(e){
+		
+		console.log("Submit clicked");
+		
+		e.preventDefault();
+	});
 	
 	
 	
