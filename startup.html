@@ -81,14 +81,17 @@
 <div data-role="header"><h1 class="ui-state-highlight">PrintP Admin</h1></div>
 <div data-role="content">
 <br />
-<ul id="menu">
+		<div id="default_menu">
+			<ul id="menu">
     		  <li class="menu"><a href="#" data-role="button" id="databases" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Database Manager</span></span></a></li>
     		  <li class="menu"><a href="#" data-role="button" id="service_providers" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Service Providers</span></span></a></li>
-    		 <!--  <li class="menu"><a href="#" data-role="button" id="add_provider" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Add Service Provider</span></span></a></li>-->
     		  <li class="menu"><a href="#" data-role="button" id="end_users" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">End Users</span></span></a></li>
     		  <li class="menu"><a href="#" data-role="button" id="system_errors" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">System Errors</span></span></a></li>
     		  <li class="menu"><a href="#" data-role="button" id="system_alerts" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">System Alerts</span></span></a></li>
+              <li class="menu"><a href="#" data-role="button" id="more_options" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">More</span></span></a></li>
            </ul>
+        </div>
+        <div id="new_menu"></div>
 
 
 <div id="content" class="ui-widget-content">
@@ -96,6 +99,7 @@
 	<div data-role="fieldcontain">
 	<a href="#" data-role="button" id="create_tables" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Create Database Tables</span></span></a>
 	<a href="#" data-role="button" id="add_samples" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Add Sample Data</span></span></a>
+	<a href="#" data-role="button" id="backup_database" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b ui-state-disabled" disabled="disabled"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Backup Database</span></span></a>
 	<a href="#" data-role="button" id="reset_system" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Reset System</span></span></a>
 </div>
 	<table border="1">
@@ -112,6 +116,10 @@
 		<tr><td>Admin_Rights</td><td id="admin_rights_created">No</td><td id="sample_admin_rights_added">No</td><td><button id="create_admin_rights_table" class="admin_rights_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_admin_rights" class="admin_rights_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_admin_rights_table" class="admin_rights_btnDB_operations" disabled="disabled">Delete</button><button id="empty_admin_rights_table" class="admin_rights_btnDB_operations" disabled="disabled">Empty</button></td><td id="admin_rights_error_message"></td></tr>
 		<tr><td>Alerts</td><td id="alerts_created">No</td><td id="sample_alerts_added">No</td><td><button id="create_alerts_table" class="alerts_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_alerts" class="alerts_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_alerts_table" disabled="disabled" class="alerts_btnDB_operations">Delete</button><button id="empty_alerts_table" disabled="disabled" class="alerts_btnDB_operations">Empty</button></td><td id="alerts_error_message"></td></tr>
 		<tr><td>DeliveryMethod</td><td id="delivery_method_created">No</td><td id="sample_delivery_method_added">No</td><td><button id="create_delivery_method_table" class="delivery_method_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_delivery_method" class="delivery_method_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_delivery_method_table" class="delivery_method_btnDB_operations" disabled="disabled">Delete</button><button id="empty_delivery_method_table" class="delivery_method_btnDB_operations" disabled="disabled">Empty</button></td><td id="delivery_method__error_message"></td></tr>
+		<tr><td>Messages</td><td id="messages_created">No</td><td id="sample_messages_added">No</td><td><button id="create_messages_table" class="messages_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_messages" class="messages_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_messages_table" class="messages_btnDB_operations" disabled="disabled">Delete</button><button id="empty_messages_table" class="messages_btnDB_operations" disabled="disabled">Empty</button></td><td id="messages_error_message"></td></tr>
+		<tr><td>ReplyMessages</td><td id="reply_messages_created">No</td><td id="sample_reply_messages_added">No</td><td><button id="create_reply_messages_table" class="reply_messages_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_reply_messages" class="reply_messages_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_reply_messages_table" class="reply_messages_btnDB_operations" disabled="disabled">Delete</button><button id="empty_reply_messages_table" class="reply_messages_btnDB_operations" disabled="disabled">Empty</button></td><td id="reply_messages_error_message"></td></tr>
+		<tr><td>MessageAttachments</td><td id="message_attachments_created">No</td><td id="sample_message_attachments_added">No</td><td><button id="create_message_attachments_table" class="message_attachments_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_message_attachments" class="message_attachments_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_message_attachments_table" class="message_attachments_btnDB_operations" disabled="disabled">Delete</button><button id="empty_message_attachments_table" class="message_attachments_btnDB_operations" disabled="disabled">Empty</button></td><td id="message_attachments_error_message"></td></tr>
+		<tr><td>CatchImages</td><td id="catch_images_created">No</td><td id="sample_catcha_images_added">No</td><td><button id="create_catcha_images_table" class="catcha_images_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_catcha_images" class="catcha_images_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_catcha_images_table" class="catcha_images_btnDB_operations" disabled="disabled">Delete</button><button id="empty_catcha_images_table" class="catcha_images_btnDB_operations" disabled="disabled">Empty</button></td><td id="catcha_images_error_message"></td></tr>
 	</tbody>
 		<tfoot><tr><td></td><td></td><td></td><td></td><td></td></tr></tfoot>
 	</table>
@@ -134,6 +142,12 @@
 	<script src="static/js/client_end_users_logic.js"></script>
 	<script src="static/js/client_system_errors.js"></script>
 	<script src="static/js/client_system_alerts.js"></script>
+	<script src="static/js/client_messages.js"></script>
+	<script src="static/js/catcha_manager/client_add_catcha.js"></script>
+	<script src="static/js/catcha_manager/client_all_catcha.js"></script>
+	<script src="static/js/client_catcha_manager.js"></script>
+	<script src="static/js/client_simulators.js"></script>
+	<script src="static/js/client_more_options.js"></script>
 <script>
 
 	var socket = io.connect();
@@ -143,7 +157,26 @@
 	client_end_users(socket);
 	client_system_errors(socket);
 	
+	sessionStorage['current_view'] = "startup_page";
+	sessionStorage['listener_attached'] = "bogus";
+	
 	socket.emit("get_tables_data");
+	
+	$("#more_options").on("click",function(e){
+		
+		socket.emit("get_more_admin_options");
+		e.preventDefault();
+	});
+	
+	
+	socket.on("more_admin_options",function(data){
+		
+		$("#default_menu").hide();
+		$("#new_menu").show().html(data);
+		client_more_options(socket);
+		
+	});
+	
 	
 	
 	$("#databases").on("click",function(e){
@@ -155,6 +188,7 @@
 	socket.on("database_content",function(data){
 		
 			$("#content").html(data);
+			localStorage['listener_attached'] = "bogus";
 			client_create_database(socket);
 			client_sample_data(socket);
 			socket.emit("get_tables_data");
@@ -186,6 +220,7 @@
 	socket.on("service_providers",function(data){
 			
 			$("#content").html(data);
+			localStorage['listener_attached'] = "bogus";
 			$("#filter_option").hide();
 			client_providers(socket);
 			
@@ -200,6 +235,7 @@
 	socket.on("system_alerts_page",function(data){
 			
 			$("#content").html(data);
+			localStorage['listener_attached'] = "bogus";
 			system_alerts(socket);
 		});	
 		

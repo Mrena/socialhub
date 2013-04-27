@@ -54,7 +54,7 @@
 		var attachListeners = function(){
 			
 			$("#update_provider").on("click",function(e){
-				$(".error").html("");
+				$(".error").empty();
 				
 				   var f_name = $.trim($("#f_name").val()),
 				       l_name = $.trim($("#l_name").val()),
@@ -95,41 +95,47 @@
 		
 		$(".edit_provider_info").on("click",function(e){
 			
-			$("#menu").hide();
 			socket.emit("get_edit_provider_info_page");
+			sessionStorage['current_view'] = "edit_provider_info_page";
 			
 			e.preventDefault();
 		});
 		
 		socket.on("edit_provider_info_page",function(data){
-			
-			$("#content").fadeOut("fast",function(){
-				$(this).html(data);
+			if(sessionStorage['current_view'] === "edit_provider_info_page"){
+				
+				$("#content").html(data);
 				socket.emit("get_service_provider_edit_info",sessionStorage['logged_as']);
 				
-			}).fadeIn("slow",function(){
-				$("#menu").show("slow");
+			}
 				
-			});
-			
 		});
+		
 		
 		socket.on("service_provider_info",function(objProvider){
 			
-			objProvider = JSON.parse(objProvider);
+			if(sessionStorage['current_view'] === "edit_provider_info_page"){
 			
-			$("#f_name").val(objProvider.f_name);
-			$("#l_name").val(objProvider.l_name);
-			$("#password").val(objProvider.password);
-			$("#email_address").val(objProvider.email_address);
-			$("#physical_address").val(objProvider.physical_address);
-			attachListeners();
+				objProvider = JSON.parse(objProvider);
+				console.log(objProvider);
+				$("#f_name").val(objProvider.f_name);
+				$("#l_name").val(objProvider.l_name);
+				$("#password").val(objProvider.password);
+				$("#email_address").val(objProvider.email_address);
+				$("#physical_address").val(objProvider.physical_address);
+			
+				if(localStorage['listener_attached'] !== "provider_edit_info"){
+					attachListeners();
+					localStorage['listener_attached'] = "provider_edit_info";
+				}
+			
+			}
 			
 		});
 		
 		socket.on("provider_edit_success",function(){
 			
-			$("#update_notification").html("Your details has been successfully edited");
+			$("#update_notification").text("Your details has been successfully updated");
 			console.log("success");
 			
 		});

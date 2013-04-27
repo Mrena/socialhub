@@ -12,7 +12,7 @@ var end_users = function(client,mysql_con,fs){
 			console.log(error);
 			var file_name = "end_users.js",
 			line_number = 8;
-			end_users_da.logSystemError(error,file_name,line_number);
+			end_users_da.logSystemError(client,error,file_name,line_number);
 		}
 		
 	});
@@ -29,7 +29,7 @@ var end_users = function(client,mysql_con,fs){
 			console.log(error);
 			var file_name = "end_users.js",
 			line_number = 20;
-			end_users_da.logSystemError(error,file_name,line_number);
+			end_users_da.logSystemError(client,error,file_name,line_number);
 		}
 		
 	});

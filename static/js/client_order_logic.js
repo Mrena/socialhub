@@ -9,20 +9,18 @@ var client_order = function(socket){
 	$("#orderhistory").click(function(e){
 		
 		socket.emit("get_order_history");
+		sessionStorage['current_view'] = "order_history_page";
 		e.preventDefault();
 		
 		});
 	
 	socket.on("order_history",function(data){
-		$("#menu").hide();
-		$("#page").fadeOut("slow",function(){
-			$(this).html(data);
-			$(this).fadeIn("slow",function(){
-				$("#menu").show("slow");
-			});
-		});
 		
-		
+		if(sessionStorage['current_view'] === "order_history_page"){
+			$("#page").html(data);
+
+		}
+			
 	});
 	// end of orderhistory request and response
 	

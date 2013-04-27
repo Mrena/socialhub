@@ -24,11 +24,15 @@ var client_home = function(socket){
 
         packages = JSON.parse(packages);
 
-             packages.forEach(function(obj_package){
+            packages.forEach(function(obj_package){
             	 $("#printSize").append("<option id='"+obj_package.price+"'>"+obj_package.print_size+"</option>");
              });
+        
+           
                 
-
+             /*packages.forEach(function(obj_package){
+            	 $("#printSize").append("<option id='"+obj_package.price+"'>"+obj_package.print_size+"</option>");
+             });*/
             
         });
 	
@@ -52,23 +56,18 @@ var client_home = function(socket){
 	// start of home request and response
 	$("#home").on("click",function(e){
 		socket.emit("get_home");
+		sessionStorage['current_view'] = "home_page";
 		e.preventDefault();
 		
 	});
 	
 	socket.on("home",function(data){
-		$("#menu").hide();
-		$("#page").fadeOut("slow",function(){
-			
+	
 			$("#page").html(data);
 			initCities();
 			initNumberOfImages();
 			initPackages();
-			$("#page").fadeIn();
-			$("#menu").show("slow");
-		});
-		
-		
+
 		
 	});
 	

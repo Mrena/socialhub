@@ -149,19 +149,20 @@ var client_end_users = function(socket){
 	
 	// start of end_users request and response
 	$("#sign_in").on("click",function(e){
-		$("#menu").hide();
+	
 		socket.emit("get_sign_in_page");
+		sessionStorage['current_view'] = "sign_in_page";
 		e.preventDefault();
 		
 	});
 	
 	socket.on("sign_in_page",function(data){
 		
-		$("#page").fadeOut("fast",function(){
-			$(this).html(data);
-		}).fadeIn("slow",function(){
-			$("#menu").show("slow");
-		});
+		if(sessionStorage['current_view'] === "sign_in_page"){
+			$("#page").html(data);
+			
+		}
+		
 	});
 	
 	// end of end_users request and response
@@ -186,7 +187,7 @@ var client_end_users = function(socket){
 		
 	});
 	
-	socket.on("end_users_fields",function(){
+	socket.on("end_users_fields",function(fields){
 		
 		fields = JSON.parse(fields);
 		$("#filter_option").show("fast",function(){

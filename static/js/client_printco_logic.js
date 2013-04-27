@@ -42,10 +42,10 @@ var client_printco = function(socket){
 	var attachListeners = function(){
 		
 		$("#login_submit").on("click",function(e){
-			console.log("submit clicked");
-			$("#login_username_error").html("");
-			$("#login_password_error").html("");
-			$("#login_catcha_error").html("");
+			
+			$("#login_username_error").empty();
+			$("#login_password_error").empty();
+			$("#login_catcha_error").empty();
 			
 			 username = $.trim($("#login_username").val()),
 				password = $.trim($("#login_password").val());
@@ -61,10 +61,10 @@ var client_printco = function(socket){
 			}else{
 				
 				var $login_error = $("#login_error");
-				$login_error.html("Incorrect username or password.");
+				$login_error.text("Incorrect username or password.");
 				generateCatcha();
 				setTimeout(function(){
-					$login_error.html("");
+					$login_error.empty();
 				},3000);
 			}
 			
@@ -86,20 +86,19 @@ var client_printco = function(socket){
 	// start of printco request and response
 	$("#printco").on("click",function(e){
 		socket.emit("get_printco");
+		sessionStorage['current_view'] = "prico_page";
 		e.preventDefault();
 		
 	});
 	
 	socket.on("printco",function(data){
 		
-		$("#menu").hide();
-		$("#page").fadeOut("slow",function(){
+		if(sessionStorage['current_view'] == "prico_page"){
 			$("#page").html(data);
 			attachListeners();
-			$("#page").fadeIn();
-			$("#menu").show("slow");
-		});
-		
+			
+		}
+			
 	});
 	
 	// end of printco request and response
@@ -116,14 +115,14 @@ var client_printco = function(socket){
 		}else{
 			
 			var $login_error = $("#login_error");
-			$login_error.html("Incorrect username or password.");
+			$login_error.text("Incorrect username or password.");
 			
 			$("#login_username").val("");
 			$("#login_password").val("");
 			$("#catcha_input").val("");
 			
 			setTimeout(function(){
-				$login_error.html("");
+				$login_error.empty();
 			},3000);
 		}
 	});
@@ -135,8 +134,6 @@ var client_printco = function(socket){
 			$(this).html(content);
 			$(this).fadeIn();
 		});
-		
-		console.log("Content added");
 		
 	});
 	

@@ -1,3 +1,7 @@
+<br />
+<br />
+<br />
+<br />
   <div id="err" class="err"> </div>
     
     <br />
@@ -12,16 +16,19 @@
 
 <tr><td><label for="image">Image:</label></td><td><span id="img"> <input type="file" name="image" id="image" /></span></td><td><!--<a id="add" onclick="addUp()" href="#">another</a><br />--></td></tr>
 <tr><td><label for="printSize">Print Size:</label><br /></td>
-<td><select  name="printSize" id="printSize"   onchange="quantitySizeChanged()">
+<td><select  name="printSize" id="printSize">
 <option>Select print size</option>
 </select></td>
 </tr>
-<tr><td><label for="quantity" class="select">Number of images:</label></td><td>
-<select name="quantity" id="quantity"  onchange="quantitySizeChanged()">
-<option>Select quantity</option>
-</select>
-<a id="next" href="#" onclick="nextLinkClicked()">Next</a>
-</td></tr>
+<tr>
+	<td><label for="quantity" class="select">Number of images:</label></td>
+	<td>
+		<select name="quantity" id="quantity"  onchange="quantitySizeChanged()">
+			<option>Select quantity</option>
+		</select>
+			<a id="next" href="#" onclick="nextLinkClicked()">Next</a>
+	</td>
+</tr>
 <tr>
 <td><label for="delivery">Delivery method:</label></td>
 <td>
@@ -34,16 +41,35 @@
 </td>
 </tr>
 
+
 <tr><td><h4>Your details:</h4></td></tr>
 
-<tr><td><label for="name">Name:</label><br /></td><td><input type="text" name="name" id="name"   /><br /></td></tr>
-<tr><td><label for="number">Phone Number:</label><br /></td><td><input type="tel" name="number" id="number"   /></td></tr>
-<tr><td><label for="location">Location:</label><br /></td><td><select name="location" id="location"   onchange="locationChanged()">
+ <tr>
+	 <td><label for="name" class="ui-hidden-accessible">Name:</label><br /></td> 
+	<td><input type="text" name="name" id="name" placeholder="First and Last Name" class="ui-input-text ui-body-d ui-corner-all ui-shadow-inset" /><br /></td>
+ </tr>
+<tr>
+	<td><label for="number" class="ui-hidden-accessible">Phone Number:</label><br /></td>
+	<td><input type="tel" name="number" id="number" placeholder="Phone Number" class="ui-input-text ui-body-d ui-corner-all ui-shadow-inset" /></td>
+</tr>
+<tr>
+		<td><label for="location" class="ui-hidden-accessible">Location:</label><br /></td>
+		<td><select name="location" id="location" onchange="locationChanged()" data-native-menu="false">
 																<option>Select location</option>
-																</select></td><td><span id="specific"></span></td></td></tr>
-<tr><td><label for="address">Home Address:</label><br /></td><td><textarea name="address" id="address"  ></textarea></td></tr>
-<tr><td><label for="directions">Special directions:</label><br /></td><td><textarea name="directions" id="directions"  ></textarea></td></tr>
+																</select></td><td><span id="specific"></span></td></tr>
+<tr>	
+	<td><label for="address" class="ui-hidden-accessible">Home Address:</label><br /></td>
+	<td><textarea name="address" id="address"  placeholder="Home Address" class="ui-input-text ui-body-d ui-corner-all ui-shadow-inset" style="height: 110.80000019073486px;" ></textarea></td>
+</tr>
+ <tr>
+	<td><label for="directions" class="ui-hidden-accessible">Special directions:</label><br /></td>
+	<td><textarea name="directions" id="directions" placeholder="Directions" class="ui-input-text ui-body-d ui-corner-all ui-shadow-inset" style="height: 110.80000019073486px;"></textarea></td>
+</tr>
 
 </table>
-<input type="button" id="save" name="save" title="Saves your current details so you won't have to re-type it later." value="Save" class="ui-button"  /><input type="submit" id="submit" name="submit" value="Send" class="ui-button control"  />
+<!-- <input type="button" id="save" name="save" title="Saves your current details so you won't have to re-type it later." value="Save" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-b"  /> -->
+<!-- <input type="submit" id="submit" name="submit" value="Send" class="ui-button control" /> -->
+<a href="#" data-role="button" id="save_info" data-inline="true" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Save</span></span></a>
+<a href="#" data-role="button" id="submit" data-inline="true" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Send</span></span></a>
 </form>
+

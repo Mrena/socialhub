@@ -1,25 +1,33 @@
-<h3>Edit Your Details</h3>
+<h2>Edit Your Details</h2>
+<div id="update_notification" class="ui-state-highlight"></div>
 <div data-role="fliedcontain">
 	<div data-role="fieldset">
 		<label for="f_name">First Name:</label><br />
-		<input type="text" id="f_name" /><span class="error" id="f_name_error"></span>
+		<!-- <input type="text" id="f_name" /><span class="error" id="f_name_error"></span>-->
+		<input type="text" id="f_name" placeholder="First Name" class="ui-input-text ui-body-d ui-shadow-inset" /><span class="error" id="f_name_error"></span>
 	</div>
 	<div data-role="fieldset">
 		<label for="l_name">Last Name:</label><br />
-		<input type="l_name" id="l_name" /><span class="error" id="l_name_error"></span>
+		<!-- <input type="l_name" id="l_name" /><span class="error" id="l_name_error"></span>-->
+		<input type="text" id="l_name" placeholder="Last Name" class="ui-input-text ui-body-d ui-shadow-inset" /><span class="error" id="l_name_error"></span>
 	</div>
 	<div data-role="fieldset">
 		<label for="password">Password:</label><br />
-		<input type="password" id="password" /><span class="error" id="password_error"></span>
+		<!-- <input type="password" id="password" /><span class="error" id="password_error"></span>-->
+		<input type="password" id="password" placeholder="Password" class="ui-input-text ui-body-d ui-shadow-inset" /><span class="error" id="password_error"></span>
 	</div>
 	<div data-role="fieldset">
 		<label for="email_address">Email Address</label><br />
-		<input type="email" id="email_address" /><span class="error" id="email_address_error"></span>
+		<!-- <input type="email" id="email_address" /><span class="error" id="email_address_error"></span>-->
+		<input type="email" id="email_address" placeholder="Email Address" class="ui-input-text ui-body-d ui-shadow-inset" /><span class="error" id="email_address_error"></span>
 	</div>
 	<div data-role="fieldset">
 		<label for="physical_address">Physical Address</label><br />
-		<input type="email" id="physical_address" /><span class="error" id="physical_address_error"></span>
+		<!-- <input type="text" id="physical_address" /><span class="error" id="physical_address_error"></span>-->
+		<textarea id="physical_address" placeholder="Physical Address" class="ui-input-text ui-body-d ui-shadow-inset"></textarea><span class="error" id="physical_address_error"></span>
+		
 	</div>
-	<button id="update_provider">Update Details</button>
+	<!-- <button id="update_provider">Update Details</button>-->
+	<a href="#" data-role="button" id="update_provider" class="ui-btn ui-btn-inline ui-corner-all ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Update Details</span></span></a>
 	</div><br />
-	<div id="update_notification" class="ui-state-highlight"></div>
+	

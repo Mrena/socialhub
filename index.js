@@ -5,6 +5,24 @@
 	var io = require("socket.io/lib/socket.io").listen(app);
 	var fs = require("fs");
 	var url = require("url");
+	var mysql = require("mysql");
+				
+	var mysql_con = mysql.createConnection({
+		host : "localhost",
+		user : "root",
+		password : "",
+		database : "printp"
+			
+	});
+	
+	var admin_mysql_con = mysql.createConnection({
+		host : "localhost",
+		user : "root",
+		password : "",
+		database : "mysql"
+			
+	});
+	
 
 	expressApp.use('/static',express.static(__dirname+"/static"));
 	app.listen(8000);
@@ -95,19 +113,6 @@ fs.readFile(__dirname+"/pagenotfound.html",function(error,data){
 	
 }	
 
-var startup_da_parent = require(__dirname+"/js/data_access/startup_da_parent");
-var mysql_con;
- (function(){
-	 
-	 
-	 mysql_con = startup_da_parent.connection();
-	 mysql_con.connect();
-	 
- })();
- 
- console.log(mysql_con);
-
-	
    io.sockets.on("connection",function(client){
 		
 		
@@ -128,6 +133,9 @@ var mysql_con;
 		require("./js/data_access/watcher").watcher(client,mysql_con,fs);
 		require("./js/startup_samples").startup_samples(client,mysql_con,fs);
 		require("./js/startup_tables").startup_tables(client,mysql_con,fs);
+		require("./js/messages").messages(client,mysql_con,fs);
+		require("./js/admin").admin(client,mysql_con,admin_mysql_con,fs);
+		require("./js/catcha_server").catcha_server(client,mysql_con,fs);
 		
 		
 		

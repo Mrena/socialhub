@@ -14,10 +14,7 @@ var system_alerts = function(socket){
 				
 		};
 		
-		
 		socket.emit("update_admin_alerts",JSON.stringify(objAdminAlert));
-		
-		
 	});
 	
 	
@@ -31,10 +28,7 @@ var system_alerts = function(socket){
 				
 		};
 		
-		
 		socket.emit("update_admin_alerts",JSON.stringify(objAdminAlert));
-		
-		
 		
 	});
 	
@@ -49,15 +43,8 @@ var system_alerts = function(socket){
 				
 		};
 		
-		
 		socket.emit("update_admin_alerts",JSON.stringify(objAdminAlert));
-		
-	
 	
 	});
 
-
-	
 };
-
-

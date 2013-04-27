@@ -15,7 +15,7 @@ var system_errors = function(client,fs){
 		console.log(error);
 		var file_name = "system_errors.js",
 		line_number = 11;
-		system_errors_da.logSystemError(error,file_name,line_number);
+		system_errors_da.logSystemError(client,error,file_name,line_number);
 	}
 		
 	});
@@ -32,7 +32,7 @@ var system_errors = function(client,fs){
 			console.log(error);
 			var file_name = "system_errors.js",
 			line_number = 28;
-			system_errors_da.logSystemError(error,file_name,line_number);
+			system_errors_da.logSystemError(client,error,file_name,line_number);
 		}
 		
 	});
@@ -48,7 +48,7 @@ var system_errors = function(client,fs){
 		console.log(error);
 		var file_name = "system_errors.js",
 		line_number = 44;
-		system_errors_da.logSystemError(error,file_name,line_number);
+		system_errors_da.logSystemError(client,error,file_name,line_number);
 	}
 		
 	});
@@ -65,7 +65,7 @@ var system_errors = function(client,fs){
 		console.log(error);
 		var file_name = "system_errors.js",
 		line_number = 61;
-		system_errors_da.logSystemError(error,file_name,line_number);
+		system_errors_da.logSystemError(client,error,file_name,line_number);
 	}
 		
 		
@@ -83,7 +83,7 @@ var system_errors = function(client,fs){
 		console.log(error);
 		var file_name = "system_errors.js",
 		line_number = 79;
-		system_errors_da.logSystemError(error,file_name,line_number);
+		system_errors_da.logSystemError(client,error,file_name,line_number);
 	}
 		
 	});
@@ -100,7 +100,7 @@ var system_errors = function(client,fs){
 		console.log(error);
 		var file_name = "system_errors.js",
 		line_number = 96;
-		system_errors_da.logSystemError(error,file_name,line_number);
+		system_errors_da.logSystemError(client,error,file_name,line_number);
 	}
 		
 	});
@@ -118,14 +118,14 @@ var system_errors = function(client,fs){
 		var file_name = objError.file_name,
 			line_number = objError.line_number;
 		
-		system_errors_da.logSystemError(error,file_name,line_number);
+		system_errors_da.logSystemError(client,error,file_name,line_number);
 		
 	}catch(error){
 		
 		console.log(error);
 		var file_name = "system_errors.js",
 		line_number = 109;
-		system_errors_da.logSystemError(error,file_name,line_number);
+		system_errors_da.logSystemError(client,error,file_name,line_number);
 	}
 		
 		
@@ -144,7 +144,7 @@ var system_errors = function(client,fs){
 		console.log(error);
 		var file_name = "system_errors.js",
 		line_number = 135;
-		system_errors_da.logSystemError(error,file_name,line_number);
+		system_errors_da.logSystemError(client,error,file_name,line_number);
 	}
 		
 	});
@@ -162,7 +162,7 @@ var system_errors = function(client,fs){
 		console.log(error);
 		var file_name = "system_errors.js",
 		line_number = 153;
-		system_errors_da.logSystemError(error,file_name,line_number);
+		system_errors_da.logSystemError(client,error,file_name,line_number);
 	}
 		
 	});
@@ -179,7 +179,7 @@ var system_errors = function(client,fs){
 			console.log(error);
 			var file_name = "system_errors.js",
 			line_number = 170;
-			system_errors_da.logSystemError(error,file_name,line_number);
+			system_errors_da.logSystemError(client,error,file_name,line_number);
 		}
 		
 	});
@@ -195,7 +195,7 @@ var system_errors = function(client,fs){
 				console.log(error);
 				var file_name = "system_errors.js",
 				line_number = 191;
-				system_errors_da.logSystemError(error,file_name,line_number);
+				system_errors_da.logSystemError(client,error,file_name,line_number);
 			}
 			
 	});
@@ -211,7 +211,7 @@ var system_errors = function(client,fs){
 				console.log(error);
 				var file_name = "system_errors.js",
 				line_number = 207;
-				system_errors_da.logSystemError(error,file_name,line_number);
+				system_errors_da.logSystemError(client,error,file_name,line_number);
 			}
 			
 	});
@@ -227,14 +227,12 @@ var system_errors = function(client,fs){
 				console.log(error);
 				var file_name = "system_errors.js",
 				line_number = 223;
-				system_errors_da.logSystemError(error,file_name,line_number);
+				system_errors_da.logSystemError(client,error,file_name,line_number);
 			}
 			
 	});
 	
 	
 };
-
-
 
 exports.system_errors = system_errors;

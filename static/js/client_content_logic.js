@@ -13,13 +13,9 @@ var client_content = function(socket){
 	});
 	
 	socket.on("contact",function(data){
-		$("#menu").hide();
-		$("#page").fadeOut("slow",function(){
-			$(this).html(data);
-			$(this).fadeIn("slow",function(){
-				$("#menu").show("slow");
-			});
-		});
+	
+			$("#page").html(data);
+			sessionStorage['current_view'] = "contact_page";
 		
 	});
 	

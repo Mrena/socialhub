@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -16,6 +16,7 @@
  	<script src="static/js/effect.js"></script>
  	<script src="static/js/jquery.ui.core.js"></script>
  	<script src="static/js/jquery-ui-1.10.0.custom.js"></script>
+ 	<link rel="stylesheet" href="static/css/jquery.mobile-1.2.0.css" />
  <style type="text/css">
  	body {
       padding : 10px;
@@ -52,7 +53,7 @@
         li.menu {
        		float: left;
        		position : relative;
-       		padding : 5px;
+       		/*padding : 5px;*/
        		list-style: none;
     	}
       	a {
@@ -89,12 +90,12 @@
 	<div data-role="header"><h1 class="ui-state-highlight">PrintP - Service Provider</h1></div>
 	<div data-role="content" class="ui-widget-content ui-corner-all">
 	<br />
-	<ul id="menu">
-		<li class="menu"><a href="#" id="provider_deliveries">Orders</a> | </li>
-		<li class="menu"><a href="#" id="provider_statistics">Sales Statistics</a> | </li>
-		<li class="menu"><a href="#" id="add_provider_services">Additional Services</a> | </li>
-		<li class="menu"><a href="#" class="edit_provider_info">Edit Details</a></li>
-	</ul>
+	 <ul id="menu">
+    		  <li class="menu"><a href="#" data-role="button" id="provider_deliveries" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Orders</span></span></a></li>
+    		  <li class="menu"><a href="#" data-role="button" id="provider_statistics" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Sales Statistics</span></span></a></li>
+    		  <li class="menu"><a href="#" data-role="button" id="add_provider_services" class="ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Additional Services</span></span></a></li>
+    		  <li class="menu"><a href="#" data-role="button" class="edit_provider_info ui-btn ui-shadow ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text" style="color:white;">Edit Details</span></span></a></li>
+           </ul>
 	<div id="logged"></div>
 	<div id="content">
 	<h3>Orders</h3>
@@ -117,6 +118,10 @@
 	client_provider_deliveries(socket);
 	client_provider_statistics(socket);
 	client_provider_add_services(socket);
+	
+	sessionStorage['current_view'] = "provider_page";
+	sessionStorage['listener_attached'] = "bogus";
+	
 	if(sessionStorage['logged_as']){
 		
 	 $("#logged").html("Logged as <span id='username'>"+sessionStorage['logged_as']+"</span>");
@@ -130,6 +135,10 @@
 	socket.on("redirected_home",function(content){
 		$("html").fadeOut("fast",function(){
 			$(this).html(content);
+			
+			sessionStorage['current_view'] = "home_page";
+			sessionStorage['listener_attached'] = "bogus";
+			
 			$(this).fadeIn();
 		});
 	});

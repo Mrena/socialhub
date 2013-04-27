@@ -10,18 +10,11 @@ var client_video_services = function(socket){
 	});
 	
 	socket.on("video_services_page",function(data){
-		$("#menu").hide();
-		$("#page").fadeOut("slow",function(){
-			$(this).html(data);
-			$("#page").fadeIn("slow",function(){
-				$("#menu").show("slow");
-			});
+		
+			$("#page").html(data);
+			sessionStorage['current_view'] = "video_service_providers_page";
+			sessionStorage['listener_attached'] = "bogus";
+
 		});
-			
-		});
-	
-	
-	
-	
 	
 };

@@ -5,10 +5,6 @@ var client_providers = function(socket){
 	
 	try{
 		
-	
-	
-	
-	
 	var validateProviderEdit = function(f_name,l_name,email_address,physical_address,operating_area,index){
 		
 		 var isValid = true;
@@ -50,7 +46,89 @@ var client_providers = function(socket){
 		return isValid;
 	};
 	
-	var attachListeners = function(){
+	var attachProvidersOperationsListeners = function(providers){
+		
+		// Adds event listeners for delete and edit buttons
+		$.each(providers,function(index,value){
+			
+			    $("#submit_"+index).hide();
+			
+				$("#delete_"+index).on("click",function(e){
+					
+					console.log(index);
+					var username = $("#row_"+index+" td:eq(2)").html();
+					console.log(username);
+					socket.emit("delete_service_provider",username);
+					e.preventDefault();
+				});
+				
+				$("#edit_"+index).on("click",function(e){
+					
+					// Grab the values which are currently on the TDs
+					var f_name = $("#row_"+index+" td:eq(0)").html(),
+						l_name = $("#row_"+index+" td:eq(1)").html(),
+						email_address = $("#row_"+index+" td:eq(3)").html(),
+						physical_address = $("#row_"+index+" td:eq(4)").html(),
+						operating_area = $("#row_"+index+" td:eq(5)").html();
+					
+					
+					// Create text input inside the TDs and assign to the input the values which were inside the TDs
+					$("#row_"+index+" td:eq(0)").html("<input type='text' id='f_name_"+index+"' value='"+f_name+"' />");
+					$("#row_"+index+" td:eq(1)").html("<input type='text' id='l_name_"+index+"' value='"+l_name+"'  />");
+					$("#row_"+index+" td:eq(3)").html("<input type='text' id='email_address_"+index+"' value='"+email_address+"'  />");
+					$("#row_"+index+" td:eq(4)").html("<input type='text' id='physical_address_"+index+"' value='"+physical_address+"'  />");
+					$("#row_"+index+" td:eq(5)").html("<input type='text' id='operating_area_"+index+"' value='"+operating_area+"'  />");
+					
+					$("#edit_"+index).hide();
+					$("#submit_"+index).show();
+					
+					// an event listener for our newly created submit button
+					 $("#submit_"+index).on("click",function(e){
+						 
+						var f_name = $("#f_name_"+index).val(),
+							l_name = $("#l_name_"+index).val(),
+							username = $("#row_"+index+" td:eq(2)").html(),
+							email_address = $("#email_address_"+index).val(),
+							physical_address = $("#physical_address_"+index).val(),
+							operating_area = $("#operating_area_"+index).val();
+						  
+						    
+					if(validateProviderEdit(f_name,l_name,email_address,physical_address,operating_area,index)){
+						 
+					     var objProvider = {
+					    		 "f_name" : f_name,
+					    		 "l_name" : l_name,
+					    		 "username" : username,
+					    		 "email_address" : email_address,
+					    		 "physical_address" : physical_address,
+					    		 "operating_area" : operating_area
+					     };
+					     
+					     socket.emit("update_service_provider",JSON.stringify(objProvider));
+					     
+					     $("#submit_"+index).hide();
+					     $("#edit_"+index).show();
+					     
+					}
+					    
+						 e.preventDefault();
+					 });
+					
+					e.preventDefault();
+				});
+				
+			});
+		
+		
+		
+		
+		
+		
+		
+		
+	};
+	
+	var attachAddProviderListeners = function(){
 		
 		
 		var validateProviderInfo = function(f_name,l_name,username,password,email_address,physical_address,operating_area){
@@ -215,6 +293,7 @@ var client_providers = function(socket){
 	$("#get_service_providers").on("click",function(e){
 		
 		socket.emit("get_printing_providers");
+		sessionStorage['current_view'] = "all_service_providers";
 		$("#filter_value").val("");
 		e.preventDefault();
 	});
@@ -222,89 +301,31 @@ var client_providers = function(socket){
 	
 	socket.on("printing_providers",function(providers){
 		
-		providers = JSON.parse(providers);
+		if(sessionStorage['current_view'] === "all_service_providers"){
+			providers = JSON.parse(providers);
 		
-		var pros = "<table border='1'><thead><tr><td>First Name</td><td>Last Name</td><td>Username</td><td>Email Address</td><td>Physical Address</td><td>Operating Area</td><td>Operations</td></tr></thead><tbody>";
+			var pros = "<table border='1'><thead><tr><td>First Name</td><td>Last Name</td><td>Username</td><td>Email Address</td><td>Physical Address</td><td>Operating Area</td><td>Operations</td></tr></thead><tbody>";
 		
-		$.each(providers,function(index,value){
-			pros+="<tr id='row_"+index+"'><td>"+value.f_name+"</td><td>"+value.l_name+"</td><td>"+value.username+"</td><td>"+value.email_address+"</td><td>"+value.physical_address+"</td><td>"+value.operating_area+"</td><td><button id='edit_"+index+"'>Edit</button><button id='submit_"+index+"'>Submit</button><button id='delete_"+index+"'>Delete</button></td></tr>";
+			$.each(providers,function(index,value){
+				pros+="<tr id='row_"+index+"'><td>"+value.f_name+"</td><td>"+value.l_name+"</td><td>"+value.username+"</td><td>"+value.email_address+"</td><td>"+value.physical_address+"</td><td>"+value.operating_area+"</td><td><button id='edit_"+index+"'>Edit</button><button id='submit_"+index+"'>Submit</button><button id='delete_"+index+"'>Delete</button></td></tr>";
 		
-		});
-		
-		
-		pros += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
-		$("#providers").html(pros);
-		
-	// Adds event listeners for delete and edit buttons
-	$.each(providers,function(index,value){
-		
-		    $("#submit_"+index).hide();
-		
-			$("#delete_"+index).on("click",function(e){
-				
-				console.log(index);
-				var username = $("#row_"+index+" td:eq(2)").html();
-				console.log(username);
-				socket.emit("delete_service_provider",username);
-				e.preventDefault();
 			});
-			
-			$("#edit_"+index).on("click",function(e){
-				
-				// Grab the values which are currently on the TDs
-				var f_name = $("#row_"+index+" td:eq(0)").html(),
-					l_name = $("#row_"+index+" td:eq(1)").html(),
-					email_address = $("#row_"+index+" td:eq(3)").html(),
-					physical_address = $("#row_"+index+" td:eq(4)").html(),
-					operating_area = $("#row_"+index+" td:eq(5)").html();
-				
-				
-				// Create text input inside the TDs and assign to the input the values which were inside the TDs
-				$("#row_"+index+" td:eq(0)").html("<input type='text' id='f_name_"+index+"' value='"+f_name+"' />");
-				$("#row_"+index+" td:eq(1)").html("<input type='text' id='l_name_"+index+"' value='"+l_name+"'  />");
-				$("#row_"+index+" td:eq(3)").html("<input type='text' id='email_address_"+index+"' value='"+email_address+"'  />");
-				$("#row_"+index+" td:eq(4)").html("<input type='text' id='physical_address_"+index+"' value='"+physical_address+"'  />");
-				$("#row_"+index+" td:eq(5)").html("<input type='text' id='operating_area_"+index+"' value='"+operating_area+"'  />");
-				
-				$("#edit_"+index).hide();
-				$("#submit_"+index).show();
-				
-				// an event listener for our newly created submit button
-				 $("#submit_"+index).on("click",function(e){
-					 
-					var f_name = $("#f_name_"+index).val(),
-						l_name = $("#l_name_"+index).val(),
-						username = $("#row_"+index+" td:eq(2)").html(),
-						email_address = $("#email_address_"+index).val(),
-						physical_address = $("#physical_address_"+index).val(),
-						operating_area = $("#operating_area_"+index).val();
-					  
-					    
-				if(validateProviderEdit(f_name,l_name,email_address,physical_address,operating_area,index)){
-					 
-				     var objProvider = {
-				    		 "f_name" : f_name,
-				    		 "l_name" : l_name,
-				    		 "username" : username,
-				    		 "email_address" : email_address,
-				    		 "physical_address" : physical_address,
-				    		 "operating_area" : operating_area
-				     };
-				     
-				     socket.emit("update_service_provider",JSON.stringify(objProvider));
-				     
-				     $("#submit_"+index).hide();
-				     $("#edit_"+index).show();
-				     
-				}
-				    
-					 e.preventDefault();
-				 });
-				
-				e.preventDefault();
-			});
-			
-		});
+		
+		
+			pros += "</tbody><tfoot><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tfoot></table>";
+			$("#providers").html(pros);
+			sessionStorage['current_view'] = "all_service_providers";
+		
+		
+			if(sessionStorage['listener_attached'] !== "providers_operations"){
+		
+				attachProvidersOperationsListeners(providers);
+				sessionStorage['listener_attached'] = "providers_operations";
+			}
+		
+	
+ }
+	
 		
 	});
 	
@@ -344,18 +365,37 @@ var client_providers = function(socket){
 	
 	$("#add_provider").on("click",function(e){
 		socket.emit("get_add_provider");
+		sessionStorage['current_view'] = "add_service_provider";
 		e.preventDefault();
 	});
 	
 
 	socket.on("add_provider",function(data){
 		
-			$("#providers").html(data);
-			  attachListeners();
-				      
+		if(sessionStorage['current_view'] === "add_service_provider"){
+				$("#providers").html(data);
+				sessionStorage['current_view'] = "add_service_provider";
+				if(sessionStorage['listener_attached'] !== "add_provider"){
 			  
-			
+					attachAddProviderListeners();
+					sessionStorage['listener_attached'] = "add_provider";
+				}
+		
+		}
+				      
+});
 	
+$("#service_provider_sales_stats").on("click",function(e){
+		
+		socket.emit("get_provider_sales_stats_page");
+		e.preventDefault();
+	});
+	
+	socket.on("provider_sales_stats_page",function(data){
+		
+		$("#providers").html(data);
+		client_provider_sales_stats(socket);
+		
 	});
 	
 	

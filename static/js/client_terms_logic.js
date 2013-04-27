@@ -14,15 +14,10 @@ var client_terms = function(socket){
 	
 	socket.on("terms",function(data){
 		
-		$("#menu").hide();
-		$("#page").fadeOut("slow",function(){
 			$("#page").html(data);
-			$("#page").fadeIn();
-			$("#menu").show("slow");
-		});
-		
-		
-		
+			sessionStorage['current_view'] = "terms_page";
+			sessionStorage['listener_attached'] = "bogus";
+	
 		});
 	
 	// end of terms request and response

@@ -1,9 +1,7 @@
-var mysql = require('mysql');
-var fs = require("fs");
 var startup_da_parent = require("./startup_da_parent");
 
 
-var createPhotographersTable = function(client,mysql_con){
+var createPhotographersTable = function(client,mysql_con,fs){
 	
 	
 	var query = "CREATE TABLE IF NOT EXISTS Photographers(f_name VARCHAR(50),l_name VARCHAR(50),username VARCHAR(50) PRIMARY KEY NOT NULL,password VARCHAR(50) NOT NULL,email_address VARCHAR(50) NOT NULL UNIQUE,physical_address VARCHAR(50),operating_area VARCHAR(100) NOT NULL,service_code BINARY)";
@@ -12,7 +10,7 @@ var createPhotographersTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 12;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("create_table_photographers_error");
 		
 		
@@ -25,7 +23,7 @@ var createPhotographersTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 25;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -41,7 +39,7 @@ var createPhotographersTable = function(client,mysql_con){
 };
 
 
-var createCityTable = function(client,mysql_con){
+var createCityTable = function(client,mysql_con,fs){
 
 	query = "CREATE TABLE IF NOT EXISTS City(city_id INTEGER PRIMARY KEY AUTO_INCREMENT,name VARCHAR(50) UNIQUE)";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -49,7 +47,7 @@ var createCityTable = function(client,mysql_con){
 		console.log(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 50;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("create_city_photographers_error");
 		
 	},function(client){
@@ -61,7 +59,7 @@ var createCityTable = function(client,mysql_con){
 			console.log(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 62;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -74,7 +72,7 @@ var createCityTable = function(client,mysql_con){
 };
 
 
-var createAreasTable = function(client,mysql_con){
+var createAreasTable = function(client,mysql_con,fs){
 	
 		query = "CREATE TABLE IF NOT EXISTS Areas(area_id INTEGER PRIMARY KEY AUTO_INCREMENT,city VARCHAR(50) REFERENCES City(name),location VARCHAR(100))";
 		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -82,7 +80,7 @@ var createAreasTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 84;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			client.emit("create_table_areas_error");
 			
 		},function(client){
@@ -94,7 +92,7 @@ var createAreasTable = function(client,mysql_con){
     			console.log(error);
     			var file_name = "startup_da_tables.js",
 				line_number = 96;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
     		},function(client){
     			
@@ -109,7 +107,7 @@ var createAreasTable = function(client,mysql_con){
 
 	
 	
-	var createPackagesTable = function(client,mysql_con){
+	var createPackagesTable = function(client,mysql_con,fs){
 		
 			query = "CREATE TABLE IF NOT EXISTS Packages(package_id INTEGER PRIMARY KEY AUTO_INCREMENT,print_size VARCHAR(50) UNIQUE,price DECIMAL)";
 			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -117,7 +115,7 @@ var createAreasTable = function(client,mysql_con){
 				console.log(error);
 				var file_name = "startup_da_tables.js",
 				line_number = 120;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				client.emit("create_table_packages_error");
 				
 			},function(client){
@@ -129,7 +127,7 @@ var createAreasTable = function(client,mysql_con){
         			console.log(error);
         			var file_name = "startup_da_tables.js",
     				line_number = 132;
-    				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+    				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
     				
         		},function(client){
         			
@@ -142,7 +140,7 @@ var createAreasTable = function(client,mysql_con){
 	};
 		
 		
-		var createOrdersTable = function(client,mysql_con){
+		var createOrdersTable = function(client,mysql_con,fs){
 			
 				query = "CREATE TABLE IF NOT EXISTS Orders(order_id INTEGER PRIMARY KEY AUTO_INCREMENT,order_from VARCHAR(50) NOT NULL,order_from_id VARCHAR(1000) NOT NULL,order_to VARCHAR(50) NOT NULL,order_date VARCHAR(10) NOT NULL,order_location VARCHAR(50) NOT NULL,order_image_number INTEGER NOT NULL,order_price DECIMAL NOT NUll,order_fullfilled BINARY,order_fullfilled_date VARCHAR(10),order_comments VARCHAR(50))";
 				startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -150,7 +148,7 @@ var createAreasTable = function(client,mysql_con){
 					console.log(error);
 					var file_name = "startup_da_tables.js",
 					line_number = 155;
-					startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+					startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 					client.emit("create_table_orders_error");
 					
 				},function(client){
@@ -161,7 +159,7 @@ var createAreasTable = function(client,mysql_con){
 	        			console.log(error);
 	        			var file_name = "startup_da_tables.js",
 	    				line_number = 169;
-	    				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+	    				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 	    				
 	        		},function(client){
 	        			
@@ -175,7 +173,7 @@ var createAreasTable = function(client,mysql_con){
 		};
 
 			
-			var createUserIDsTable = function(client,mysql_con){
+			var createUserIDsTable = function(client,mysql_con,fs){
 				
 					query = "CREATE TABLE IF NOT EXISTS UserIDs(user_id INTEGER PRIMARY KEY AUTO_INCREMENT,userId_date_created VARCHAR(50) NOT NULL,userId_hash_value VARCHAR(500) NOT NULL)";
 			    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -183,7 +181,7 @@ var createAreasTable = function(client,mysql_con){
 			    		console.log(error);
 			    		var file_name = "startup_da_tables.js",
 						line_number = 193;
-						startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+						startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 						client.emit("create_table_userids_error");
 			    		
 			    	},function(client){
@@ -195,7 +193,7 @@ var createAreasTable = function(client,mysql_con){
 		        			console.log(error);
 		        			var file_name = "startup_da_tables.js",
 		    				line_number = 205;
-		    				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		    				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		    				
 		        		},function(client){
 		        			
@@ -208,7 +206,7 @@ var createAreasTable = function(client,mysql_con){
 			   
 			};
 			
-			var createUsersTable = function(client,mysql_con){
+			var createUsersTable = function(client,mysql_con,fs){
 				
 					query = "CREATE TABLE IF NOT EXISTS Users(user_id VARCHAR(500) REFERENCES UserIDs(userID_hash_value),username VARCHAR(50) PRIMARY KEY NOT NULL,password VARCHAR(500) NOT NULL,email_address VARCHAR(50) UNIQUE NOT NULL,phone_number INTEGER NOT NULL,f_name VARCHAR(50),l_name VARCHAR(50),address VARCHAR(50),city VARCHAR(50),special_directions VARCHAR(50))";
 			    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -216,7 +214,7 @@ var createAreasTable = function(client,mysql_con){
 			    		console.trace(error);
 			    		var file_name = "startup_da_tables.js",
 						line_number = 227;
-						startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+						startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 						client.emit("create_table_users_error");
 			    		
 			    	},function(client){
@@ -228,7 +226,7 @@ var createAreasTable = function(client,mysql_con){
 		        			console.log(error);
 		        			var file_name = "startup_da_tables.js",
 		    				line_number = 239;
-		    				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		    				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		    				
 		        		},function(client){
 		        			
@@ -243,7 +241,7 @@ var createAreasTable = function(client,mysql_con){
 			};
 			
 			
-			var createAdminTable = function(client,mysql_con){
+			var createAdminTable = function(client,mysql_con,fs){
 				
 					query = "CREATE TABLE IF NOT EXISTS Admin(username VARCHAR(50) PRIMARY KEY NOT NULL,password VARCHAR(50) NOT NULL,email_address VARCHAR(50) UNIQUE NOT NULL)";
 			    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -251,7 +249,7 @@ var createAreasTable = function(client,mysql_con){
 			    		console.log(error);
 			    		var file_name = "startup_da_tables.js",
 						line_number = 236;
-						startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+						startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 						client.emit("create_table_admin_error");
 			    		
 			    	},function(client){
@@ -263,7 +261,7 @@ var createAreasTable = function(client,mysql_con){
 		        			console.log(error);
 		        			var file_name = "startup_da_tables.js",
 		    				line_number = 275;
-		    				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		    				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		    				
 		        		},function(client){
 		        			
@@ -278,7 +276,7 @@ var createAreasTable = function(client,mysql_con){
 			};
 			
 			
-			var createAdminRightsTable = function(client,mysql_con){
+			var createAdminRightsTable = function(client,mysql_con,fs){
 				
 					query = "CREATE TABLE IF NOT EXISTS Admin_Rights(admin_rights_id INTEGER PRIMARY KEY AUTO_INCREMENT, username VARCHAR(50) REFERENCES Admin(username),database_area INTEGER NOT NULL,service_providers_area INTEGER NOT NULL,end_users_area INTEGER NOT NULL, system_errors_area INTEGER NOT NULL, system_alerts_area INTEGER NOT NULL)";
 			    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -286,7 +284,7 @@ var createAreasTable = function(client,mysql_con){
 			    		console.log(error);
 			    		var file_name = "startup_da_tables.js",
 						line_number = 299;
-						startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+						startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 						client.emit("create_table_admin_rights_error");
 			    		
 			    	},function(client){
@@ -298,7 +296,7 @@ var createAreasTable = function(client,mysql_con){
 		        			console.log(error);
 		        			var file_name = "startup_da_tables.js",
 		    				line_number = 311;
-		    				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		    				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		    				
 		        		},function(client){
 		        			
@@ -310,7 +308,7 @@ var createAreasTable = function(client,mysql_con){
 			  
 			};
 			
-			var createAlertsTable = function(client,mysql_con){
+			var createAlertsTable = function(client,mysql_con,fs){
 				
 					query = "CREATE TABLE IF NOT EXISTS Alerts(new_user_sign_up VARCHAR(5) NOT NULL,new_order VARCHAR(5) NOT NULL,new_provider VARCHAR(5),username VARCHAR(50) REFERENCES Admin(username))";
 			    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -318,7 +316,7 @@ var createAreasTable = function(client,mysql_con){
 			    		console.log(error);
 			    		var file_name = "startup_da_tables.js",
 						line_number = 334;
-						startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+						startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 						client.emit("create_table_alerts_error");
 			    		
 			    	},function(client){
@@ -330,7 +328,7 @@ var createAreasTable = function(client,mysql_con){
 		        			console.log(error);
 		        			var file_name = "startup_da_tables.js",
 		    				line_number = 346;
-		    				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		    				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		    				
 		        		},function(client){
 		        			
@@ -344,7 +342,7 @@ var createAreasTable = function(client,mysql_con){
 			};
 			
 			
-			var createDeliveryMethodTable = function(client,mysql_con){
+			var createDeliveryMethodTable = function(client,mysql_con,fs){
 				
 			
 					query = "CREATE TABLE IF NOT EXISTS DeliveryMethod(name VARCHAR(50) PRIMARY KEY NOT NULL,description VARCHAR(50) NOT NULL,price DOUBLE NOT NULL)";
@@ -353,7 +351,7 @@ var createAreasTable = function(client,mysql_con){
 			    		console.log(error);
 			    		var file_name = "startup_da_tables.js",
 						line_number = 370;
-						startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+						startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 						client.emit("create_table_delivery_method_error");
 			    		
 			    	},function(client){
@@ -365,7 +363,7 @@ var createAreasTable = function(client,mysql_con){
 		        			console.log(error);
 		        			var file_name = "startup_da_tables.js",
 		    				line_number = 382;
-		    				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		    				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		    				
 		        		},function(client){
 		        			
@@ -377,27 +375,178 @@ var createAreasTable = function(client,mysql_con){
 			    	});
 			  
 			};
-
-var createTables = function(client,mysql_con){
+			
+		var createMessagesTable = function(client,mysql_con,fs){
+			
+			
+			query = "CREATE TABLE IF NOT EXISTS Messages(message_id INTEGER PRIMARY KEY AUTO_INCREMENT,user_from VARCHAR(50) NOT NULL,user_to VARCHAR(50) NOT NULL,message VARCHAR(1000) NOT NULL,is_read BINARY NOT NULL)";
+	    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+	    		
+	    		console.log(error);
+	    		var file_name = "startup_da_tables.js",
+				line_number = 370;
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+				client.emit("create_table_messages_error");
+	    		
+	    	},function(client){
+	    		
+	    		
+	    		var query = "UPDATE Tables SET created = 1 WHERE name='messages'";
+        		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+        			
+        			console.log(error);
+        			var file_name = "startup_da_tables.js",
+    				line_number = 382;
+    				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+    				
+        		},function(client){
+        			
+        			client.emit("messages_created");
+        			
+        		});
+    			
+	    		
+	    	});
+			
+			
+			
+		};
+		
+		var createReplyMessagesTable = function(client,mysql_con,fs){
+			
+			
+			query = "CREATE TABLE IF NOT EXISTS Reply_Messages(reply_id INTEGER PRIMARY KEY AUTO_INCREMENT,reply_from VARCHAR(50) NOT NULL,reply_to REFERENCES Messages(message_id) NOT NULL,reply_message VARCHAR(1000) NOT NULL,reply_number INTEGER NOT NULL)";
+	    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+	    		
+	    		console.log(error);
+	    		var file_name = "startup_da_tables.js",
+				line_number = 370;
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+				client.emit("create_table_reply_messages_error");
+	    		
+	    	},function(client){
+	    		
+	    		
+	    		var query = "UPDATE Tables SET created = 1 WHERE name='reply_messages'";
+        		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+        			
+        			console.log(error);
+        			var file_name = "startup_da_tables.js",
+    				line_number = 382;
+    				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+    				
+        		},function(client){
+        			
+        			client.emit("reply_messages_created");
+        			
+        		});
+    			
+	    		
+	    	});
+			
+			
+			
+		};
+		
+		
+	var createMessageAttachmentsTable = function(client,mysql_con,fs){
+			
+			
+			query = "CREATE TABLE IF NOT EXISTS Message_Attachments(attachment_id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,message_id INTEGER REFERENCES Messages(message_id) NOT NULL,reply_id INTEGER REFERENCES Reply_Messages(reply_id),attachment_type VARCHAR(20) NOT NULL,attachment VARCHAR(5000) NOT NULL)";
+	    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+	    		
+	    		console.log(error);
+	    		var file_name = "startup_da_tables.js",
+				line_number = 370;
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+				client.emit("create_table_message_attachments_error");
+	    		
+	    	},function(client){
+	    		
+	    		
+	    		var query = "UPDATE Tables SET created = 1 WHERE name='message_attachments'";
+        		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+        			
+        			console.log(error);
+        			var file_name = "startup_da_tables.js",
+    				line_number = 382;
+    				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+    				
+        		},function(client){
+        			
+        			client.emit("message_attachments_created");
+        			
+        		});
+    			
+	    		
+	    	});
+			
+			
+			
+		};
+		
+		var createCatchaImagesTable = function(client,mysql_con,fs){
+			
+			
+			query = "CREATE TABLE IF NOT EXISTS Catcha_Images(catcha_id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,catcha_name VARCHAR(50) NOT NULL,catcha_value VARCHAR(50) NOT NULL,catcha_image VARCHAR(5000) NOT NULL)";
+	    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+	    		
+	    		console.log(error);
+	    		var file_name = "startup_da_tables.js",
+				line_number = 370;
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+				client.emit("create_table_catcha_images_error");
+	    		
+	    	},function(client){
+	    		
+	    		
+	    		var query = "UPDATE Tables SET created = 1 WHERE name='catcha_images'";
+        		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+        			
+        			console.log(error);
+        			var file_name = "startup_da_tables.js",
+    				line_number = 382;
+    				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+    				
+        		},function(client){
+        			
+        			client.emit("catcha_images_created");
+        			
+        		});
+    			
+	    		
+	    	});
+			
+			
+			
+		};
+		
+		
+	
+		var createTables = function(client,mysql_con,fs){
 	
   
-    			    createPhotographersTable(client,mysql_con);
-    			    createCityTable(client,mysql_con);
-    			    createAreasTable(client,mysql_con);
-    			    createPackagesTable(client,mysql_con);
-    			    createOrdersTable(client,mysql_con);
-    			    createUserIDsTable(client,mysql_con);
-    			    createUsersTable(client,mysql_con);
-    			    createAdminTable(client,mysql_con);
-    			    createAdminRightsTable(client,mysql_con);
-    			    createAlertsTable(client,mysql_con);
-    			    createDeliveryMethodTable(client,mysql_con);
+    			    createPhotographersTable(client,mysql_con,fs);
+    			    createCityTable(client,mysql_con,fs);
+    			    createAreasTable(client,mysql_con,fs);
+    			    createPackagesTable(client,mysql_con,fs);
+    			    createOrdersTable(client,mysql_con,fs);
+    			    createUserIDsTable(client,mysql_con,fs);
+    			    createUsersTable(client,mysql_con,fs);
+    			    createAdminTable(client,mysql_con,fs);
+    			    createAdminRightsTable(client,mysql_con,fs);
+    			    createAlertsTable(client,mysql_con,fs);
+    			    createDeliveryMethodTable(client,mysql_con,fs);
+    			    createMessagesTable(client,mysql_con,fs);
+    			    createReplyMessagesTable(client,mysql_con,fs);
+    			    createMessageAttachmentsTable(client,mysql_con,fs);
+    			    createCatchaImagesTable(client,mysql_con,fs);
     			    
     			    console.log("Tables created");	
 
 };
 
-var createTablesTable = function(client,mysql_con){
+var createTablesTable = function(client,mysql_con,fs){
 	
 		query = "CREATE TABLE IF NOT EXISTS Tables(name VARCHAR(50) PRIMARY KEY NOT NULL,created BINARY NOT NULL,samples_added BINARY)";
     	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -405,47 +554,52 @@ var createTablesTable = function(client,mysql_con){
     		console.trace(error);
     		var file_name = "startup_da_tables.js",
 			line_number = 427;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			client.emit("create_table_tables_error");
     		
     	},function(client){
     		
-    		var tables_name = new Array("photographers","packages","orders","areas","city","userids","users","alerts","admin","admin_rights","delivery_method");
-    		
+    		var tables_name = new Array("photographers","packages","orders","areas","city","userids","users","alerts","admin","admin_rights","delivery_method","messages","reply_messages","message_attachments","catcha_images");
+    		var tables_length = tables_name.length,
+    		    added_tables = 0;
     		tables_name.forEach(function(table){
-    			console.log(table);
+    			
     			var query = "INSERT INTO Tables(name,created,samples_added) VALUES('"+table+"',0,0)";
         		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
         			
         			console.trace(error);
         			var file_name = "startup_da_tables.js",
     				line_number = 442;
-    				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+    				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
     				
         			
         		},function(client){
         			
-        			client.emit("tables_table_created");
+        			++added_tables;
         			
         		});
     			
     		});
+    		
+    		if(added_tables==tables_length){
+    			client.emit("tables_table_created");
+    		}
     		
     });
     	
 };
 
 
-var resetSystem = function(client,mysql_con){
+var resetSystem = function(client,mysql_con,fs){
 	
-	var query = "DROP TABLE admin, admin_rights, alerts, areas, city, deliverymethod, orders, packages, photographers, tables, userids, users";
+	var query = "DROP TABLE admin, admin_rights, alerts, areas, city, deliverymethod, orders, packages, photographers, tables, userids, users, messages,reply_messages,message_attachments,catcha_images";
 	
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 		
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 472;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("system_reset_error");
 		
 	},function(client){
@@ -457,82 +611,7 @@ var resetSystem = function(client,mysql_con){
 	
 };
 
-var createOnlyPhotographersTable = function(client,mysql_con){
-	
-	createPhotographersTable(client,mysql_con);
-
-
-};
-
-var createOnlyPackagesTable = function(client,mysql_con){
-	
-	createPackagesTable(client,mysql_con);
-	
-};
-
-var createOnlyOrdersTable = function(client,mysql_con){
-	
-	createOrdersTable(client,mysql_con);
-	
-};
-
-var createOnlyAreasTable = function(client,mysql_con){
-	
-	createAreasTable(client,mysql_con);
-	
-	
-};
-
-var createOnlyCityTable = function(client,mysql_con){
-	
-	createCityTable(client,mysql_con);
-	
-	
-};
-
-var createOnlyUserIDsTable = function(client,mysql_con){
-	
-
-	createUserIDsTable(client,mysql_con);
-	
-	
-};
-
-var createOnlyUsersTable = function(client,mysql_con){
-	
-	createUsersTable(client,mysql_con);
-	
-	
-};
-
-var createOnlyAdminTable = function(client,mysql_con){
-	
-	createAdminTable(client,mysql_con);
-	
-};
-
-var createOnlyAdminRightsTable = function(client,mysql_con){
-	
-	createAdminRightsTable(client,mysql_con);
-	
-};
-
-var createOnlyAlertsTable = function(client,mysql_con){
-	
-	createAlertsTable(client,mysql_con);
-	
-};
-
-var createOnlyDeliveryMethodTable = function(client,mysql_con){
-	
-
-	createDeliveryMethodTable(client,mysql_con);
-	
-	
-};
-
-
-var deletePhotographersTable = function(client,mysql_con){
+var deletePhotographersTable = function(client,mysql_con,fs){
 	
 	
 	var query = "DROP TABLE IF EXISTS Photographers";
@@ -541,7 +620,7 @@ var deletePhotographersTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 586;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("delete_table_photographers_error");
 		
 		
@@ -553,7 +632,7 @@ var deletePhotographersTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 598;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -563,7 +642,7 @@ var deletePhotographersTable = function(client,mysql_con){
 				console.trace(error);
 				var file_name = "startup_da_tables.js",
 				line_number = 608;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 			},function(client){
 				
@@ -577,7 +656,7 @@ var deletePhotographersTable = function(client,mysql_con){
 	
 };
 
-var deletePackagesTable = function(client,mysql_con){
+var deletePackagesTable = function(client,mysql_con,fs){
 	
 	
 	var query = "DROP TABLE IF EXISTS Packages";
@@ -586,7 +665,7 @@ var deletePackagesTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 633;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("delete_table_packages_error");
 		
 		
@@ -598,7 +677,7 @@ var deletePackagesTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 645;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -608,7 +687,7 @@ var deletePackagesTable = function(client,mysql_con){
 				console.trace(error);
 				var file_name = "startup_da_tables.js",
 				line_number = 655;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 			},function(client){
 				
@@ -622,7 +701,7 @@ var deletePackagesTable = function(client,mysql_con){
 	
 };
 
-var deleteOrdersTable = function(client,mysql_con){
+var deleteOrdersTable = function(client,mysql_con,fs){
 	
 	var query = "DROP TABLE IF EXISTS Orders";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -630,7 +709,7 @@ var deleteOrdersTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 680;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("delete_table_orders_error");
 		
 		
@@ -642,7 +721,7 @@ var deleteOrdersTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 692;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -652,7 +731,7 @@ var deleteOrdersTable = function(client,mysql_con){
 				console.trace(error);
 				var file_name = "startup_da_tables.js",
 				line_number = 702;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 			},function(client){
 				
@@ -666,7 +745,7 @@ var deleteOrdersTable = function(client,mysql_con){
 	
 };
 
-var deleteAreasTable = function(client,mysql_con){
+var deleteAreasTable = function(client,mysql_con,fs){
 	
 	var query = "DROP TABLE IF EXISTS Areas";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -674,7 +753,7 @@ var deleteAreasTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 727;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("delete_table_areas_error");
 		
 		
@@ -686,7 +765,7 @@ var deleteAreasTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 739;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -696,7 +775,7 @@ var deleteAreasTable = function(client,mysql_con){
 				console.trace(error);
 				var file_name = "startup_da_tables.js",
 				line_number = 749;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 			},function(client){
 				
@@ -710,7 +789,7 @@ var deleteAreasTable = function(client,mysql_con){
 	
 };
 
-var deleteCityTable = function(client,mysql_con){
+var deleteCityTable = function(client,mysql_con,fs){
 	
 	var query = "DROP TABLE IF EXISTS City";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -718,7 +797,7 @@ var deleteCityTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 774;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("delete_table_city_error");
 		
 		
@@ -730,7 +809,7 @@ var deleteCityTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 786;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -741,7 +820,7 @@ var deleteCityTable = function(client,mysql_con){
 				console.trace(error);
 				var file_name = "startup_da_tables.js",
 				line_number = 797;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 			},function(client){
 				
@@ -755,7 +834,7 @@ var deleteCityTable = function(client,mysql_con){
 	
 };
 
-var deleteDeliveryMethodTable = function(client,mysql_con){
+var deleteDeliveryMethodTable = function(client,mysql_con,fs){
 	
 	var query = "DROP TABLE IF EXISTS DeliveryMethod";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -763,7 +842,7 @@ var deleteDeliveryMethodTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 822;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("delete_table_delivery_method_error");
 		
 		
@@ -775,7 +854,7 @@ var deleteDeliveryMethodTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 834;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 	
@@ -785,7 +864,7 @@ var deleteDeliveryMethodTable = function(client,mysql_con){
 				console.trace(error);
 				var file_name = "startup_da_tables.js",
 				line_number = 844;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 			},function(client){
 		
@@ -799,7 +878,7 @@ var deleteDeliveryMethodTable = function(client,mysql_con){
 	
 };
 
-var deleteUserIDsTable = function(client,mysql_con){
+var deleteUserIDsTable = function(client,mysql_con,fs){
 	
 	var query = "DROP TABLE IF EXISTS UserIDs";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -807,7 +886,7 @@ var deleteUserIDsTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 869;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("delete_table_userIDs_error");
 		
 		
@@ -819,7 +898,7 @@ var deleteUserIDsTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 881;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -830,7 +909,7 @@ var deleteUserIDsTable = function(client,mysql_con){
 				console.trace(error);
 				var file_name = "startup_da_tables.js",
 				line_number = 892;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 			},function(client){
 				
@@ -845,7 +924,7 @@ var deleteUserIDsTable = function(client,mysql_con){
 	
 };
 
-var deleteUsersTable = function(client,mysql_con){
+var deleteUsersTable = function(client,mysql_con,fs){
 	
 	var query = "DROP TABLE IF EXISTS Users";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -853,7 +932,7 @@ var deleteUsersTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 921;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("delete_table_users_error");
 		
 		
@@ -865,7 +944,7 @@ var deleteUsersTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 930;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -875,7 +954,7 @@ var deleteUsersTable = function(client,mysql_con){
 				console.trace(error);
 				var file_name = "startup_da_tables.js",
 				line_number = 940;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 			},function(client){
 				
@@ -889,7 +968,7 @@ var deleteUsersTable = function(client,mysql_con){
 	
 };
 
-var deleteAdminTable = function(client,mysql_con){
+var deleteAdminTable = function(client,mysql_con,fs){
 	
 	var query = "DROP TABLE IF EXISTS Admin";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -897,7 +976,7 @@ var deleteAdminTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 965;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("delete_table_admin_error");
 		
 		
@@ -909,7 +988,7 @@ var deleteAdminTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 977;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -919,7 +998,7 @@ var deleteAdminTable = function(client,mysql_con){
 				console.trace(error);
 				var file_name = "startup_da_tables.js",
 				line_number = 987;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 			},function(client){
 				
@@ -933,7 +1012,7 @@ var deleteAdminTable = function(client,mysql_con){
 	
 };
 
-var deleteAdminRightsTable = function(client,mysql_con){
+var deleteAdminRightsTable = function(client,mysql_con,fs){
 	
 	var query = "DROP TABLE IF EXISTS Admin_Rights";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -941,7 +1020,7 @@ var deleteAdminRightsTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1012;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("delete_table_admin_rights_error");
 		
 		
@@ -953,7 +1032,7 @@ var deleteAdminRightsTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1024;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -963,7 +1042,7 @@ var deleteAdminRightsTable = function(client,mysql_con){
 				console.trace(error);
 				var file_name = "startup_da_tables.js",
 				line_number = 1034;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 			},function(client){
 				
@@ -977,7 +1056,7 @@ var deleteAdminRightsTable = function(client,mysql_con){
 	
 };
 
-var deleteAlertsTable = function(client,mysql_con){
+var deleteAlertsTable = function(client,mysql_con,fs){
 	
 	var query = "DROP TABLE IF EXISTS Alerts";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -985,7 +1064,7 @@ var deleteAlertsTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1059;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("delete_table_alerts_error");
 		
 		
@@ -997,7 +1076,7 @@ var deleteAlertsTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1071;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -1007,7 +1086,7 @@ var deleteAlertsTable = function(client,mysql_con){
 				console.trace(error);
 				var file_name = "startup_da_tables.js",
 				line_number = 1081;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 			},function(client){
 				
@@ -1023,7 +1102,190 @@ var deleteAlertsTable = function(client,mysql_con){
 };
 
 
-var emptyPhotographersTable = function(client,mysql_con){
+var deleteMessagesTable = function(client,mysql_con,fs){
+	
+	var query = "DROP TABLE IF EXISTS Messages";
+	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+		
+		console.trace(error);
+		var file_name = "startup_da_tables.js",
+		line_number = 1059;
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+		client.emit("delete_table_messages_error");
+		
+		
+	},function(client){
+		
+		var query = "UPDATE Tables SET created = 0 WHERE name='messages'";
+		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+			
+			console.trace(error);
+			var file_name = "startup_da_tables.js",
+			line_number = 1071;
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+			
+		},function(client){
+			
+			var query = "UPDATE Tables SET samples_added = 0 WHERE name='messages'";
+			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+				
+				console.trace(error);
+				var file_name = "startup_da_tables.js",
+				line_number = 1081;
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+				
+			},function(client){
+				
+				client.emit("table_messages_deleted");
+				
+			});
+			
+			
+		});
+		
+	});
+	
+};
+
+var deleteReplyMessagesTable = function(client,mysql_con,fs){
+	
+	var query = "DROP TABLE IF EXISTS Reply_Messages";
+	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+		
+		console.trace(error);
+		var file_name = "startup_da_tables.js",
+		line_number = 1059;
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+		client.emit("delete_table_alerts_error");
+		
+		
+	},function(client){
+		
+		var query = "UPDATE Tables SET created = 0 WHERE name='reply_messages'";
+		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+			
+			console.trace(error);
+			var file_name = "startup_da_tables.js",
+			line_number = 1071;
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+			
+		},function(client){
+			
+			var query = "UPDATE Tables SET samples_added = 0 WHERE name='reply_messages'";
+			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+				
+				console.trace(error);
+				var file_name = "startup_da_tables.js",
+				line_number = 1081;
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+				
+			},function(client){
+				
+				client.emit("table_reply_messages_deleted");
+				
+			});
+			
+			
+		});
+		
+	});
+	
+};
+
+
+var deleteMessageAttachmentsTable = function(client,mysql_con,fs){
+	
+	var query = "DROP TABLE IF EXISTS Message_Attachments";
+	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+		
+		console.trace(error);
+		var file_name = "startup_da_tables.js",
+		line_number = 1059;
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+		client.emit("delete_table_message_attachments_error");
+		
+		
+	},function(client){
+		
+		var query = "UPDATE Tables SET created = 0 WHERE name='message_attachments'";
+		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+			
+			console.trace(error);
+			var file_name = "startup_da_tables.js",
+			line_number = 1071;
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+			
+		},function(client){
+			
+			var query = "UPDATE Tables SET samples_added = 0 WHERE name='message_attachments'";
+			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+				
+				console.trace(error);
+				var file_name = "startup_da_tables.js",
+				line_number = 1081;
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+				
+			},function(client){
+				
+				client.emit("table_message_attachments_deleted");
+				
+			});
+			
+			
+		});
+		
+	});
+	
+};
+
+var deleteCatchaImagesTable = function(client,mysql_con,fs){
+	
+	var query = "DROP TABLE IF EXISTS Catcha_Images";
+	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+		
+		console.trace(error);
+		var file_name = "startup_da_tables.js",
+		line_number = 1059;
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+		client.emit("delete_table_catcha_images_error");
+		
+		
+	},function(client){
+		
+		var query = "UPDATE Tables SET created = 0 WHERE name='catcha_images'";
+		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+			
+			console.trace(error);
+			var file_name = "startup_da_tables.js",
+			line_number = 1071;
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+			
+		},function(client){
+			
+			var query = "UPDATE Tables SET samples_added = 0 WHERE name='catcha_images'";
+			startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+				
+				console.trace(error);
+				var file_name = "startup_da_tables.js",
+				line_number = 1081;
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+				
+			},function(client){
+				
+				client.emit("table_catcha_images_deleted");
+				
+			});
+			
+			
+		});
+		
+	});
+	
+};
+
+
+
+var emptyPhotographersTable = function(client,mysql_con,fs){
 	
 	var query = "TRUNCATE TABLE Photographers";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1031,7 +1293,7 @@ var emptyPhotographersTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1108;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("empty_table_photographers_error");
 		
 		
@@ -1043,7 +1305,7 @@ var emptyPhotographersTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1119;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -1055,7 +1317,7 @@ var emptyPhotographersTable = function(client,mysql_con){
 	
 };
 
-var emptyPackagesTable = function(client,mysql_con){
+var emptyPackagesTable = function(client,mysql_con,fs){
 	
 		var query = "TRUNCATE TABLE Packages";
 		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1063,7 +1325,7 @@ var emptyPackagesTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1143;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("empty_table_packages_error");
 		
 		
@@ -1075,7 +1337,7 @@ var emptyPackagesTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1155;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -1087,7 +1349,7 @@ var emptyPackagesTable = function(client,mysql_con){
 	
 };
 
-var emptyOrdersTable = function(client,mysql_con){
+var emptyOrdersTable = function(client,mysql_con,fs){
 	
 	var query = "TRUNCATE TABLE Orders";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1095,7 +1357,7 @@ var emptyOrdersTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1178;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("empty_table_orders_error");
 		
 		
@@ -1107,7 +1369,7 @@ var emptyOrdersTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1190;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -1119,7 +1381,7 @@ var emptyOrdersTable = function(client,mysql_con){
 	
 };
 
-var emptyAreasTable = function(client,mysql_con){
+var emptyAreasTable = function(client,mysql_con,fs){
 	
 		var query = "TRUNCATE TABLE Areas";
 		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1127,7 +1389,7 @@ var emptyAreasTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1216;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("empty_table_areas_error");
 		
 		
@@ -1139,7 +1401,7 @@ var emptyAreasTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1225;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -1151,7 +1413,7 @@ var emptyAreasTable = function(client,mysql_con){
 	
 };
 
-var emptyCityTable = function(client,mysql_con){
+var emptyCityTable = function(client,mysql_con,fs){
 	
 	var query = "TRUNCATE TABLE City";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1159,7 +1421,7 @@ var emptyCityTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1248;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("empty_table_city_error");
 		
 		
@@ -1171,7 +1433,7 @@ var emptyCityTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1260;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -1183,7 +1445,7 @@ var emptyCityTable = function(client,mysql_con){
 	
 };
 
-var emptyDeliveryMethodTable = function(client,mysql_con){
+var emptyDeliveryMethodTable = function(client,mysql_con,fs){
 	
 	var query = "TRUNCATE TABLE DeliveryMethod";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1191,7 +1453,7 @@ var emptyDeliveryMethodTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1283;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("empty_table_delivery_method_error");
 		
 		
@@ -1203,7 +1465,7 @@ var emptyDeliveryMethodTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1295;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -1215,7 +1477,7 @@ var emptyDeliveryMethodTable = function(client,mysql_con){
 	
 };
 
-var emptyUserIDsTable = function(client,mysql_con){
+var emptyUserIDsTable = function(client,mysql_con,fs){
 	
 	var query = "TRUNCATE TABLE UserIDs";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1223,7 +1485,7 @@ var emptyUserIDsTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1318;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("empty_table_userIDs_error");
 		
 		
@@ -1235,7 +1497,7 @@ var emptyUserIDsTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1330;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -1247,7 +1509,7 @@ var emptyUserIDsTable = function(client,mysql_con){
 	
 };
 
-var emptyUsersTable = function(client,mysql_con){
+var emptyUsersTable = function(client,mysql_con,fs){
 	
 	var query = "TRUNCATE TABLE Users";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1255,7 +1517,7 @@ var emptyUsersTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1353;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("empty_table_users_error");
 		
 		
@@ -1267,7 +1529,7 @@ var emptyUsersTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1365;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -1279,7 +1541,7 @@ var emptyUsersTable = function(client,mysql_con){
 	
 };
 
-var emptyAdminTable = function(client,mysql_con){
+var emptyAdminTable = function(client,mysql_con,fs){
 	
 	var query = "TRUNCATE TABLE Admin";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1287,7 +1549,7 @@ var emptyAdminTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1388;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("empty_table_admin_error");
 		
 		
@@ -1299,7 +1561,7 @@ var emptyAdminTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1400;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -1311,7 +1573,7 @@ var emptyAdminTable = function(client,mysql_con){
 	
 };
 
-var emptyAdminRightsTable = function(client,mysql_con){
+var emptyAdminRightsTable = function(client,mysql_con,fs){
 	
 	var query = "TRUNCATE TABLE Admin_Rights";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1319,7 +1581,7 @@ var emptyAdminRightsTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1424;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("empty_table_admin_rights_error");
 		
 		
@@ -1331,7 +1593,7 @@ var emptyAdminRightsTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1435;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -1343,7 +1605,7 @@ var emptyAdminRightsTable = function(client,mysql_con){
 	
 };
 
-var emptyAlertsTable = function(client,mysql_con){
+var emptyAlertsTable = function(client,mysql_con,fs){
 	
 	var query = "TRUNCATE TABLE Alerts";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1351,7 +1613,7 @@ var emptyAlertsTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1459;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("empty_table_alerts_error");
 		
 		
@@ -1363,7 +1625,7 @@ var emptyAlertsTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1470;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -1375,7 +1637,7 @@ var emptyAlertsTable = function(client,mysql_con){
 	
 };
 
-var emptyCityTable = function(client,mysql_con){
+var emptyCityTable = function(client,mysql_con,fs){
 	
 	var query = "TRUNCATE TABLE City";
 	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
@@ -1383,7 +1645,7 @@ var emptyCityTable = function(client,mysql_con){
 		console.trace(error);
 		var file_name = "startup_da_tables.js",
 		line_number = 1493;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		client.emit("empty_table_city_error");
 		
 		
@@ -1395,7 +1657,7 @@ var emptyCityTable = function(client,mysql_con){
 			console.trace(error);
 			var file_name = "startup_da_tables.js",
 			line_number = 1505;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client){
 			
@@ -1407,17 +1669,149 @@ var emptyCityTable = function(client,mysql_con){
 	
 };
 
+var emptyMessagesTable = function(client,mysql_con,fs){
+	
+	var query = "TRUNCATE TABLE Messages";
+	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+		
+		console.trace(error);
+		var file_name = "startup_da_tables.js",
+		line_number = 1493;
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+		client.emit("empty_table_messages_error");
+		
+		
+	},function(client){
+		
+		var query = "UPDATE Tables SET samples_added = 0 WHERE name='messages'";
+		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+			
+			console.trace(error);
+			var file_name = "startup_da_tables.js",
+			line_number = 1505;
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+			
+		},function(client){
+			
+			client.emit("table_messages_emptied");
+			
+		});
+		
+	});
+	
+};
 
-var getTablesData = function(client,mysql_con){
+var emptyReplyMessagesTable = function(client,mysql_con,fs){
+	
+	var query = "TRUNCATE TABLE Reply_Messages";
+	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+		
+		console.trace(error);
+		var file_name = "startup_da_tables.js",
+		line_number = 1493;
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+		client.emit("empty_table_reply_messages_error");
+		
+		
+	},function(client){
+		
+		var query = "UPDATE Tables SET samples_added = 0 WHERE name='reply_messages'";
+		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+			
+			console.trace(error);
+			var file_name = "startup_da_tables.js",
+			line_number = 1505;
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+			
+		},function(client){
+			
+			client.emit("table_reply_messages_emptied");
+			
+		});
+		
+	});
+	
+};
+
+var emptyMessageAttachmentsTable = function(client,mysql_con,fs){
+	
+	var query = "TRUNCATE TABLE Message_Attachments";
+	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+		
+		console.trace(error);
+		var file_name = "startup_da_tables.js",
+		line_number = 1493;
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+		client.emit("empty_table_message_attachments_error");
+		
+		
+	},function(client){
+		
+		var query = "UPDATE Tables SET samples_added = 0 WHERE name='message_attachments'";
+		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+			
+			console.trace(error);
+			var file_name = "startup_da_tables.js",
+			line_number = 1505;
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+			
+		},function(client){
+			
+			client.emit("table_message_attachments_emptied");
+			
+		});
+		
+	});
+	
+};
+
+var emptyCatchaImagesTable = function(client,mysql_con,fs){
+	
+	var query = "TRUNCATE TABLE Catcha_Images";
+	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+		
+		console.trace(error);
+		var file_name = "startup_da_tables.js",
+		line_number = 1493;
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+		client.emit("empty_table_catcha_images_error");
+		
+		
+	},function(client){
+		
+		var query = "UPDATE Tables SET samples_added = 0 WHERE name='catcha_images'";
+		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+			
+			console.trace(error);
+			var file_name = "startup_da_tables.js",
+			line_number = 1505;
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+			
+		},function(client){
+			
+			client.emit("table_catcha_images_emptied");
+			
+		});
+		
+	});
+	
+};
+
+
+
+var getTablesData = function(client,mysql_con,fs){
 	
 	var query = "SELECT * FROM Tables";
 	startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
 		
 		console.log(error);
+		console.log("------ "+ error.code);
+	
 		//var file_name = "startup_da_tables.js",
 		//line_number = 1529;
-		//startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
-		client.emit("get_tables_data_error");
+		//startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+		//client.emit("get_tables_data_error");
+	
 		
 	},function(client,rows,fields){
 		
@@ -1446,17 +1840,21 @@ var getTablesData = function(client,mysql_con){
 	exports.resetSystem = resetSystem;
 	exports.getTablesData = getTablesData;
 	
-	exports.createOnlyPhotographersTable = createOnlyPhotographersTable;
-	exports.createOnlyPackagesTable = createOnlyPackagesTable;
-	exports.createOnlyOrdersTable = createOnlyOrdersTable;
-	exports.createOnlyAreasTable = createOnlyAreasTable;
-	exports.createOnlyCityTable = createOnlyCityTable;
-	exports.createOnlyDeliveryMethodTable = createOnlyDeliveryMethodTable;
-	exports.createOnlyUserIDsTable = createOnlyUserIDsTable;
-	exports.createOnlyUsersTable = createOnlyUsersTable;
-	exports.createOnlyAdminTable = createOnlyAdminTable;
-	exports.createOnlyAdminRightsTable = createOnlyAdminRightsTable;
-	exports.createOnlyAlertsTable = createOnlyAlertsTable;
+	exports.createPhotographersTable = createPhotographersTable;
+	exports.createPackagesTable = createPackagesTable;
+	exports.createOrdersTable = createOrdersTable;
+	exports.createAreasTable = createAreasTable;
+	exports.createCityTable = createCityTable;
+	exports.createDeliveryMethodTable = createDeliveryMethodTable;
+	exports.createUserIDsTable = createUserIDsTable;
+	exports.createUsersTable = createUsersTable;
+	exports.createAdminTable = createAdminTable;
+	exports.createAdminRightsTable = createAdminRightsTable;
+	exports.createAlertsTable = createAlertsTable;
+	exports.createMessagesTable = createMessagesTable;
+	exports.createReplyMessagesTable = createReplyMessagesTable;
+	exports.createMessageAttachmentsTable = createMessageAttachmentsTable;
+	exports.createCatchaImagesTable = createCatchaImagesTable;
 	
 	exports.deletePhotographersTable = deletePhotographersTable;
 	exports.deletePackagesTable = deletePackagesTable;
@@ -1469,6 +1867,10 @@ var getTablesData = function(client,mysql_con){
 	exports.deleteAdminTable = deleteAdminTable;
 	exports.deleteAdminRightsTable = deleteAdminRightsTable;
 	exports.deleteAlertsTable = deleteAlertsTable;
+	exports.deleteMessagesTable = deleteMessagesTable;
+	exports.deleteReplyMessagesTable = deleteReplyMessagesTable;
+	exports.deleteMessageAttachmentsTable = deleteMessageAttachmentsTable;
+	exports.deleteCatchaImagesTable = deleteCatchaImagesTable;
 	
 	exports.emptyPhotographersTable = emptyPhotographersTable;
 	exports.emptyPackagesTable = emptyPackagesTable;
@@ -1481,6 +1883,10 @@ var getTablesData = function(client,mysql_con){
 	exports.emptyAdminTable = emptyAdminTable;
 	exports.emptyAdminRightsTable = emptyAdminRightsTable;
 	exports.emptyAlertsTable = emptyAlertsTable;
+	exports.emptyMessagesTable = emptyMessagesTable;
+	exports.emptyReplyMessagesTable = emptyReplyMessagesTable;
+	exports.emptyMessageAttachmentsTable = emptyMessageAttachmentsTable;
+	exports.emptyCatchaImagesTable = emptyCatchaImagesTable;
 	
 	exports.logSystemError = startup_da_parent.logSystemError;
 	

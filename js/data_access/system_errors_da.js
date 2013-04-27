@@ -2,7 +2,7 @@
 	var startup_da_parent = require(__dirname+"/startup_da_parent");
 
 
-var getDatabaseSystemErrors = function(client){
+var getDatabaseSystemErrors = function(client,new_error){
 	
 	try{
 		
@@ -12,14 +12,18 @@ var getDatabaseSystemErrors = function(client){
 			console.trace(error);
 			var file_name = "system_errors_da.js",
 			line_number = 8;
-			startup_da_parent.logFileSystemError(error,file_name,line_number);
+			startup_da_parent.logFileSystemError(client,error,file_name,line_number);
 			client.emit("get_database_log_error");
 			
 			
 		}else{
 		
 		var objs = content.split('\n');
-				   client.emit("database_system_errors",objs);
+		    
+		if(new_error)
+			client.broadcast.emit("database_system_errors",objs);
+		    else
+		    	client.emit("database_system_errors",objs);
 		}
 	});
 	
@@ -28,13 +32,13 @@ var getDatabaseSystemErrors = function(client){
 		console.log(error);
 		var file_name = "system_errors_da.js",
 		line_number = 5;
-		startup_da_parent.logSystemError(error,file_name,line_number);
+		startup_da_parent.logSystemError(client,error,file_name,line_number);
 	}
 	
 };
 
 
-	var getFileSystemErrors = function(client){
+	var getFileSystemErrors = function(client,new_error){
 	
 		try{
 			
@@ -50,7 +54,11 @@ var getDatabaseSystemErrors = function(client){
 			}else{
 			
 			var objs = content.split('\n');
-				client.emit("file_system_errors",objs);
+			
+			if(new_error)
+				client.broadcast.emit("file_system_errors",objs);
+				else
+					client.emit("file_system_errors",objs);
 			}
 		});
 	
@@ -66,7 +74,7 @@ var getDatabaseSystemErrors = function(client){
 		
 	};
 
-	var getSystemErrors = function(client){
+	var getSystemErrors = function(client,new_error){
 	
 		try{
 			
@@ -82,7 +90,11 @@ var getDatabaseSystemErrors = function(client){
 			}else{
 			
 			var objs = content.split('\n');
-				client.emit("system_errors",objs);
+			
+			  if(new_error)
+				  client.broadcast.emit("system_errors",objs);
+			  	else
+			  		client.emit("system_errors",objs);
 			}
 		});
 	
@@ -107,7 +119,7 @@ var getDatabaseSystemErrors = function(client){
 				console.trace(error);
 				var file_name = "system_errors_da.js",
 				line_number = 69;
-				startup_da_parent.logFileSystemError(error,file_name,line_number);
+				startup_da_parent.logFileSystemError(client,error,file_name,line_number);
 				client.emit("get_system_log_error");
 				
 			}else{
@@ -148,12 +160,12 @@ var getDatabaseSystemErrors = function(client){
 				console.trace(error);
 				var file_name = "system_errors_da.js",
 				line_number = 92;
-				startup_da_parent.logFileSystemError(error,file_name,line_number);
+				startup_da_parent.logFileSystemError(client,error,file_name,line_number);
 				client.emit("delete_system_log_error");
 				
 				}
 			
-			getSystemErrors(client);
+			getSystemErrors(client,true);
 			
 		});
 		
@@ -182,7 +194,7 @@ var getDatabaseSystemErrors = function(client){
 				console.trace(error);
 				var file_name = "system_errors_da.js",
 				line_number = 113;
-				startup_da_parent.logFileSystemError(error,file_name,line_number);
+				startup_da_parent.logFileSystemError(client,error,file_name,line_number);
 				client.emit("delete_file_system_log_error");
 				
 			}else{
@@ -225,10 +237,10 @@ var getDatabaseSystemErrors = function(client){
 				client.emit("delete_file_system_log_error");
 				var file_name = "system_errors_da.js",
 				line_number = 139;
-				startup_da_parent.logFileSystemError(error,file_name,line_number);
+				startup_da_parent.logFileSystemError(client,error,file_name,line_number);
 			}
 			
-			getFileSystemErrors(client);
+			getFileSystemErrors(client,true);
 			
 		});		
 		
@@ -257,7 +269,7 @@ var getDatabaseSystemErrors = function(client){
 				console.trace(error);
 				var file_name = "system_errors_da.js",
 				line_number = 157;
-				startup_da_parent.logFileSystemError(error,file_name,line_number);
+				startup_da_parent.logFileSystemError(client,error,file_name,line_number);
 				client.emit("delete_database_system_log_error");
 				
 			}else{
@@ -325,11 +337,11 @@ var getDatabaseSystemErrors = function(client){
 				console.trace(error);
 				var file_name = "system_errors_da.js",
 				line_number = 179;
-				startup_da_parent.logFileSystemError(error,file_name,line_number);
+				startup_da_parent.logFileSystemError(client,error,file_name,line_number);
 				client.emit("delete_database_system_log_error");
 			}
 			
-			getDatabaseSystemErrors(client);
+			getDatabaseSystemErrors(client,true);
 			
 		  });	
 		
@@ -342,7 +354,7 @@ var getDatabaseSystemErrors = function(client){
 			console.log(error);
 			var file_name = "system_errors_da.js",
 			line_number = 149;
-			startup_da_parent.logSystemError(error,file_name,line_number);
+			startup_da_parent.logSystemError(client,error,file_name,line_number);
 		}	
 		
 };
@@ -359,7 +371,7 @@ var getDatabaseSystemErrors = function(client){
 				console.trace(error);
 				var file_name = "system_errors_da.js",
 				line_number = 113;
-				startup_da_parent.logFileSystemError(error,file_name,line_number);
+				startup_da_parent.logFileSystemError(client,error,file_name,line_number);
 				
 			}else{
 			
@@ -414,7 +426,7 @@ var getDatabaseSystemErrors = function(client){
 			console.log(error);
 			var file_name = "system_errors_da.js",
 			line_number = 349;
-			startup_da_parent.logSystemError(error,file_name,line_number);
+			startup_da_parent.logSystemError(client,error,file_name,line_number);
 		} 
 	     
 	     
@@ -432,7 +444,7 @@ var getDatabaseSystemErrors = function(client){
 					console.trace(error);
 					var file_name = "system_errors_da.js",
 					line_number = 113;
-					startup_da_parent.logFileSystemError(error,file_name,line_number);
+					startup_da_parent.logFileSystemError(client,error,file_name,line_number);
 					
 					
 				}else{
@@ -487,7 +499,7 @@ var getDatabaseSystemErrors = function(client){
 			console.log(error);
 			var file_name = "system_errors_da.js",
 			line_number = 422;
-			startup_da_parent.logSystemError(error,file_name,line_number);
+			startup_da_parent.logSystemError(client,error,file_name,line_number);
 		}
 			
 			
@@ -503,7 +515,7 @@ var getDatabaseSystemErrors = function(client){
 					console.trace(error);
 					var file_name = "system_errors_da.js",
 					line_number = 113;
-					startup_da_parent.logFileSystemError(error,file_name,line_number);
+					startup_da_parent.logFileSystemError(client,error,file_name,line_number);
 					
 				}else{
 				
@@ -561,12 +573,11 @@ var getDatabaseSystemErrors = function(client){
 				console.trace(error);
 				var file_name = "system_errors_da.js",
 				line_number = 557;
-				startup_da_parent.logFileSystemError(error,file_name,line_number);
+				startup_da_parent.logFileSystemError(client,error,file_name,line_number);
 				
 			}else{
 				
-					console.log("all file system errors deleted");
-					client.emit("all_file_system_errors_deleted");
+					getFileSystemErrors(client,true);
 					fs.close(fd);
 			}
 			
@@ -583,13 +594,11 @@ var getDatabaseSystemErrors = function(client){
 				console.trace(error);
 				var file_name = "system_errors_da.js",
 				line_number = 578;
-				startup_da_parent.logFileSystemError(error,file_name,line_number);
+				startup_da_parent.logFileSystemError(client,error,file_name,line_number);
 				
 			}else{
 				
-					console.log("all database system errors deleted");
-					client.emit("all_database_system_errors_deleted");
-					
+					getDatabaseSystemErrors(client,true);
 					fs.close(fd);
 			}
 			
@@ -608,12 +617,11 @@ var getDatabaseSystemErrors = function(client){
 				console.trace(error);
 				var file_name = "system_errors_da.js",
 				line_number = 603;
-				startup_da_parent.logFileSystemError(error,file_name,line_number);
+				startup_da_parent.logFileSystemError(client,error,file_name,line_number);
 				
 			}else{
 				
-					console.log("all system errors deleted");
-					client.emit("all_system_errors_deleted");
+					getFileSystemErrors(client,true);
 					fs.close(fd);
 			}
 			

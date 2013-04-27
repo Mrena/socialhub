@@ -1,5 +1,4 @@
 
-
 var client_about = function(socket){
 	
 	try{
@@ -12,37 +11,43 @@ var client_about = function(socket){
 	
 	// start of about request and response
 	$("#about").on("click",function(e){
+		
 		socket.emit("get_about");
+		sessionStorage['current_view'] = "about_page";
 		e.preventDefault();
 		
 	});
 	
 	socket.on("about",function(data){
-		$("#menu").hide();
-		
-		$("#page").fadeOut("slow",function(){
-			$(this).html(data);
+	
+		if(sessionStorage['current_view'] === "about_page"){
+			$("#page").html(data);
 			showOperatingArea();
-			$("#page").fadeIn("slow",function(){
-				$("#menu").show("slow");
-			});
-		});
+		}
 		
-		
-		
-		});
+	});
 	
 	// end of about request and response
 	
 	socket.on("operating_areas",function(areas){
 			
 		areas = JSON.parse(areas);
-		$("#operating_areas").html("<ul>");
+		var areas_list = [],
+		    i = -1;
+		
 		areas.forEach(function(area){
-			$("#operating_areas").append("<li>"+area+"</li>");
+			areas_list[++i]="<li>"+area+"</li>";
+		});
+		console.log(areas_list.join(' '));
+		var $operating_areas = $("#operating_areas");
+		$operating_areas.hide("fast",function(){
+			
+			$(this).html("<ul id='operating_area_list'></ul>");
+			$(areas_list.join(' ')).appendTo("#operating_area_list");
+			$operating_areas.show("slow");
 		});
 		
-		$("#operating_areas").append("</ul>");
+		
 		
 	});
 	

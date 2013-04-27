@@ -64,6 +64,10 @@
     
     </header>
 <div id="page" class="ui-widget-content ui-corner-all">
+<br />
+<br />
+<br />
+<br />
     <div id="err" class="err"> </div>
     
     <br />
@@ -82,7 +86,7 @@
 <option>Select print size</option>
 </select></td>
 </tr>
-<tr> 
+<tr>
 	<td><label for="quantity" class="select">Number of images:</label></td>
 	<td>
 		<select name="quantity" id="quantity"  onchange="quantitySizeChanged()">
@@ -137,7 +141,7 @@
 
 </div><br />
     <footer>
-    <div class="ui-widget-content ui-corner-all" style="text-align: right"><a href="#" id="printco">Printing Providers</a> - <a href="#" id="terms">T&C</a></div>
+    <div class="ui-widget-content ui-corner-all" style="text-align: right"><a href="#" id="printco">Printing Providers</a> - <a href="#" id="terms">Ts&amp;Cs</a></div>
     
     <div style="text-align: center">Developed By Khulekani Ngongoma</div>
         </footer>
@@ -164,6 +168,9 @@
 	client_terms(socket);
 	client_end_users(socket);
 	client_video_services(socket);
+	
+	sessionStorage['current_view'] = "home_page";
+	sessionStorage['listener_attached'] = "bogus";
 	
 	$("#save_info").on("click",function(e){
 		
@@ -199,6 +206,10 @@
 		$menu.hide("fast",function(){
 			$page.fadeOut("fast",function(){
 				$page.html("<div>The requested page could not be found. It may be moved or may never had existed. (0_o)</div>");
+				
+					sessionStorage['current_view'] = "page_not_found";
+					sessionStorage['listener_attached'] = "bogus";
+				
 					$page.fadeIn("slow",function(){
 						$menu.show("slow");
 					});

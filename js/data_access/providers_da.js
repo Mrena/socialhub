@@ -1,9 +1,6 @@
-var mysql = require('mysql');
-var fs = require("fs");
 var startup_da_parent = require("./startup_da_parent");
-var mysql_con;
 
-	var getPrintingProviders = function(client,mysql_con){
+	var getPrintingProviders = function(client,mysql_con,fs){
 	
 		try{
 		
@@ -14,7 +11,7 @@ var mysql_con;
 		    	client.emit("get_printing_provider_error");
 		    	var file_name = "providers_da.js",
 				line_number = 10;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 		    	
 		    },function(client,rows,fields){
 		    	var providers = Array();
@@ -37,12 +34,12 @@ var mysql_con;
 			console.log(error);
 			var file_name = "providers_da.js",
 			line_number = 5;
-			startup_da_parent.logSystemError(error,file_name,line_number);
+			startup_da_parent.logSystemError(client,error,file_name,line_number);
 		}
 		    
 	};
 	
-	var submitPrintingProvider = function(client,mysql_con,provider){
+	var submitPrintingProvider = function(client,mysql_con,fs,provider){
 			
 		try{
 		
@@ -55,7 +52,7 @@ var mysql_con;
 						client.emit("provider_submit_error");
 						var file_name = "providers_da.js",
 						line_number = 43;
-						startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+						startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 					
 					},function(client){
 					
@@ -68,13 +65,12 @@ var mysql_con;
 			console.log(error);
 			var file_name = "providers_da.js",
 			line_number = 46;
-			startup_da_parent.logSystemError(error,file_name,line_number);
+			startup_da_parent.logSystemError(client,error,file_name,line_number);
 		}	
-				
 				
 	};
 	
-	var filterServiceProviders = function(client,mysql_con,filter_category,filter_value){
+	var filterServiceProviders = function(client,mysql_con,fs,filter_category,filter_value){
 		
 		try{
 		
@@ -84,7 +80,7 @@ var mysql_con;
 				console.trace(error);
 				var file_name = "providers_da.js",
 				line_number = 64;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 			},function(client,rows,fields){
 				
@@ -102,12 +98,12 @@ var mysql_con;
 			console.log(error);
 			var file_name = "providers_da.js",
 			line_number = 81;
-			startup_da_parent.logSystemError(error,file_name,line_number);
+			startup_da_parent.logSystemError(client,error,file_name,line_number);
 		}
 			
 	};
 	
-	var deleteServiceProvider = function(client,mysql_con,username){
+	var deleteServiceProvider = function(client,mysql_con,fs,username){
 		
 		try{
 		
@@ -117,26 +113,27 @@ var mysql_con;
 			    	console.trace(error);
 			    	var file_name = "providers_da.js",
 					line_number = 88;
-					startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+					startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			    	
 			    		},function(client){
-			    		getPrintingProviders(client);
+			    			
+			    		getPrintingProviders(client,mysql_con,fs);
 			    		
-			    });
+			    	 });
 			    
 		}catch(error){
 			// System error logging
 			console.log(error);
 			var file_name = "providers_da.js",
 			line_number = 116;
-			startup_da_parent.logSystemError(error,file_name,line_number);
+			startup_da_parent.logSystemError(client,error,file_name,line_number);
 		} 
 			    
 			    
 	};
 	
 	
-	var updateServiceProvider = function(client,mysql_con,objProvider){
+	var updateServiceProvider = function(client,mysql_con,fs,objProvider){
 		
 		
 		try{
@@ -147,7 +144,7 @@ var mysql_con;
 					console.trace(error);
 					var file_name = "providers_da.js",
 					line_number = 108;
-					startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+					startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 					
 						},function(client){
 							getPrintingProviders(client);
@@ -159,14 +156,14 @@ var mysql_con;
 			console.log(error);
 			var file_name = "providers_da.js",
 			line_number = 147;
-			startup_da_parent.logSystemError(error,file_name,line_number);
+			startup_da_parent.logSystemError(client,error,file_name,line_number);
 		}
 				
 				
 		};
 		
 		
-	var updateProviderPassword = function(client,mysql_con,old_password,new_password,username){
+	var updateProviderPassword = function(client,mysql_con,fs,old_password,new_password,username){
 		
 		
 		try{
@@ -177,7 +174,7 @@ var mysql_con;
 				console.trace(error);
 				var file_name = "providers_da.js",
 				line_number = 128;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 				},function(client){
 					client.emit("password_updated");
@@ -189,14 +186,14 @@ var mysql_con;
 		console.log(error);
 		var file_name = "providers_da.js",
 		line_number = 180;
-		startup_da_parent.logSystemError(error,file_name,line_number);
+		startup_da_parent.logSystemError(client,error,file_name,line_number);
 	}
 		
 		
 	};	
 	
 	
-	var getAllOperatingAreas = function(client,mysql_con){
+	var getAllOperatingAreas = function(client,mysql_con,fs){
 		
 		try{
 		
@@ -206,7 +203,7 @@ var mysql_con;
 			console.trace(error);
 			var file_name = "providers_da.js",
 			line_number = 148;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client,rows,fields){
 			
@@ -223,12 +220,12 @@ var mysql_con;
 			console.log(error);
 			var file_name = "providers_da.js",
 			line_number = 213;
-			startup_da_parent.logSystemError(error,file_name,line_number);
+			startup_da_parent.logSystemError(client,error,file_name,line_number);
 		}
 		
 	};
 	
-	var isProviderUsernameTaken = function(client,mysql_con,username){
+	var isProviderUsernameTaken = function(client,mysql_con,fs,username){
 		
 		try{
 		
@@ -238,7 +235,7 @@ var mysql_con;
 			console.trace(error);
 			var file_name = "providers_da.js",
 			line_number = 172;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client,rows,fields){
 			
@@ -253,13 +250,13 @@ var mysql_con;
 			console.log(error);
 			var file_name = "providers_da.js",
 			line_number = 247;
-			startup_da_parent.logSystemError(error,file_name,line_number);
+			startup_da_parent.logSystemError(client,error,file_name,line_number);
 		}
 		
 		
 	};
 	
-	var validateProvider = function(client,mysql_con,username,password){
+	var validateProvider = function(client,mysql_con,fs,username,password){
 		
 		
 		try{
@@ -270,7 +267,7 @@ var mysql_con;
 			console.trace(error);
 			var file_name = "providers_da.js",
 			line_number = 196;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client,rows,fields){
 			var validated = {
@@ -295,13 +292,13 @@ var mysql_con;
 			console.log(error);
 			var file_name = "providers_da.js",
 			line_number = 280;
-			startup_da_parent.logSystemError(error,file_name,line_number);
+			startup_da_parent.logSystemError(client,error,file_name,line_number);
 		}
 		
 		
 	};
 	
-	var getProviderEditableInfo = function(client,mysql_con,username){
+	var getProviderEditableInfo = function(client,mysql_con,fs,username){
 		
 		try{
 		
@@ -311,7 +308,7 @@ var mysql_con;
 			console.trace(error);
 			var file_name = "providers_da.js",
 			line_number = 229;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 		},function(client,rows,fields){
 			
@@ -338,12 +335,12 @@ var mysql_con;
 			console.log(error);
 			var file_name = "providers_da.js",
 			line_number = 324;
-			startup_da_parent.logSystemError(error,file_name,line_number);
+			startup_da_parent.logSystemError(client,error,file_name,line_number);
 		}
 		
 	};
 	
-	var updateProviderInfo = function(client,mysql_con,objProvider){
+	var updateProviderInfo = function(client,mysql_con,fs,objProvider){
 		
 		try{
 		
@@ -354,11 +351,12 @@ var mysql_con;
 				client.emit("provider_edit_error");
 				var file_name = "providers_da.js",
 				line_number = 263;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 				
 				},function(client){
 					
+					getProviderEditableInfo(client,mysql_con,objProvider.username);
 					client.emit("provider_edit_success");
 			});
 			
@@ -367,7 +365,7 @@ var mysql_con;
 			console.log(error);
 			var file_name = "providers_da.js",
 			line_number = 368;
-			startup_da_parent.logSystemError(error,file_name,line_number);
+			startup_da_parent.logSystemError(client,error,file_name,line_number);
 		}
 		
 	};

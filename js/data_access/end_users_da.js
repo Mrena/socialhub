@@ -1,4 +1,3 @@
-var mysql = require('mysql');
 var fs = require("fs");
 var startup_da_parent = require("./startup_da_parent");
 
@@ -8,8 +7,6 @@ var getAllEndUsers = function(client,mysql_con){
 	
 	try{
 	
-	
-   
     var query = "SELECT * FROM Users";
     startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
     	
@@ -17,7 +14,7 @@ var getAllEndUsers = function(client,mysql_con){
     	client.emit("get_end_users_error");
     	var file_name = "end_users_da.js",
 		line_number = 10;
-		startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
     	
     },function(client,rows,fields){
     	
@@ -42,7 +39,7 @@ var getAllEndUsers = function(client,mysql_con){
 		console.log(error);
 		var file_name = "end_users_da.js",
 		line_number = 5;
-		startup_da_parent.logSystemError(error,file_name,line_number);
+		startup_da_parent.logSystemError(client,error,file_name,line_number);
 	}
 	
 };
@@ -57,7 +54,7 @@ var getAllEndUsers = function(client,mysql_con){
 	    	client.emit("submit_end_user_error");
 	    	var file_name = "end_users_da.js",
 			line_number = 10;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 	    	
 	    },function(client,rows,fields){
 	    	

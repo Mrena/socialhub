@@ -4,6 +4,7 @@
 
 	var watcher = function(client,mysql_con,fs){
 	
+	if(!watchAllLogs)
 		var watchAllLogs = function(client){
 			
 			fs.watch(__dirname+"/log_files",function(event,filename){

@@ -1,4 +1,3 @@
-var mysql = require('mysql');
 var fs = require("fs");
 var i = 0;
 var connection = function(){
@@ -51,7 +50,7 @@ var runSelectQuery = function(query,client,mysql_con,error_callback,success_call
 	
 };
 
-var logDatabaseSystemError = function(error,file_name,line_number){
+var logDatabaseSystemError = function(client,error,file_name,line_number){
 	
 	var system_error = {
 			"error" : error,
@@ -64,6 +63,9 @@ var logDatabaseSystemError = function(error,file_name,line_number){
 			console.trace(err);
 			// if we can't read both files email the error to Admin for immediate attention.
 			
+		}else{
+			
+			require(__dirname+"/system_errors_da").getDatabaseSystemErrors(client,true);
 		}
 	});
 	
@@ -71,7 +73,7 @@ var logDatabaseSystemError = function(error,file_name,line_number){
 	
 };
 
-var logFileSystemError = function(error,file_name,line_number){
+var logFileSystemError = function(client,error,file_name,line_number){
 	
 	var system_error = {
 			"error" : error,
@@ -84,13 +86,16 @@ var logFileSystemError = function(error,file_name,line_number){
 			console.trace(err);
 			// if we can't read both files email the error to Admin for immediate attention.
 			
+		}else{
+			
+			require(__dirname+"/system_errors_da").getFileSystemErrors(client,true);
 		}
 	});
 	
 	
 };
 
-var logSystemError = function(error,file_name,line_number){
+var logSystemError = function(client,error,file_name,line_number){
 	
 	var system_error = {
 			"error" : error,
@@ -103,13 +108,16 @@ var logSystemError = function(error,file_name,line_number){
 			console.trace(err);
 			// if we can't read both files email the error to Admin for immediate attention.
 			
+		}else{
+			
+			require(__dirname+"/system_errors_da").getSystemErrors(client,true);
 		}
 	});
 	
 	
 };
 
-	exports.connection = connection;
+	//exports.connection = connection;
 	exports.runQuery = runQuery;
 	exports.runSelectQuery = runSelectQuery;
 	exports.logDatabaseSystemError = logDatabaseSystemError;

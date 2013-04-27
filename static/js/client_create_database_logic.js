@@ -100,7 +100,7 @@
         
         var populateResetButtonState = function(tablesData){
         	
-        	var number_of_tables = 12,
+        	var number_of_tables = 16,
         	    created_tables = 0;
         	tablesData.forEach(function(tableData){
         		
@@ -193,20 +193,26 @@
 			});
 
 
+		
 		$("#create_tables").on("click",function(e){
-	
+	        
+			
 			socket.emit("create_tables_table");
 			console.log("Create tables table emitted");
-			$(this).attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+			$(this).attr("disabled","disabled").addClass("ui-state-disabled");
+			$(this).unbind();
+			
 			
 			e.preventDefault();
 	
 		});
-		
+		var tablesCreatedNum = 0;
 		socket.on("tables_table_created",function(){
-			
+			if(tablesCreatedNum == 0){
 			socket.emit("create_tables");
 			console.log("Create tables emitted");
+			++tablesCreatedNum;
+	        }
 			
 		});
 		
@@ -214,7 +220,7 @@
 		var attachResetListener = function(){
 		
 			$("#reset_system").on("click",function(e){
-			
+			 
 				socket.emit("reset_system");
 				$(this).attr("disabled","disabled").addClass("ui-state-disabled").unbind();
 			
@@ -226,7 +232,7 @@
 		attachResetListener();
 		
 		socket.on("system_reset",function(){
-			
+			tablesCreatedNum = 0;
 			socket.emit("get_database_content");
 			
 		});
@@ -300,8 +306,6 @@
 			var $create_photographers_table = $("#create_photographers_table");
 				$create_photographers_table.removeAttr("disabled");
 				
-			
-			
 		});
 		
 		
@@ -632,8 +636,6 @@
 		});
 		
 		
-		
-		
 		// admin_rights socket listeners
 		
 		socket.on("admin_rights_created",function(){
@@ -774,6 +776,197 @@
 			
 			$("#empty_delivery_method_table").removeAttr("disabled");
 			$("#delivery_method_error_message").text("Error emptying delivery method table");
+			
+		});
+		
+		
+		// messages socket listeners
+		
+		socket.on("messages_created",function(){
+			$("#messages_created").html("Yes");
+			$("#delete_messages_table").removeAttr("disabled");
+			$("#add_sample_messages_method").removeAttr("disabled");
+		
+		});
+		
+		socket.on("create_table_messages_error",function(){
+			
+			
+			$("#create_messages_table").removeAttr("disabled");
+			
+		});
+		
+		socket.on("table_messages_deleted",function(){
+			
+			$("#messages_created").text("No");
+			$("#sample_messages_added").text("No");
+			$("#create_messages_table").removeAttr("disabled");
+			$("#add_sample_messages").attr("disabled","disabled");
+			
+		});
+		
+		socket.on("delete_table_messages_error",function(){
+			
+			$("#delete_messages_table").removeAttr("disabled");
+			$("#messages_error_message").text("Error deleting messages table");
+			
+		});
+		
+		socket.on("table_messages_emptied",function(){
+				
+			$("#sample_messages_added").text("No");
+			$("#add_sample_messages").removeAttr("disabled");
+			$("#delete_messages_table").removeAttr("disabled");
+			
+		});
+		
+		socket.on("empty_table_messages_error",function(){
+			
+			$("#empty_messages_table").removeAttr("disabled");
+			$("#messages_error_message").text("Error emptying messages table");
+			
+		});
+		
+		
+		// reply_messages socket listeners
+		
+		socket.on("reply_messages_created",function(){
+			$("#reply_messages_created").html("Yes");
+			$("#delete_reply_messages_table").removeAttr("disabled");
+			$("#add_sample_reply_messages_method").removeAttr("disabled");
+		
+		});
+		
+		socket.on("create_table_reply_messages_error",function(){
+			
+			$("#create_messages_table").removeAttr("disabled");
+			
+		});
+		
+		socket.on("table_reply_messages_deleted",function(){
+			
+			$("#reply_messages_created").text("No");
+			$("#sample_reply_messages_added").text("No");
+			$("#create_reply_messages_table").removeAttr("disabled");
+			$("#add_sample_reply_messages").attr("disabled","disabled");
+			
+		});
+		
+		socket.on("delete_table_reply_messages_error",function(){
+			
+			$("#delete_reply_messages_table").removeAttr("disabled");
+			$("#reply_messages_error_message").text("Error deleting reply messages table");
+			
+		});
+		
+		socket.on("table_reply_messages_emptied",function(){
+				
+			$("#sample_reply_messages_added").text("No");
+			$("#add_sample_reply_messages").removeAttr("disabled");
+			$("#delete_reply_messages_table").removeAttr("disabled");
+			
+		});
+		
+		socket.on("empty_table_reply_messages_error",function(){
+			
+			$("#empty_reply_messages_table").removeAttr("disabled");
+			$("#reply_messages_error_message").text("Error emptying reply messages table");
+			
+		});
+		
+		
+		// message_attachments socket listeners
+		
+		socket.on("message_attachments_created",function(){
+			$("#message_attachments_created").html("Yes");
+			$("#delete_message_attachments_table").removeAttr("disabled");
+			$("#add_sample_message_attachments_method").removeAttr("disabled");
+		
+		});
+		
+		socket.on("create_table_message_attachments_error",function(){
+			
+			
+			$("#create_message_attachments_table").removeAttr("disabled");
+			
+		});
+		
+		socket.on("table_message_attachments_deleted",function(){
+			
+			$("#message_attachments_created").text("No");
+			$("#sample_message_attachments_added").text("No");
+			$("#create_message_attachments_table").removeAttr("disabled");
+			$("#add_sample_message_attachments").attr("disabled","disabled");
+			
+		});
+		
+		socket.on("delete_table_message_attachments_error",function(){
+			
+			$("#delete_message_attachments_table").removeAttr("disabled");
+			$("#message_attachments_error_message").text("Error deleting message attachments table");
+			
+		});
+		
+		socket.on("table_message_attachments_emptied",function(){
+				
+			$("#sample_message_attachments_added").text("No");
+			$("#add_sample_message_attachments").removeAttr("disabled");
+			$("#delete_message_attachments_table").removeAttr("disabled");
+			
+		});
+		
+		socket.on("empty_table_message_attachments_error",function(){
+			
+			$("#empty_message_attachments_table").removeAttr("disabled");
+			$("#message_attachments_error_message").text("Error emptying message attachments table");
+			
+		});
+		
+		
+		// catcha_images socket listeners
+		
+		socket.on("catcha_images_created",function(){
+			$("#catcha_images_created").html("Yes");
+			$("#delete_catcha_images_table").removeAttr("disabled");
+			$("#add_sample_catcha_images_method").removeAttr("disabled");
+		
+		});
+		
+		socket.on("create_table_catcha_images_error",function(){
+			
+			
+			$("#create_catcha_images_table").removeAttr("disabled");
+			
+		});
+		
+		socket.on("table_catcha_images_deleted",function(){
+			
+			$("#catcha_images_created").text("No");
+			$("#sample_catcha_images_added").text("No");
+			$("#create_catcha_images_table").removeAttr("disabled");
+			$("#add_sample_catcha_images").attr("disabled","disabled");
+			
+		});
+		
+		socket.on("delete_table_catcha_images_error",function(){
+			
+			$("#delete_catcha_images_table").removeAttr("disabled");
+			$("#catcha_images_error_message").text("Error deleting message attachments table");
+			
+		});
+		
+		socket.on("table_catcha_images_emptied",function(){
+				
+			$("#sample_catcha_images_added").text("No");
+			$("#add_sample_catcha_images").removeAttr("disabled");
+			$("#delete_catcha_images_table").removeAttr("disabled");
+			
+		});
+		
+		socket.on("empty_table_catcha_images_error",function(){
+			
+			$("#empty_catcha_images_table").removeAttr("disabled");
+			$("#catcha_images_error_message").text("Error emptying catcha images table");
 			
 		});
 		
@@ -1101,6 +1294,125 @@
 				case "empty_alerts_table": $(this).attr("disabled","disabled");
 										   disableAllOperationsButton($(this));
 										   socket.emit("empty_alerts_table");
+					break;
+			
+			}
+			
+			e.preventDefault();
+		});
+		
+		
+		$(".messages_btnDB_operations").on("click",function(e){
+			 var id = $(this).attr("id");
+			switch(id.toString()){
+				case "create_messages_table": $(this).attr("disabled","disabled");
+											  $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											  disableAllOperationsButton($(this));
+										      socket.emit("create_messages_table");
+					break;
+				case "add_sample_messages":  $(this).attr("disabled","disabled");
+											 disableAllOperationsButton($(this));
+											 $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+										  	 socket.emit("add_sample_reply_messages");
+					break;
+				case "delete_messages_table": $(this).attr("disabled","disabled");
+											  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											  $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											  disableAllOperationsButton($(this));
+										   	  socket.emit("delete_messages_table");
+					break;
+				case "empty_messages_table": $(this).attr("disabled","disabled");
+										     disableAllOperationsButton($(this));
+										     socket.emit("empty_messages_table");
+					break;
+			
+			}
+			
+			e.preventDefault();
+		});
+		
+		
+		$(".reply_messages_btnDB_operations").on("click",function(e){
+			 var id = $(this).attr("id");
+			switch(id.toString()){
+				case "create_reply_messages_table": $(this).attr("disabled","disabled");
+											  		$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											  		disableAllOperationsButton($(this));
+											  		socket.emit("create_reply_messages_table");
+					break;
+				case "add_sample_reply_messages":  $(this).attr("disabled","disabled");
+											       disableAllOperationsButton($(this));
+											       $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+										  	       socket.emit("add_sample_reply_messages");
+					break;
+				case "delete_reply_messages_table": $(this).attr("disabled","disabled");
+											  		$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											  		$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											  		disableAllOperationsButton($(this));
+											  		socket.emit("delete_reply_messages_table");
+					break;
+				case "empty_reply_messages_table": $(this).attr("disabled","disabled");
+										     	   disableAllOperationsButton($(this));
+										     	   socket.emit("empty_reply_messages_table");
+					break;
+			
+			}
+			
+			e.preventDefault();
+		});
+		
+		
+		$(".message_attachments_btnDB_operations").on("click",function(e){
+			 var id = $(this).attr("id");
+			switch(id.toString()){
+				case "create_message_attachments_table": $(this).attr("disabled","disabled");
+											  			 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											  			 disableAllOperationsButton($(this));
+											  			 socket.emit("create_message_attachments_table");
+					break;
+				case "add_sample_message_attachments":  $(this).attr("disabled","disabled");
+														disableAllOperationsButton($(this));
+														$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+														socket.emit("add_sample_message_attachments");
+					break;
+				case "delete_message_attachments_table": $(this).attr("disabled","disabled");
+											  			 $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											  			 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											  			 disableAllOperationsButton($(this));
+											  			 socket.emit("delete_message_attachments_table");
+					break;
+				case "empty_message_attachments_table": $(this).attr("disabled","disabled");
+										     			disableAllOperationsButton($(this));
+										     			socket.emit("empty_message_attachments_table");
+					break;
+			
+			}
+			
+			e.preventDefault();
+		});
+		
+		$(".catcha_images_btnDB_operations").on("click",function(e){
+			 var id = $(this).attr("id");
+			switch(id.toString()){
+				case "create_catcha_images_table": $(this).attr("disabled","disabled");
+											  			 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											  			 disableAllOperationsButton($(this));
+											  			 socket.emit("create_catcha_images_table");
+					break;
+				case "add_sample_catcha_images":  $(this).attr("disabled","disabled");
+														disableAllOperationsButton($(this));
+														$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+														socket.emit("add_sample_catcha_images");
+					break;
+				case "delete_catcha_images_table": $(this).attr("disabled","disabled");
+											  			 $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											  			 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+											  			 disableAllOperationsButton($(this));
+											  			 socket.emit("delete_catcha_images_table");
+					break;
+				case "empty_catcha_images_table": $(this).attr("disabled","disabled");
+										     			disableAllOperationsButton($(this));
+										     			socket.emit("empty_catcha_images_table");
 					break;
 			
 			}

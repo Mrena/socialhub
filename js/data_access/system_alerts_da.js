@@ -11,7 +11,7 @@ var startup_da_parent = require("./startup_da_parent");
 					console.trace(error);
 					var file_name = "system_alerts_da.js",
 					line_number = 13;
-					startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+					startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 					
 					
 					},function(client){
@@ -24,7 +24,7 @@ var startup_da_parent = require("./startup_da_parent");
 				console.log(error);
 				var file_name = "system_alerts_da.js",
 				line_number = 4;
-				startup_da_parent.logSystemError(error,file_name,line_number);
+				startup_da_parent.logSystemError(client,error,file_name,line_number);
 			}
 			
 	

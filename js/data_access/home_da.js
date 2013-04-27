@@ -11,7 +11,7 @@
 			
 			var file_name = "home_da.js",
 			line_number = 10;
-			startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+			startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 			
 			
 		},function(client,rows,fields){
@@ -39,7 +39,7 @@
 				console.trace(error);
 				var file_name = "home_da.js",
 				line_number = 39;
-				startup_da_parent.logDatabaseSystemError(error,file_name,line_number);
+				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
 				
 				
 			},function(client,rows,fields){
