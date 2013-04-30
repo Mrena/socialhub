@@ -29,7 +29,6 @@ var client_all_catcha = function(socket){
 						isValid = false;
 				}
 				
-			  
 			 return isValid; 
 		  };
 		
@@ -96,31 +95,34 @@ var client_all_catcha = function(socket){
 				e.preventDefault();
 			});
 			
+			
+			$("#delete_all_catcha_images").on("click",function(e){
+				e.preventDefault();
+				socket.emit("delete_all_catcha_images");
+			});
+			
 	};
 	
 	$catcha_manager_content = $("#catcha_manager_content");
 	socket.emit("get_all_catcha_images");
 	
-	
 	socket.on("all_catcha_images",function(objCatchaImages){
 		
 		objCatchaImages = JSON.parse(objCatchaImages);
-		
 		
 		$catcha_manager_content.html("<div id='all_catcha_notification' class='ui-state-highlight'></div><table id='catcha_image_viewer' border='1'><thead><tr><td>Catcha Id</td><td>Name</td><td>Value</td><td>Image</td><td>Operactions</td></tr></thead></table>");
 		var catcha_images = [],
 		    count = 0;
 		objCatchaImages.forEach(function(catchaImage){
 			
-			catcha_images.push("<tr id='catcha_row_"+(count)+"'><td>"+catchaImage.catcha_id+"</td><td>"+catchaImage.catcha_name+"</td><td>"+catchaImage.catcha_value+"</td><td><img src='"+catchaImage.catcha_image+"' alt='Catcha Image' /></td><td id='catcha_ops_"+(count)+"'><button class='delete_catcha' id='delete_catcha_"+(count)+"'>Delete</button><button class='edit_catcha' id='edit_catcha_"+(count)+"'>Edit</button><button style='display:none' class='submit_catcha' id='submit_catcha_"+(count)+"'>Submit</button><button class='edit_catcha_image' id='edit_catcha_image_"+(count)+"'>Edit Image</button></td></tr>");
+			catcha_images.push("<tr id='catcha_row_"+(count)+"'><td>"+catchaImage.catcha_id+"</td><td>"+catchaImage.catcha_name+"</td><td>"+catchaImage.catcha_value+"</td><td><img src='"+catchaImage.catcha_image+"' alt='Catcha Image' /></td><td id='catcha_ops_"+(count)+"'><button class='delete_catcha' id='delete_catcha_"+(count)+"' disabled='disabled'>Delete</button><button class='edit_catcha' id='edit_catcha_"+(count)+"'>Edit</button><button style='display:none' class='submit_catcha' id='submit_catcha_"+(count)+"'>Submit</button><button class='edit_catcha_image' id='edit_catcha_image_"+(count)+"'>Edit Image</button></td></tr>");
 			++count;
 			
 		});
 		
 		$("#catcha_image_viewer").append(catcha_images.join(''));
+		$("<br /><a href='#' data-role='button' id='delete_all_catcha_images' class='ui-btn ui-shadow ui-btn-inline ui-btn-up-b'><span class='ui-btn-inner'><span class='ui-btn-text' style='color:white;'>Delete All Catcha Images</span></span></a>").appendTo("#catcha_manager_content");
 		attachListeners();
-		
-		
 	});
 	
 	socket.on("get_all_catcha_images_error",function(){

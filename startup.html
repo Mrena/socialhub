@@ -74,6 +74,13 @@
     			background : red;
     			background : rgba(255,0,0,0.3);
     		}
+    		
+    		.valid_drop_area {
+    		     
+    		     background : yellow;
+    		     background : rgba(231,50,0,0.3);
+    		
+    			}
 </style>
 </head>
 <body>
@@ -135,6 +142,7 @@
 
 	<div data-role="footer"></div>
 </div>
+	<script src="static/js/util.js"></script>
 	<script src="/socket.io/lib/socket.io.js"></script>
 	<script src="static/js/client_sample_data_logic.js"></script>
 	<script src="static/js/client_create_database_logic.js"></script>
@@ -142,11 +150,14 @@
 	<script src="static/js/client_end_users_logic.js"></script>
 	<script src="static/js/client_system_errors.js"></script>
 	<script src="static/js/client_system_alerts.js"></script>
+	<script src="static/js/messages/client_messages_da/client_inbox_da.js"></script>
+	<script src="static/js/messages/client_inbox.js"></script>
 	<script src="static/js/client_messages.js"></script>
 	<script src="static/js/catcha_manager/client_add_catcha.js"></script>
 	<script src="static/js/catcha_manager/client_all_catcha.js"></script>
 	<script src="static/js/client_catcha_manager.js"></script>
 	<script src="static/js/client_simulators.js"></script>
+	<script src="static/js/client_admin_actions.js"></script>
 	<script src="static/js/client_more_options.js"></script>
 <script>
 
@@ -159,6 +170,8 @@
 	
 	sessionStorage['current_view'] = "startup_page";
 	sessionStorage['listener_attached'] = "bogus";
+	
+	console.log(new FileReader());
 	
 	socket.emit("get_tables_data");
 	
@@ -226,7 +239,7 @@
 			
 	});
 		
-		
+	
 	$("#system_alerts").on("click",function(e){
 			socket.emit("get_system_alerts_page");
 			e.preventDefault();

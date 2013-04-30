@@ -3,54 +3,89 @@
 var client_printco = function(socket){
 	
 	try{
+		
+	var displayCatchaError = function(){
+		
+		$("#login_catcha_error").html("Incorrect combination.");
+		$("#catcha_input").val("");
+		setTimeout(function(){
+			$("#login_catcha_error").empty();
+		},3000);
+		
+	};
 	
-	var validateLogin = function(username,password,catcha){
+	var displayLoginError = function(){
+		
+		$("#login_error").text("Incorrect username or password.");
+		$("#login_username").text("");
+		$("#login_password").text("");
+		setTimeout(function(){
+			$("#login_error").empty();
+		},3000);
+		
+	};
+	
+	var validateLogin = function(username,password,catcha_value){
 		var isValid = true;
 		
 		var validate_username = /^[a-z]([0-9a-z_])+$/i;
 		if( (!validate_username.test(username))){
-			$("#login_username_error").html("Invalid username.");
-			$("#login_username").val("");
+			displayLoginError();
 			isValid = false;
 	
 			}
 		
 		var validate_password = /^[a-z]([0-9a-z_])+$/i;
 		if( (!validate_password.test(password))){
-			$("#login_password_error").html("Invalid password.");
-			$("#login_password").val("");
+			displayLoginError();
 			isValid = false;
 			}
 		
+	
 		var validate_catcha = /^[a-z]([0-9a-z_])+$/i;
-		if( (!validate_catcha.test(password))){
-			$("#login_catcha_error").html("Incorrect combination.");
-			$("#login_catcha").val("");
+		if( (!validate_catcha.test(catcha_value))){
+			displayCatchaError();
 			isValid = false;
 			}
+		
+		console.log(catcha_value);
+		if(catcha_value!=sessionStorage['catcha_value'].toString()){
+			displayCatchaError();
+			isValid = false;
+		}
 		
 		return isValid;
 	};
 	
-	var generateCatcha = function(){
-		
-		// generate a new catcha image
-		socket.emit("get_new_catcha");
-		
-	};
+
 	var username,password;
 	var attachListeners = function(){
 		
+		$("#refresh_catcha").on("click",function(e){
+			e.preventDefault();
+			$("#catcha").trigger("generate_new_catcha");
+		});
+		
+		$("#catcha").on("generate_new_catcha",function(e){
+			e.stopPropagation();
+			socket.emit("generate_new_catcha");
+			
+		}).trigger("generate_new_catcha");
+		
+		
 		$("#login_submit").on("click",function(e){
+			
+			e.preventDefault();
 			
 			$("#login_username_error").empty();
 			$("#login_password_error").empty();
 			$("#login_catcha_error").empty();
 			
-			 username = $.trim($("#login_username").val()),
+			 	username = $.trim($("#login_username").val()),
 				password = $.trim($("#login_password").val());
+				catcha = $.trim($("#catcha_input").val());
 			
-			if(validateLogin(username,password)){
+			if(validateLogin(username,password,catcha)){
 				var objProvider = {
 						"username" : username,
 						"password" : password
@@ -60,27 +95,26 @@ var client_printco = function(socket){
 				
 			}else{
 				
-				var $login_error = $("#login_error");
-				$login_error.text("Incorrect username or password.");
-				generateCatcha();
-				setTimeout(function(){
-					$login_error.empty();
-				},3000);
+				$("#catcha").trigger("generate_new_catcha");
+				
 			}
 			
-			e.preventDefault();
 		});
-		
-		
+	
 	};
 	
 	
 	socket.on("new_catcha_image",function(objImage){
 		
 		objImage = JSON.parse(objImage);
-		$("#login_catcha").html("<img src='+"+objImage.image_data+"' alt='Catcha' />");
-		localStorage['catcha_image_combination'] = objImage.combination;
+		$("#catcha").html("<img src='"+objImage.catcha_image+"' alt='Catcha' />");
+		sessionStorage['catcha_value'] = objImage.catcha_value;
 
+	});
+	
+	socket.on("new_catcha_image_error",function(){
+		
+		console.log('ERROR: generating new catcha');
 	});
 	
 	// start of printco request and response

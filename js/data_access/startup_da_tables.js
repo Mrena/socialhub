@@ -379,7 +379,7 @@ var createAreasTable = function(client,mysql_con,fs){
 		var createMessagesTable = function(client,mysql_con,fs){
 			
 			
-			query = "CREATE TABLE IF NOT EXISTS Messages(message_id INTEGER PRIMARY KEY AUTO_INCREMENT,user_from VARCHAR(50) NOT NULL,user_to VARCHAR(50) NOT NULL,message VARCHAR(1000) NOT NULL,is_read BINARY NOT NULL)";
+			query = "CREATE TABLE IF NOT EXISTS Messages(message_id INTEGER PRIMARY KEY AUTO_INCREMENT,user_from VARCHAR(100) NOT NULL,user_to VARCHAR(50) NOT NULL,message VARCHAR(1000) NOT NULL,is_read BINARY NOT NULL)";
 	    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 	    		
 	    		console.log(error);

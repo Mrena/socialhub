@@ -6,7 +6,10 @@
 	var fs = require("fs");
 	var url = require("url");
 	var mysql = require("mysql");
-				
+	var redis = require("redis");
+	
+	
+	
 	var mysql_con = mysql.createConnection({
 		host : "localhost",
 		user : "root",
@@ -26,7 +29,7 @@
 
 	expressApp.use('/static',express.static(__dirname+"/static"));
 	app.listen(8000);
-
+	
 
 	expressApp.get("/game.html",function(request,response){
 	

@@ -124,3 +124,5 @@
 {"error":{"code":"ER_NO_SUCH_TABLE","index":0},"file_name":"home_da.js","line_number":39}
 {"error":{"code":"ER_NO_SUCH_TABLE","index":0},"file_name":"home_da.js","line_number":39}
 {"error":{"code":"ER_NO_SUCH_TABLE","index":0},"file_name":"home_da.js","line_number":39}
+{"error":{"code":"ER_PARSE_ERROR","index":0},"file_name":"messages_da.js","line_number":28}
+{"error":{"code":"ER_PARSE_ERROR","index":0},"file_name":"messages_da.js","line_number":28}

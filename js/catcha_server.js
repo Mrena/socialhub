@@ -79,6 +79,64 @@ var catcha_server = function(client,mysql_con,fs){
 		
 	});
 	
+	client.on("add_catcha_images",function(objCatcha){
+		try{
+			
+		objCatcha = JSON.parse(objCatcha);
+		catcha_server_da.addCatchaImages(client,mysql_con,fs,objCatcha.fs);
+		console.log("catcha images: "+objCatcha.fs);
+		
+		}catch(error){
+			
+			client.emit("add_catcha_image_error");
+			
+			console.log(error);
+			var file_name = "catcha_server.js",
+			line_number = 8;
+			catcha_server_da.logSystemError(client,error,file_name,line_number);
+			
+		}
+		
+	});
+	
+	
+	client.on("delete_all_catcha_images",function(){
+		try{
+			
+			catcha_server_da.deleteAllCatchaImages(client,mysql_con,fs);
+		
+		}catch(error){
+			
+			client.emit("delete_all_catcha_images_error");
+			
+			console.log(error);
+			var file_name = "catcha_server.js",
+			line_number = 29;
+			catcha_server_da.logSystemError(client,error,file_name,line_number);
+			
+		}
+		
+	});
+	
+	client.on("generate_new_catcha",function(){
+		try{
+			
+			catcha_server_da.generateNewCatcha(client,mysql_con,fs);
+		
+		}catch(error){
+			
+			client.emit("new_catcha_error");
+			
+			console.log(error);
+			var file_name = "catcha_server.js",
+			line_number = 29;
+			catcha_server_da.logSystemError(client,error,file_name,line_number);
+			
+		}
+		
+	});
+	
+	
 
 };
 
