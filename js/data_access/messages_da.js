@@ -84,8 +84,29 @@ var markAsRead = function(client,mysql_con,fs,message_id){
 	
 };
 
+var deleteMessage = function(client,mysql_con,fs,message_id){
+	
+
+	query = "DELETE FROM Messages WHERE message_id = "+message_id+"";
+	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
+		
+		console.trace(error);
+		var file_name = "messages_da.js",
+		line_number = 91;
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+		client.emit("delete_message_error");
+		
+	},function(client){
+		
+		getMessages(client,mysql_con,fs,"Admin");
+		console.log("Message deleted: "+message_id);
+ });
+	
+};
+
 
 exports.sendComment = sendComment;
 exports.getMessages = getMessages;
 exports.markAsRead = markAsRead;
+exports.deleteMessage = deleteMessage;
 exports.logSystemError = startup_da_parent.logSystemError;

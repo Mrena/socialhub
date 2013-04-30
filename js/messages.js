@@ -50,6 +50,21 @@ var messages = function(client,mysql_con,fs){
 		
 	});
 	
+	client.on("delete_message",function(message_id){
+		try{
+			
+			messages_da.deleteMessage(client,mysql_con,fs,message_id);
+	
+		}catch(error){
+			console.log(error);
+			var file_name = "messages.js",
+			line_number = 56;
+			messages_da.logSystemError(client,error,file_name,line_number);
+		}
+		
+	});
+	
+	
 	
 };
 

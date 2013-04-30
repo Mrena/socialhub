@@ -3,7 +3,6 @@
 var client_add_catcha = function(socket){
 	
 	
-	
 	var validateCatchaInfo = function(catcha_name,catcha_value,image_data){
 		
 		var isValid = true;
@@ -32,8 +31,23 @@ var client_add_catcha = function(socket){
 		
 		var file = e.originalEvent.target.files[0],
 		    reader = new FileReader();
+		
+		
 		    
 	if(file.type=="image/png"){
+		
+		
+		file.getName(function(file_name){
+			
+			$("#catcha_name").val(file_name);
+			$("#catcha_value").val(file_name);
+			
+		},function(e){
+			
+			console.log("We couldn't get the file name, no worries.");
+			
+		});
+		
 		
 	   $("#catcha_drop_zone").hide();
 		
@@ -149,6 +163,8 @@ var client_add_catcha = function(socket){
 		return false;
 		
 	});
+	
+
 	document.getElementById("catcha_dropzone").addEventListener("drop",function(e){
 		
 		e.stopPropagation();
@@ -158,11 +174,21 @@ var client_add_catcha = function(socket){
 		
 	if(e.dataTransfer.files.length==1){
 		var file = e.dataTransfer.files[0];
-		console.log(file);
-		$("#catcha_name").val(file.name.substr(0,file.name.indexOf('.')));
-		$("#catcha_value").val(file.name.substr(0,file.name.indexOf('.')));
-		$("#catcha_image").attr("disabled","disabled");
-		if(file.type=="image/png"){
+		
+	$("#catcha_image").attr("disabled","disabled");
+		
+	if(file.type=="image/png"){
+			
+			file.getName(function(file_name){
+				
+				$("#catcha_name").val(file_name);
+				$("#catcha_value").val(file_name);
+				
+			},function(e){
+				
+				console.log("We couldn't get the file name, no worries.");
+				
+			});
 			
 			var reader = new FileReader();
 			reader.onload = function(e){
@@ -194,22 +220,28 @@ var client_add_catcha = function(socket){
 		$("<table />").attr("id","catcha_images").appendTo("#current_catcha");
 		
 		
-		e.dataTransfer.files.toArray().forEach(function(file,i){
+		[].forEach.call(e.dataTransfer.files,function(file,i){
 			
 				file.readDataURL(function(image_data){
 					
-					var file_name = file.getName();
-					
-					$("#catcha_images").append(["<tr><td>","<img src='",image_data,"' alt='",file_name,"' />","</td></tr>"].join(''));
-					
-					var objCatcha = {
-							"catcha_name" : file_name,
-							"catcha_value" : file_name,
-							"image_data" : image_data
-					};
-					
-					socket.emit("add_catcha_image",JSON.stringify(objCatcha));
-					$("#add_notification").text("Catcha images sent");
+					 file.getName(function(file_name){
+						 
+						 $("#catcha_images").append(["<tr><td>","<img src='",image_data,"' alt='",file_name,"' />","</td></tr>"].join(''));
+							
+							var objCatcha = {
+									"catcha_name" : file_name,
+									"catcha_value" : file_name,
+									"image_data" : image_data
+							};
+							
+							socket.emit("add_catcha_image",JSON.stringify(objCatcha));
+							$("#add_notification").text("Catcha images sent");
+						 
+						 
+					 },function(e){
+						 
+						 console.log("ERROR: "+e.message);
+					 });
 					
 				});
 					

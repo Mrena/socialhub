@@ -20,7 +20,7 @@
 	(function(){
 		
 		// File 
-		File.prototype.getName = function(succesCB,errorCB){
+		File.prototype.getName = function(successCB,errorCB){
 			try{
 			   
 			   successCB(this.name.substr(0,this.name.indexOf('.')));
@@ -102,8 +102,29 @@
 	(function(){
 		
 		// String
-		
-		
+		String.prototype.splitWhere = function(str,successCB,errorCB){
+			
+			try{
+				
+				if(this.indexOf(str)!=-1){
+					
+					firstP = this.substr(0,this.indexOf(str));
+					lastP = this.substr(this.indexOf(str));
+					successCB([firstP.trim(),lastP.trim()]);
+					
+				}else{
+					
+					successCB(str);
+				}
+				
+			}catch(e){
+				
+				if(arguments[2])
+					errorCB(e);
+					else
+						throw e;
+			}
+		};
 		
 	})();
 	 
