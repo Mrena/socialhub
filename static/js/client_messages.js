@@ -11,6 +11,12 @@ var client_messages = function(socket){
 		
 	});
 	
+	$("#new_message").on("click",function(){
+		
+		//$("#messages")
+		
+	});
+	
 	$("#messages_content").on("message_read_setup",function(e){
 		
 		e.stopPropagation();

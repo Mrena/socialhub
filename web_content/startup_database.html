@@ -2,38 +2,132 @@
 <br />
 <br />
 <br />
-<h2>Database Tables</h2>
-<div data-role="fieldcontain">
-<a href="#" data-role="button" id="create_tables" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Create Database Tables</span></span></a>
-<a href="#" data-role="button" id="add_samples" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Add Sample Data</span></span></a>
-<a href="#" data-role="button" id="backup_database" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b ui-state-disabled" disabled="disabled"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Backup Database</span></span></a>
-<a href="#" data-role="button" id="reset_system" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text" style="color:white;">Reset System</span></span></a>
+    
+	<h3>Database Tables</h3>
+	<div data-role="fieldcontain">
+	<a href="#" data-role="button" id="create_tables" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b ui-state-disabled"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Create Database Tables</span></span></a>
+	<a href="#" data-role="button" id="add_samples" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b ui-state-disabled"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Add Sample Data</span></span></a>
+	<a href="#" data-role="button" id="backup_database" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b ui-state-disabled"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Backup Database</span></span></a>
+	<a href="#" data-role="button" id="reset_system" class="ui-btn ui-shadow ui-btn-inline ui-btn-up-b ui-state-disabled"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Reset System</span></span></a>
 </div>
-<table border="1">
-<thead><tr><td>Table Name</td><td>Created</td><td>Sample Added</td><td>Operations</td><td>Summary Error Messages</td></tr></thead>
+<div id="message" class="ui-state-highlight"></div>
+	<table border="1">
+	<thead><tr><td>Table Name</td><td>Created</td><td>Sample Added</td><td>Operations</td><!-- <td>Summary Error Messages</td>--></tr></thead>
 	<tbody>
-		<tr><td>Photograhers</td><td id="photographers_created">No</td><td id="sample_photographers_added">No</td><td><button id="create_photographers_table" class="photographers_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_photographers" class="photographers_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_photographers_table" class="photographers_btnDB_operations" disabled="disabled">Delete</button><button id="empty_photographers_table" class="photographers_btnDB_operations" disabled="disabled">Empty</button></td><td id="photographers_error_message"></td></tr>
-		<tr><td>City</td><td id="city_created">No</td><td id="sample_cities_added">No</td><td><button id="create_city_table" class="city_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_cities" class="city_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_city_table" class="city_btnDB_operations" disabled="disabled">Delete</button><button id="empty_city_table" class="city_btnDB_operations" disabled="disabled">Empty</button></td><td id="city_error_message"></td></tr>
-		<tr><td>Areas</td><td id="areas_created">No</td><td id="sample_areas_added">No</td><td><button id="create_areas_table" class="areas_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_areas" class="areas_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_areas_table" class="areas_btnDB_operations" disabled="disabled">Delete</button><button id="empty_areas_table" class="areas_btnDB_operations" disabled="disabled">Empty</button></td><td id="areas_error_message"></td></tr>
-		<tr><td>Packages</td><td id="packages_created">No</td><td id="sample_packages_added">No</td><td><button id="create_packages_table" class="packages_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_packages" class="packages_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_packages_table" class="packages_btnDB_operations" disabled="disabled">Delete</button><button id="empty_packages_table" class="packages_btnDB_operations" disabled="disabled">Empty</button></td><td id="packages_error_message"></td></tr>
-		<tr><td>Orders</td><td id="orders_created">No</td><td id="sample_orders_added">No</td><td><button id="create_orders_table" class="orders_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_orders" class="orders_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_orders_table" class="orders_btnDB_operations" disabled="disabled">Delete</button><button id="empty_orders_table" class="orders_btnDB_operations" disabled="disabled">Empty</button></td><td id="orders_error_message"></td></tr>
-		<tr><td>UserIDs</td><td id="userIDs_created">No</td><td id="sample_userIDs_added">No</td><td><button id="create_userIDs_table" class="userIDs_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_userIDs" class="userIDs_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_userIDs_table" class="userIDs_btnDB_operations" disabled="disabled">Delete</button><button id="empty_userIDs_table" class="userIDs_btnDB_operations" disabled="disabled">Empty</button></td><td id="userIDs_error_message"></td></tr>
-		<tr><td>Users</td><td id="users_created">No</td><td id="sample_users_added">No</td><td><button id="create_users_table" class="users_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_users" class="users_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_users_table" class="users_btnDB_operations" disabled="disabled">Delete</button><button id="empty_users_table" class="users_btnDB_operations" disabled="disabled">Empty</button></td><td id="users_error_message"></td></tr>
-		<tr><td>Admin</td><td id="admin_created">No</td><td id="sample_admin_added">No</td><td><button id="create_admin_table" class="admin_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_admin" class="admin_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_admin_table" class="admin_btnDB_operations" disabled="disabled">Delete</button><button id="empty_admin_table" class="admin_btnDB_operations" disabled="disabled">Empty</button></td><td id="admin_error_message"></td></tr>
-		<tr><td>Admin_Rights</td><td id="admin_rights_created">No</td><td id="sample_admin_rights_added">No</td><td><button id="create_admin_rights_table" class="admin_rights_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_admin_rights" class="admin_rights_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_admin_rights_table" class="admin_rights_btnDB_operations" disabled="disabled">Delete</button><button id="empty_admin_rights_table" class="admin_rights_btnDB_operations" disabled="disabled">Empty</button></td><td id="admin_rights_error_message"></td></tr>
-		<tr><td>Alerts</td><td id="alerts_created">No</td><td id="sample_alerts_added">No</td><td><button id="create_alerts_table" class="alerts_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_alerts" class="alerts_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_alerts_table" disabled="disabled" class="alerts_btnDB_operations">Delete</button><button id="empty_alerts_table" disabled="disabled" class="alerts_btnDB_operations">Empty</button></td><td id="alerts_error_message"></td></tr>
-		<tr><td>DeliveryMethod</td><td id="delivery_method_created">No</td><td id="sample_delivery_method_added">No</td><td><button id="create_delivery_method_table" class="delivery_method_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_delivery_method" class="delivery_method_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_delivery_method_table" class="delivery_method_btnDB_operations" disabled="disabled">Delete</button><button id="empty_delivery_method_table" class="delivery_method_btnDB_operations" disabled="disabled">Empty</button></td><td id="delivery_method__error_message"></td></tr>
-		<tr><td>Messages</td><td id="messages_created">No</td><td id="sample_messages_added">No</td><td><button id="create_messages_table" class="messages_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_messages" class="messages_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_messages_table" class="messages_btnDB_operations" disabled="disabled">Delete</button><button id="empty_messages_table" class="messages_btnDB_operations" disabled="disabled">Empty</button></td><td id="messages_error_message"></td></tr>
-		<tr><td>ReplyMessages</td><td id="reply_messages_created">No</td><td id="sample_reply_messages_added">No</td><td><button id="create_reply_messages_table" class="reply_messages_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_reply_messages" class="reply_messages_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_reply_messages_table" class="reply_messages_btnDB_operations" disabled="disabled">Delete</button><button id="empty_reply_messages_table" class="reply_messages_btnDB_operations" disabled="disabled">Empty</button></td><td id="reply_messages_error_message"></td></tr>
-		<tr><td>MessageAttachments</td><td id="message_attachments_created">No</td><td id="sample_message_attachments_added">No</td><td><button id="create_message_attachments_table" class="message_attachments_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_message_attachments" class="message_attachments_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_message_attachments_table" class="message_attachments_btnDB_operations" disabled="disabled">Delete</button><button id="empty_message_attachments_table" class="message_attachments_btnDB_operations" disabled="disabled">Empty</button></td><td id="message_attachments_error_message"></td></tr>
-		<tr><td>CatchImages</td><td id="catch_images_created">No</td><td id="sample_catcha_images_added">No</td><td><button id="create_catcha_images_table" class="catcha_images_btnDB_operations" disabled="disabled">Create</button><button id="add_sample_catcha_images" class="catcha_images_btnDB_operations" disabled="disabled">Add samples</button><button id="delete_catcha_images_table" class="catcha_images_btnDB_operations" disabled="disabled">Delete</button><button id="empty_catcha_images_table" class="catcha_images_btnDB_operations" disabled="disabled">Empty</button></td><td id="catcha_images_error_message"></td></tr>
+		<tr><td>Photograhers</td><td id="photographers_created">No</td><td id="sample_photographers_added">No</td><td>
+		<a href="#" id="create_photographers_table" class="photographers_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-e"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_photographers" class="photographers_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_photographers_table" class="photographers_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_photographers_table" class="photographers_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a>
+		</tr>
+		<tr><td>City</td><td id="city_created">No</td><td id="sample_cities_added">No</td><td class="last">
+		<a href="#" id="create_city_table" class="city_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-b"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_cities" class="city_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_city_table" class="city_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_city_table" class="city_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a>
+		</td></tr>
+		<tr><td>Areas</td><td id="areas_created">No</td><td id="sample_areas_added">No</td><td>
+		<a href="#" id="create_areas_table" class="areas_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-a"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_areas" class="areas_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_areas_table" class="areas_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_areas_table" class="areas_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a></td>
+		</tr>
+		<tr><td>Packages</td><td id="packages_created">No</td><td id="sample_packages_added">No</td><td>
+		<a href="#" id="create_packages_table" class="packages_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-b"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_packages" class="packages_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_packages_table" class="packages_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_packages_table" class="packages_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a></td>
+		</tr>
+		<tr><td>Orders</td><td id="orders_created">No</td><td id="sample_orders_added">No</td><td>
+		<a href="#" id="create_orders_table" class="orders_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-e"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_orders" class="orders_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_orders_table" class="orders_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_orders_table" class="orders_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a></td>
+		</tr>
+		<tr><td>UserIDs</td><td id="userIDs_created">No</td><td id="sample_userIDs_added">No</td><td>
+		<a href="#" id="create_userIDs_table" class="userIDs_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_userIDs" class="userIDs_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_userIDs_table" class="userIDs_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_userIDs_table" class="userIDs_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a></td>
+		</tr>
+		<tr><td>Users</td><td id="users_created">No</td><td id="sample_users_added">No</td><td>
+		<a href="#" id="create_users_table" class="users_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-a"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_users" class="users_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_users_table" class="users_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_users_table" class="users_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a></td>
+		</tr>
+		<tr><td>Admin</td><td id="admin_created">No</td><td id="sample_admin_added">No</td><td>
+		<a href="#" id="create_admin_table" class="admin_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-e"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_admin" class="admin_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_admin_table" class="admin_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_admin_table" class="admin_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a></td>
+		</tr>
+		<tr><td>Admin_Rights</td><td id="admin_rights_created">No</td><td id="sample_admin_rights_added">No</td><td>
+		<a href="#" id="create_admin_rights_table" class="admin_rights_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-b"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_admin_rights" class="admin_rights_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_admin_rights_table" class="admin_rights_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_admin_rights_table" class="admin_rights_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a>
+		</tr>
+		<tr><td>Alerts</td><td id="alerts_created">No</td><td id="sample_alerts_added">No</td><td>
+		<a href="#" id="create_alerts_table" class="alerts_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-e"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_alerts" class="alerts_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_alerts_table" class="alerts_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_alerts_table" class="alerts_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a></td>
+		</tr>
+		<tr><td>DeliveryMethod</td><td id="delivery_method_created">No</td><td id="sample_delivery_method_added">No</td><td>
+		<a href="#" id="create_delivery_method_table" class="delivery_method_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-f"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_delivery_method" class="delivery_method_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_delivery_method_table" class="delivery_method_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_delivery_method_table" class="delivery_method_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a>
+		</tr>
+		<tr><td>Messages</td><td id="messages_created">No</td><td id="sample_messages_added">No</td><td>
+		<a href="#" id="create_messages_table" class="messages_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-a"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_messages" class="messages_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_messages_table" class="messages_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_messages_table" class="messages_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a></td>
+		</tr>
+		<tr><td>ReplyMessages</td><td id="reply_messages_created">No</td><td id="sample_reply_messages_added">No</td><td>
+		<a href="#" id="create_reply_messages_table" class="reply_messages_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_reply_messages" class="reply_messages_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_reply_messages_table" class="reply_messages_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_reply_messages_table" class="reply_messages_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a></td>
+		</tr>
+		<tr><td>MessageAttachments</td><td id="message_attachments_created">No</td><td id="sample_message_attachments_added">No</td><td>
+		<a href="#" id="create_message_attachments_table" class="message_attachments_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-c"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_message_attachments" class="message_attachments_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_message_attachments_table" class="message_attachments_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_message_attachments_table" class="message_attachments_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a></td>
+		</tr>
+		<tr><td>CatchImages</td><td id="catch_images_created">No</td><td id="sample_catcha_images_added">No</td><td>
+		<a href="#" id="create_catcha_images_table" class="catcha_images_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-b"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Create</span></span></a>
+		<a href="#" id="add_sample_catcha_images" class="catcha_images_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Add samples</span></span></a>
+		<a href="#" id="delete_catcha_images_table" class="catcha_images_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Delete</span></span></a>
+		<a href="#" id="empty_catcha_images_table" class="catcha_images_btnDB_operations ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-d"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Empty</span></span></a></td>
+		</tr>
 	</tbody>
-		<tfoot><tr><td></td><td></td><td></td><td></td><td></td></tr></tfoot>
-</table>
-
-<br />
+		<tfoot><tr><td></td><td></td><td></td><td></td></tr></tfoot>
+	</table>
+    <br />
 <div data-role="fieldset">
-<label for="database_name">Database Name:</label>
-<input type="text" id="database_name" value="PrintP" disabled>
-<!-- <input type="button" id="submit_database_name" value="Create Database">-->
+	<label for="database_name">Database Name:</label>
+	<input type="text" id="database_name" value="PrintP" disabled>
+	<!--  <input type="button" id="submit_database_name" value="Create Database"> -->
 </div>
+<div>
+
+     <div class='ui-shadow ui-corner-all ui-body-corner-all needs_table_data' style='padding:10px;' id="current_messagable">
+        <dl>
+        	<dt><h4>Current Messagable Tables</h4></dt>
+        	<dd></dd>
+        </dl>
+      </div>
+    <div class='ui-shadow ui-corner-all ui-body-corner-all' style='padding:10px;'>
+	<p>Choose the tables that have a username field and which the users they hold can send and/or receive messages.<br />
+    	<select class="ui-state-disabled needs_table_data" id="can_message" multiple="multiple">
+    		<option>Choose Table Name</option>
+    	</select><br />
+    	<span id="can_message_selected" class="ui-state-highlight"></span><br />
+    	<a href="#" id="submit_can_message" class="ui-state-disabled ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-e"><span class='ui-btn-inner ui-btn-corner-all'><span class='ui-btn-text'>Submit</span></span></a>
+    </p>
+    </div>
+ </div>

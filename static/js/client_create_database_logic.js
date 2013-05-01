@@ -42,23 +42,23 @@
         		
         		
         		switch(table_name){
-        			case "userids" : $("#add_sample_userIDs").removeAttr("disabled");
-        							 $("#delete_userIDs_table").removeAttr("disabled");
+        			case "userids" : $("#add_sample_userIDs").removeClass("ui-state-disabled");
+        							 $("#delete_userIDs_table").removeClass("ui-state-disabled");
         				break;
-        			case "city": $("#add_sample_cities").removeAttr("disabled");
-        			 			 $("#delete_city_table").removeAttr("disabled");
+        			case "city": $("#add_sample_cities").removeClass("ui-state-disabled");
+        			 			 $("#delete_city_table").removeClass("ui-state-disabled");
         				break;
-        			default: $("#add_sample_"+table_name).removeAttr("disabled");
-        					 $("#delete_"+table_name+"_table").removeAttr("disabled");
+        			default: $("#add_sample_"+table_name).removeClass("ui-state-disabled");
+        					 $("#delete_"+table_name+"_table").removeClass("ui-state-disabled");
         				break;
         		}
         		
         	}else{
         		
         		switch(table_name){
-    			case "userids" : $("#create_userIDs_table").removeAttr("disabled");
+    			case "userids" : $("#create_userIDs_table").removeClass("ui-state-disabled");
     				break;
-    			default: $("#create_"+table_name+"_table").removeAttr("disabled");
+    			default: $("#create_"+table_name+"_table").removeClass("ui-state-disabled");
     				break;
     		
     		}
@@ -70,25 +70,25 @@
         	if(samples_added){
         		
         		switch(table_name){
-        			case "userids": $("#empty_userIDs_table").removeAttr("disabled");
-       			 					$("#add_sample_userIDs").attr("disabled","disabled");
+        			case "userids": $("#empty_userIDs_table").removeClass("ui-state-disabled");
+       			 					$("#add_sample_userIDs").addClass("ui-state-disabled");
         				break;
-        			case "city":	$("#empty_city_table").removeAttr("disabled");
-       			 					$("#add_sample_cities").attr("disabled","disabled");
+        			case "city":	$("#empty_city_table").removeClass("ui-state-disabled");
+       			 					$("#add_sample_cities").addClass("ui-state-disabled");
         				break;
         			default:		$("#empty_"+table_name+"_table").removeAttr("disabled");
-   				 					$("#add_sample_"+table_name).attr("disabled","disabled");
+   				 					$("#add_sample_"+table_name).addClass("ui-state-disabled");
         			    break;
         		}
         		
         	}else{
         		
         		switch(table_name){
-    			case "userids": $("#add_sample_userIDs").removeAttr("disabled");
+    			case "userids": $("#add_sample_userIDs").removeClass("ui-state-disabled");
     				break;
-    			case "city": $("#add_sample_cities").removeAttr("disabled");
+    			case "city": $("#add_sample_cities").removeClass("ui-state-disabled");
     				break;
-    			default: $("#add_sample_"+table_name).removeAttr("disabled");
+    			default: $("#add_sample_"+table_name).removeClass("ui-state-disabled");
     			    break;
     		}
         		
@@ -111,7 +111,7 @@
         		
         	});
         	
-        	number_of_tables == created_tables ? $("#reset_system").removeAttr("disabled") : "";
+        	number_of_tables == created_tables ? $("#reset_system").removeClass("ui-state-disabled") : "";
         	
         };
         
@@ -121,16 +121,12 @@
         		
         		if(tableData.created){
         			var $create_tables = $("#create_tables");
-        			 $create_tables.attr("disabled","disabled");
-        			 $create_tables.addClass("ui-state-disabled");
-        			$("#reset_system").removeAttr("disabled");
+        			$create_tables.addClass("ui-state-disabled");
+        			$("#reset_system").removeClass("ui-state-disabled");
         			
         			if(tableData.samples_added){
         				var $add_samples = $("#add_samples");
-        				$add_samples.attr("disabled","disabled")
-        				.addClass("ui-state-disabled")
-        				.unbind();
-        				
+        				$add_samples.addClass("ui-state-disabled");
         				 return;
         			}
         		}
@@ -175,8 +171,7 @@
 	
         var disableAllOperationsButton = function($that){
         	
-        	var thatsClass = $that.attr("class");
-        	$("."+thatsClass).attr("disabled","disabled");
+        	$that.addClass("ui-state-disabled");
         	
         };
         
@@ -192,54 +187,45 @@
 				e.preventDefault();
 			});
 
-
+		
 		
 		$("#create_tables").on("click",function(e){
 	        
-			
 			socket.emit("create_tables_table");
 			console.log("Create tables table emitted");
-			$(this).attr("disabled","disabled").addClass("ui-state-disabled");
-			$(this).unbind();
-			
+			$(this).addClass("ui-state-disabled");
 			
 			e.preventDefault();
 	
 		});
-		var tablesCreatedNum = 0;
+		
 		socket.on("tables_table_created",function(){
-			if(tablesCreatedNum == 0){
+			
 			socket.emit("create_tables");
 			console.log("Create tables emitted");
-			++tablesCreatedNum;
-	        }
 			
 		});
 		
 		
-		var attachResetListener = function(){
-		
 			$("#reset_system").on("click",function(e){
 			 
 				socket.emit("reset_system");
-				$(this).attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				$(this).addClass("ui-state-disabled");
 			
 				e.preventDefault();
 			});
 		
-		};
-		
-		attachResetListener();
+	
 		
 		socket.on("system_reset",function(){
-			tablesCreatedNum = 0;
+			
 			socket.emit("get_database_content");
 			
 		});
 		
 		socket.on("system_reset_error",function(){
 			
-			$("#reset_system").removeAttr("disabled").on("click",attachResetListener);
+			$("#reset_system").removeClass("ui-state-disabled");
 			
 		});
 		
@@ -247,9 +233,10 @@
 		// city socket listeners
 		
 		socket.on("city_created",function(){
+			
 			$("#city_created").html("Yes");
-			$("#delete_city_table").removeAttr("disabled");
-			$("#add_sample_cities").removeAttr("disabled");
+			$("#delete_city_table").removeClass("ui-state-disabled");
+			$("#add_sample_cities").removeClass("ui-state-disabled");
 			
 		});
 		
@@ -264,14 +251,14 @@
 		socket.on("table_city_deleted",function(){
 			
 			$("#city_created").text("No");
-			$("#create_city_table").removeAttr("disabled");
-			$("#add_sample_cities").attr("disabled","disabled");
+			$("#create_city_table").removeClass("ui-state-disabled");
+			$("#add_sample_cities").addClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("delete_table_city_error",function(){
 			
-			$("#delete_city_table").removeAttr("disabled");
+			$("#delete_city_table").removeClass("ui-state-disabled");
 			$("#city_error_message").text("Error deleting city table");
 			
 		});
@@ -279,14 +266,14 @@
 		socket.on("table_city_emptied",function(){
 				
 			$("#sample_cities_added").text("No");
-			$("#add_sample_cities").removeAttr("disabled");
-			$("#delete_city_table").removeAttr("disabled");
+			$("#add_sample_cities").removeClass("ui-state-disabled");
+			$("#delete_city_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_city_error",function(){
 			
-			$("#empty_city_table").removeAttr("disabled");
+			$("#empty_city_table").removeClass("ui-state-disabled");
 			$("#city_error_message").text("Error emptying city table");
 			
 		});
@@ -295,8 +282,8 @@
 
 		socket.on("photographers_created",function(){
 			$("#photographers_created").html("Yes");
-			$("#delete_photographers_table").removeAttr("disabled");
-			$("#add_sample_photographers").removeAttr("disabled");
+			$("#delete_photographers_table").removeClass("ui-state-disabled");
+			$("#add_sample_photographers").removeClass("ui-state-disabled");
 		
 		});
 		
@@ -304,7 +291,7 @@
 		socket.on("create_table_photographers_error",function(){
 			
 			var $create_photographers_table = $("#create_photographers_table");
-				$create_photographers_table.removeAttr("disabled");
+				$create_photographers_table.removeClass("ui-state-disabled");
 				
 		});
 		
@@ -313,8 +300,8 @@
 			
 			$("#photographers_created").text("No");
 			$("#sample_photographers_added").text("No");
-			$("#create_photographers_table").removeAttr("disabled");
-			$("#add_sample_photographers").attr("disabled","disabled");
+			$("#create_photographers_table").removeClass("ui-state-disabled");
+			$("#add_sample_photographers").addClass("ui-state-disabled");
 			
 		});
 		
@@ -328,14 +315,14 @@
 		socket.on("table_photographers_emptied",function(){
 				
 			$("#sample_photographers_added").text("No");
-			$("#add_sample_photographers").removeAttr("disabled");
-			$("#delete_photographers_table").removeAttr("disabled");
+			$("#add_sample_photographers").removeClass("ui-state-disabled");
+			$("#delete_photographers_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_photographers_error",function(){
 			
-			$("#empty_photographers_table").removeAttr("disabled");
+			$("#empty_photographers_table").removeClass("ui-state-disabled");
 			$("#photographers_error_message").text("Error emptying photographers table");
 			
 		});
@@ -344,9 +331,10 @@
 		// areas socket listeners
 
 		socket.on("areas_created",function(){
+			
 			$("#areas_created").html("Yes");
-			$("#delete_areas_table").removeAttr("disabled");
-			$("#add_sample_areas").removeAttr("disabled");
+			$("#delete_areas_table").removeClass("ui-state-disabled");
+			$("#add_sample_areas").removeClass("ui-state-disabled");
 			
 		});
 		
@@ -355,7 +343,7 @@
 		socket.on("create_table_areas_error",function(){
 			
 			var $created_areas_table = $("#create_areas_table");
-				$created_areas_table.removeAttr("disabled");
+				$created_areas_table.removeClass("ui-state-disabled");
 			
 		});
 		
@@ -365,14 +353,14 @@
 			
 			$("#areas_created").text("No");
 			$("#sample_areas_added").text("No");
-			$("#create_areas_table").removeAttr("disabled");
-			$("#add_sample_areas").attr("disabled","disabled");
+			$("#create_areas_table").removeClass("ui-state-disabled");
+			$("#add_sample_areas").addClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("delete_table_areas_error",function(){
 			
-			$("#delete_areas_table").removeAttr("disabled");
+			$("#delete_areas_table").removeClass("ui-state-disabled");
 			$("#areas_error_message").text("Error deleting areas table");
 			
 		});
@@ -380,14 +368,14 @@
 		socket.on("table_areas_emptied",function(){
 				
 			$("#sample_areas_added").text("No");
-			$("#add_sample_areas").removeAttr("disabled");
-			$("#delete_areas_table").removeAttr("disabled");
+			$("#add_sample_areas").removeClass("ui-state-disabled");
+			$("#delete_areas_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_areas_error",function(){
 			
-			$("#empty_areas_table").removeAttr("disabled");
+			$("#empty_areas_table").removeClass("ui-state-disabled");
 			$("#areas_error_message").text("Error emptying areas table");
 			
 		});
@@ -397,9 +385,10 @@
 		// packages socket listeners
 
 		socket.on("packages_created",function(){
+			
 			$("#packages_created").html("Yes");
-			$("#delete_packages_table").removeAttr("disabled");
-			$("#add_sample_packages").removeAttr("disabled");
+			$("#delete_packages_table").removeClass("ui-state-disabled");
+			$("#add_sample_packages").removeClass("ui-state-disabled");
 			
 		});
 		
@@ -407,7 +396,7 @@
 		socket.on("create_table_packages_error",function(){
 			
 			var $create_packages_table = $("#create_packages_table");
-				$create_packages_table.removeAttr("disabled");
+				$create_packages_table.removeClass("ui-state-disabled");
 				
 		});
 		
@@ -415,14 +404,14 @@
 			
 			$("#packages_created").text("No");
 			$("#sample_packages_added").text("No");
-			$("#create_packages_table").removeAttr("disabled");
-			$("#add_sample_packages").attr("disabled","disabled");
+			$("#create_packages_table").removeClass("ui-state-disabled");
+			$("#add_sample_packages").addClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("delete_table_packages_error",function(){
 			
-			$("#delete_packages_table").removeAttr("disabled");
+			$("#delete_packages_table").removeClass("ui-state-disabled");
 			$("#packages_error_message").text("Error deleting packages table");
 			
 		});
@@ -430,14 +419,14 @@
 		socket.on("table_packages_emptied",function(){
 				
 			$("#sample_packages_added").text("No");
-			$("#add_sample_packages").removeAttr("disabled");
-			$("#delete_packages_table").removeAttr("disabled");
+			$("#add_sample_packages").removeClass("ui-state-disabled");
+			$("#delete_packages_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_packages_error",function(){
 			
-			$("#empty_packages_table").removeAttr("disabled");
+			$("#empty_packages_table").removeClass("ui-state-disabled");
 			$("#packages_error_message").text("Error emptying packages table");
 			
 		});
@@ -446,9 +435,10 @@
 		// orders socket listeners
 
 		socket.on("orders_created",function(){
+			
 			$("#orders_created").html("Yes");
-			$("#delete_orders_table").removeAttr("disabled");
-			$("#add_sample_orders").removeAttr("disabled");
+			$("#delete_orders_table").removeClass("ui-state-disabled");
+			$("#add_sample_orders").removeClass("ui-state-disabled");
 			
 		});
 		
@@ -456,7 +446,7 @@
 		socket.on("create_table_orders_error",function(){
 			
 			var $create_orders_table = $("#create_orders_table");
-				$create_orders_table.removeAttr("disabled");
+				$create_orders_table.removeClass("ui-state-disabled");
 				
 		});
 		
@@ -464,14 +454,14 @@
 			
 			$("#orders_created").text("No");
 			$("#sample_orders_added").text("No");
-			$("#create_orders_table").removeAttr("disabled");
-			$("#add_sample_orders").attr("disabled","disabled");
+			$("#create_orders_table").removeClass("ui-state-disabled");
+			$("#add_sample_orders").addClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("delete_table_orders_error",function(){
 			
-			$("#delete_orders_table").removeAttr("disabled");
+			$("#delete_orders_table").removeClass("ui-state-disabled");
 			$("#orders_error_message").text("Error deleting orders table");
 			
 		});
@@ -479,14 +469,14 @@
 		socket.on("table_orders_emptied",function(){
 				
 			$("#sample_orders_added").text("No");
-			$("#add_sample_orders").removeAttr("disabled");
-			$("#delete_orders_table").removeAttr("disabled");
+			$("#add_sample_orders").removeClass("ui-state-disabled");
+			$("#delete_orders_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_orders_error",function(){
 			
-			$("#empty_orders_table").removeAttr("disabled");
+			$("#empty_orders_table").removeClass("ui-state-disabled");
 			$("#orders_error_message").text("Error emptying orders table");
 			
 		});
@@ -495,6 +485,7 @@
 		// userIDs socket listeners
 
 		socket.on("userIDs_created",function(){
+			
 			$("#userIDs_created").html("Yes");
 			$("#delete_userIDs_table").removeAttr("disabled");
 			$("#add_sample_usersIDs").removeAttr("disabled");
@@ -504,7 +495,7 @@
 		socket.on("create_table_userids_error",function(){
 			
 			var $create_userIDs_table = $("#create_userids_table");
-				$create_userIDs_table.removeAttr("disabled");
+				$create_userIDs_table.removeClass("ui-state-disabled");
 				
 		});
 		
@@ -512,14 +503,14 @@
 			
 			$("#userIDs_created").text("No");
 			$("#sample_userIDs_added").text("No");
-			$("#create_userIDs_table").removeAttr("disabled");
-			$("#add_sample_userIDs").attr("disabled","disabled");
+			$("#create_userIDs_table").removeClass("ui-state-disabled");
+			$("#add_sample_userIDs").addClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("delete_table_userIDs_error",function(){
 			
-			$("#delete_userIDs_table").removeAttr("disabled");
+			$("#delete_userIDs_table").removeClass("ui-state-disabled");
 			$("#userIDs_error_message").text("Error deleting userIDs table");
 			
 		});
@@ -527,14 +518,14 @@
 		socket.on("table_userIDs_emptied",function(){
 				
 			$("#sample_userIDs_added").text("No");
-			$("#add_sample_userIDs").removeAttr("disabled");
-			$("#delete_userIDs_table").removeAttr("disabled");
+			$("#add_sample_userIDs").removeClass("ui-state-disabled");
+			$("#delete_userIDs_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_userIDs_error",function(){
 			
-			$("#empty_userIDs_table").removeAttr("disabled");
+			$("#empty_userIDs_table").removeClass("ui-state-disabled");
 			$("#userIDs_error_message").text("Error emptying userIDs table");
 			
 		});
@@ -544,15 +535,15 @@
 		
 		socket.on("users_created",function(){
 			$("#users_created").html("Yes");
-			$("#delete_users_table").removeAttr("disabled");
-			$("#add_sample_users").removeAttr("disabled");
+			$("#delete_users_table").removeClass("ui-state-disabled");
+			$("#add_sample_users").removeClass("ui-state-disabled");
 		
 		});
 		
 		socket.on("create_table_users_error",function(){
 			
 			var $create_users_table = $("#create_users_table");
-				$create_users_table.removeAttr("disabled");
+				$create_users_table.removeClass("ui-state-disabled");
 			
 		});
 		
@@ -561,13 +552,13 @@
 			$("#users_created").text("No");
 			$("#sample_users_added").text("No");
 			$("#create_users_table").removeAttr("disabled");
-			$("#add_sample_users").attr("disabled","disabled");
+			$("#add_sample_users").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("delete_table_users_error",function(){
 			
-			$("#delete_users_table").removeAttr("disabled");
+			$("#delete_users_table").removeClass("ui-state-disabled");
 			$("#users_error_message").text("Error deleting users table");
 			
 		});
@@ -575,14 +566,14 @@
 		socket.on("table_users_emptied",function(){
 				
 			$("#sample_users_added").text("No");
-			$("#add_sample_users").removeAttr("disabled");
-			$("#delete_users_table").removeAttr("disabled");
+			$("#add_sample_users").removeClass("ui-state-disabled");
+			$("#delete_users_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_users_error",function(){
 			
-			$("#empty_users_table").removeAttr("disabled");
+			$("#empty_users_table").removeClass("ui-state-disabled");
 			$("#users_error_message").text("Error emptying users table");
 			
 		});
@@ -591,16 +582,17 @@
 		// admin socket listeners
 		
 		socket.on("admin_created",function(){
+			
 			$("#admin_created").html("Yes");
-			$("#delete_admin_table").removeAttr("disabled");
-			$("#add_sample_admin").removeAttr("disabled");
+			$("#delete_admin_table").removeClass("ui-state-disabled");
+			$("#add_sample_admin").removeClass("ui-state-disabled");
 	
 		});
 		
 		socket.on("create_table_admin_error",function(){
 			
 			var $create_admin_table = $("#create_admin_table");
-				$create_admin_table.removeAttr("disabled");
+				$create_admin_table.removeClass("ui-state-disabled");
 				
 		});
 		
@@ -608,14 +600,14 @@
 			
 			$("#admin_created").text("No");
 			$("#sample_admin_added").text("No");
-			$("#create_admin_table").removeAttr("disabled");
-			$("#add_sample_admin").attr("disabled","disabled");
+			$("#create_admin_table").removeClass("ui-state-disabled");
+			$("#add_sample_admin").addClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("delete_table_admin_error",function(){
 			
-			$("#delete_admin_table").removeAttr("disabled");
+			$("#delete_admin_table").removeClass("ui-state-disabled");
 			$("#admin_error_message").text("Error deleting admin table");
 			
 		});
@@ -623,14 +615,14 @@
 		socket.on("table_admin_emptied",function(){
 				
 			$("#sample_admin_added").text("No");
-			$("#add_sample_admin").removeAttr("disabled");
-			$("#delete_admin_table").removeAttr("disabled");
+			$("#add_sample_admin").removeClass("ui-state-disabled");
+			$("#delete_admin_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_admin_error",function(){
 			
-			$("#empty_admin_table").removeAttr("disabled");
+			$("#empty_admin_table").removeClass("ui-state-disabled");
 			$("#admin_error_message").text("Error emptying rights table");
 			
 		});
@@ -639,16 +631,17 @@
 		// admin_rights socket listeners
 		
 		socket.on("admin_rights_created",function(){
+			
 			$("#admin_rights_created").html("Yes");
-			$("#delete_admin_rights_table").removeAttr("disabled");
-			$("#add_sample_admin_rights").removeAttr("disabled");
+			$("#delete_admin_rights_table").removeClass("ui-state-disabled");
+			$("#add_sample_admin_rights").removeClass("ui-state-disabled");
 			
 			});
 		
 		socket.on("create_table_admin_rights_error",function(){
 			
 			var $create_admin_rights_table = $("#create_admin_rights_table");
-				$create_admin_rights_table.removeAttr("disabled");
+				$create_admin_rights_table.removeClass("ui-state-disabled");
 			
 		});
 		
@@ -656,14 +649,14 @@
 			
 			$("#admin_rights_created").text("No");
 			$("#sample_admin_rights_added").text("No");
-			$("#create_admin_rights_table").removeAttr("disabled");
-			$("#add_sample_admin_rights").attr("disabled","disabled");
+			$("#create_admin_rights_table").removeClass("ui-state-disabled");
+			$("#add_sample_admin_rights").addClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("delete_table_admin_rights_error",function(){
 			
-			$("#delete_admin_rights_table").removeAttr("disabled");
+			$("#delete_admin_rights_table").removeClass("ui-state-disabled");
 			$("#admin_rights_error_message").text("Error deleting admin rights table");
 			
 		});
@@ -671,14 +664,14 @@
 		socket.on("table_admin_rights_emptied",function(){
 				
 			$("#sample_admin_rights_added").text("No");
-			$("#add_sample_admin_rights").removeAttr("disabled");
-			$("#delete_admin_rights_table").removeAttr("disabled");
+			$("#add_sample_admin_rights").removeClass("ui-state-disabled");
+			$("#delete_admin_rights_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_admin_rights_error",function(){
 			
-			$("#empty_admin_rights_table").removeAttr("disabled");
+			$("#empty_admin_rights_table").removeClass("ui-state-disabled");
 			$("#admin_rights_error_message").text("Error emptying admin rights table");
 			
 		});
@@ -687,16 +680,17 @@
 		// alerts socket listeners
 		
 		socket.on("alerts_created",function(){
+			
 			$("#alerts_created").html("Yes");
-			$("#delete_alerts_table").removeAttr("disabled");
-			$("#add_sample_alerts").removeAttr("disabled");
+			$("#delete_alerts_table").removeClass("ui-state-disabled");
+			$("#add_sample_alerts").removeClass("ui-state-disabled");
 		
 		});
 		
 		socket.on("create_table_alerts_error",function(){
 			
 			var $create_alerts_table = $("#create_alerts_table");
-				$create_alerts_table.removeAttr("disabled");
+				$create_alerts_table.removeClass("ui-state-disabled");
 			
 		});
 		
@@ -704,14 +698,14 @@
 			
 			$("#alerts_created").text("No");
 			$("#sample_alerts_added").text("No");
-			$("#create_alerts_table").removeAttr("disabled");
+			$("#create_alerts_table").removeClass("ui-state-disabled");
 			$("#add_sample_alerts").attr("disabled","disabled");
 			
 		});
 		
 		socket.on("delete_table_alerts_error",function(){
 			
-			$("#delete_alerts_table").removeAttr("disabled");
+			$("#delete_alerts_table").removeClass("ui-state-disabled");;
 			$("#alerts_error_message").text("Error deleting alerts table");
 			
 		});
@@ -719,14 +713,14 @@
 		socket.on("table_alerts_emptied",function(){
 				
 			$("#sample_alerts_added").text("No");
-			$("#add_sample_alerts").removeAttr("disabled");
-			$("#delete_alerts_table").removeAttr("disabled");
+			$("#add_sample_alerts").removeClass("ui-state-disabled");
+			$("#delete_alerts_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_alerts_error",function(){
 			
-			$("#empty_alerts_table").removeAttr("disabled");
+			$("#empty_alerts_table").removeClass("ui-state-disabled");
 			$("#alerts_error_message").text("Error emptying alerts table");
 			
 		});
@@ -735,16 +729,17 @@
 		// delivery_method socket listeners
 		
 		socket.on("delivery_method_created",function(){
+			
 			$("#delivery_method_created").html("Yes");
-			$("#delete_delivery_method_table").removeAttr("disabled");
-			$("#add_sample_delivery_method").removeAttr("disabled");
+			$("#delete_delivery_method_table").removeClass("ui-state-disabled");
+			$("#add_sample_delivery_method").removeClass("ui-state-disabled");
 		
 		});
 		
 		socket.on("create_table_delivery_method_error",function(){
 			
 			var $create_delivery_method_table = $("#create_delivery_method_table");
-				$create_delivery_method_table.removeAttr("disabled");
+				$create_delivery_method_table.removeClass("ui-state-disabled");
 			
 		});
 		
@@ -752,14 +747,14 @@
 			
 			$("#delivery_method_created").text("No");
 			$("#sample_delivery_method_added").text("No");
-			$("#create_delivery_method_table").removeAttr("disabled");
-			$("#add_sample_delivery_method").attr("disabled","disabled");
+			$("#create_delivery_method_table").removeClass("ui-state-disabled");
+			$("#add_sample_delivery_method").addClass("ui-state-disabled")
 			
 		});
 		
 		socket.on("delete_table_delivery_method_error",function(){
 			
-			$("#delete_delivery_method_table").removeAttr("disabled");
+			$("#delete_delivery_method_table").removeClass("ui-state-disabled");
 			$("#delivery_method_error_message").text("Error deleting delivery method table");
 			
 		});
@@ -767,14 +762,14 @@
 		socket.on("table_delivery_method_emptied",function(){
 				
 			$("#sample_delivery_method_added").text("No");
-			$("#add_sample_delivery_method").removeAttr("disabled");
-			$("#delete_delivery_method_table").removeAttr("disabled");
+			$("#add_sample_delivery_method").removeClass("ui-state-disabled");
+			$("#delete_delivery_method_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_delivery_method_error",function(){
 			
-			$("#empty_delivery_method_table").removeAttr("disabled");
+			$("#empty_delivery_method_table").removeClass("ui-state-disabled");
 			$("#delivery_method_error_message").text("Error emptying delivery method table");
 			
 		});
@@ -783,16 +778,17 @@
 		// messages socket listeners
 		
 		socket.on("messages_created",function(){
+			
 			$("#messages_created").html("Yes");
-			$("#delete_messages_table").removeAttr("disabled");
-			$("#add_sample_messages_method").removeAttr("disabled");
+			$("#delete_messages_table").removeClass("ui-state-disabled");
+			$("#add_sample_messages_method").removeClass("ui-state-disabled");
 		
 		});
 		
 		socket.on("create_table_messages_error",function(){
 			
 			
-			$("#create_messages_table").removeAttr("disabled");
+			$("#create_messages_table").removeClass("ui-state-disabled");
 			
 		});
 		
@@ -800,14 +796,14 @@
 			
 			$("#messages_created").text("No");
 			$("#sample_messages_added").text("No");
-			$("#create_messages_table").removeAttr("disabled");
-			$("#add_sample_messages").attr("disabled","disabled");
+			$("#create_messages_table").removeClass("ui-state-disabled");
+			$("#add_sample_messages").addClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("delete_table_messages_error",function(){
 			
-			$("#delete_messages_table").removeAttr("disabled");
+			$("#delete_messages_table").removeClass("ui-state-disabled");
 			$("#messages_error_message").text("Error deleting messages table");
 			
 		});
@@ -815,14 +811,14 @@
 		socket.on("table_messages_emptied",function(){
 				
 			$("#sample_messages_added").text("No");
-			$("#add_sample_messages").removeAttr("disabled");
-			$("#delete_messages_table").removeAttr("disabled");
+			$("#add_sample_messages").removeClass("ui-state-disabled");
+			$("#delete_messages_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_messages_error",function(){
 			
-			$("#empty_messages_table").removeAttr("disabled");
+			$("#empty_messages_table").removeClass("ui-state-disabled");
 			$("#messages_error_message").text("Error emptying messages table");
 			
 		});
@@ -832,8 +828,8 @@
 		
 		socket.on("reply_messages_created",function(){
 			$("#reply_messages_created").html("Yes");
-			$("#delete_reply_messages_table").removeAttr("disabled");
-			$("#add_sample_reply_messages_method").removeAttr("disabled");
+			$("#delete_reply_messages_table").removeClass("ui-state-disabled");
+			$("#add_sample_reply_messages_method").removeClass("ui-state-disabled");
 		
 		});
 		
@@ -847,14 +843,14 @@
 			
 			$("#reply_messages_created").text("No");
 			$("#sample_reply_messages_added").text("No");
-			$("#create_reply_messages_table").removeAttr("disabled");
-			$("#add_sample_reply_messages").attr("disabled","disabled");
+			$("#create_reply_messages_table").removeClass("ui-state-disabled");
+			$("#add_sample_reply_messages").addClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("delete_table_reply_messages_error",function(){
 			
-			$("#delete_reply_messages_table").removeAttr("disabled");
+			$("#delete_reply_messages_table").removeClass("ui-state-disabled");
 			$("#reply_messages_error_message").text("Error deleting reply messages table");
 			
 		});
@@ -862,14 +858,14 @@
 		socket.on("table_reply_messages_emptied",function(){
 				
 			$("#sample_reply_messages_added").text("No");
-			$("#add_sample_reply_messages").removeAttr("disabled");
-			$("#delete_reply_messages_table").removeAttr("disabled");
+			$("#add_sample_reply_messages").removeClass("ui-state-disabled");
+			$("#delete_reply_messages_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_reply_messages_error",function(){
 			
-			$("#empty_reply_messages_table").removeAttr("disabled");
+			$("#empty_reply_messages_table").removeClass("ui-state-disabled");
 			$("#reply_messages_error_message").text("Error emptying reply messages table");
 			
 		});
@@ -879,15 +875,15 @@
 		
 		socket.on("message_attachments_created",function(){
 			$("#message_attachments_created").html("Yes");
-			$("#delete_message_attachments_table").removeAttr("disabled");
-			$("#add_sample_message_attachments_method").removeAttr("disabled");
+			$("#delete_message_attachments_table").removeClass("ui-state-disabled");
+			$("#add_sample_message_attachments_method").removeClass("ui-state-disabled");
 		
 		});
 		
 		socket.on("create_table_message_attachments_error",function(){
 			
 			
-			$("#create_message_attachments_table").removeAttr("disabled");
+			$("#create_message_attachments_table").removeClass("ui-state-disabled");
 			
 		});
 		
@@ -895,14 +891,14 @@
 			
 			$("#message_attachments_created").text("No");
 			$("#sample_message_attachments_added").text("No");
-			$("#create_message_attachments_table").removeAttr("disabled");
-			$("#add_sample_message_attachments").attr("disabled","disabled");
+			$("#create_message_attachments_table").removeClass("ui-state-disabled");
+			$("#add_sample_message_attachments").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("delete_table_message_attachments_error",function(){
 			
-			$("#delete_message_attachments_table").removeAttr("disabled");
+			$("#delete_message_attachments_table").removeClass("ui-state-disabled");
 			$("#message_attachments_error_message").text("Error deleting message attachments table");
 			
 		});
@@ -910,14 +906,14 @@
 		socket.on("table_message_attachments_emptied",function(){
 				
 			$("#sample_message_attachments_added").text("No");
-			$("#add_sample_message_attachments").removeAttr("disabled");
-			$("#delete_message_attachments_table").removeAttr("disabled");
+			$("#add_sample_message_attachments").removeClass("ui-state-disabled");
+			$("#delete_message_attachments_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_message_attachments_error",function(){
 			
-			$("#empty_message_attachments_table").removeAttr("disabled");
+			$("#empty_message_attachments_table").removeClass("ui-state-disabled");
 			$("#message_attachments_error_message").text("Error emptying message attachments table");
 			
 		});
@@ -927,15 +923,15 @@
 		
 		socket.on("catcha_images_created",function(){
 			$("#catcha_images_created").html("Yes");
-			$("#delete_catcha_images_table").removeAttr("disabled");
-			$("#add_sample_catcha_images_method").removeAttr("disabled");
+			$("#delete_catcha_images_table").removeClass("ui-state-disabled");
+			$("#add_sample_catcha_images_method").removeClass("ui-state-disabled");
 		
 		});
 		
 		socket.on("create_table_catcha_images_error",function(){
 			
 			
-			$("#create_catcha_images_table").removeAttr("disabled");
+			$("#create_catcha_images_table").removeClass("ui-state-disabled");
 			
 		});
 		
@@ -943,14 +939,14 @@
 			
 			$("#catcha_images_created").text("No");
 			$("#sample_catcha_images_added").text("No");
-			$("#create_catcha_images_table").removeAttr("disabled");
+			$("#create_catcha_images_table").removeClass("ui-state-disabled");
 			$("#add_sample_catcha_images").attr("disabled","disabled");
 			
 		});
 		
 		socket.on("delete_table_catcha_images_error",function(){
 			
-			$("#delete_catcha_images_table").removeAttr("disabled");
+			$("#delete_catcha_images_table").removeClass("ui-state-disabled");
 			$("#catcha_images_error_message").text("Error deleting message attachments table");
 			
 		});
@@ -958,14 +954,14 @@
 		socket.on("table_catcha_images_emptied",function(){
 				
 			$("#sample_catcha_images_added").text("No");
-			$("#add_sample_catcha_images").removeAttr("disabled");
-			$("#delete_catcha_images_table").removeAttr("disabled");
+			$("#add_sample_catcha_images").removeClass("ui-state-disabled");
+			$("#delete_catcha_images_table").removeClass("ui-state-disabled");
 			
 		});
 		
 		socket.on("empty_table_catcha_images_error",function(){
 			
-			$("#empty_catcha_images_table").removeAttr("disabled");
+			$("#empty_catcha_images_table").removeClass("ui-state-disabled");
 			$("#catcha_images_error_message").text("Error emptying catcha images table");
 			
 		});
@@ -976,24 +972,20 @@
 			 var id = $(this).attr("id");
 			 console.log(id);
 			switch(id.toString()){
-				case "create_photographers_table": $(this).attr("disabled","disabled");
-												   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_photographers_table": $("#reset_system").addClass("ui-state-disabled");
 												   disableAllOperationsButton($(this));
 												   socket.emit("create_photographers_table");
 					break;
-				case "add_sample_photographers":  $(this).attr("disabled","disabled");
-												  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_photographers":  $("#add_samples").addClass("ui-state-disabled");
 												  disableAllOperationsButton($(this));
 												  socket.emit("add_sample_photographers");
 					break;
-				case "delete_photographers_table": $(this).attr("disabled","disabled");
-												   $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-												   $("#reset_system").attr("disabled","disabled");
+				case "delete_photographers_table": $("#add_samples").addClass("ui-state-disabled");
+												   $("#reset_system").addClass("ui-state-disabled");
 												   disableAllOperationsButton($(this));
 												   socket.emit("delete_photographers_table");
 					break;
-				case "empty_photographers_table": $(this).attr("disabled","disabled");
-												  disableAllOperationsButton($(this));
+				case "empty_photographers_table": disableAllOperationsButton($(this));
 												  socket.emit("empty_photographers_table");
 					break;
 			
@@ -1006,24 +998,20 @@
 			 var id = $(this).attr("id");
 			 console.log(id);
 			switch(id.toString()){
-				case "create_areas_table": 	$(this).attr("disabled","disabled");
-											$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_areas_table": 	$("#reset_system").addClass("ui-state-disabled");
 											disableAllOperationsButton($(this));
 										    socket.emit("create_areas_table");
 					break;
-				case "add_sample_areas":  $(this).attr("disabled","disabled");
-										  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_areas":  $("#add_samples").addClass("ui-state-disabled");
 										  disableAllOperationsButton($(this));
 										  socket.emit("add_sample_areas");
 					break;
-				case "delete_areas_table": $(this).attr("disabled","disabled");
-										   $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-										   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_areas_table": $("#add_samples").addClass("ui-state-disabled");
+										   $("#reset_system").addClass("ui-state-disabled");
 										   disableAllOperationsButton($(this));
 										   socket.emit("delete_areas_table");
 					break;
-				case "empty_areas_table": $(this).attr("disabled","disabled");
-										  disableAllOperationsButton($(this));
+				case "empty_areas_table": disableAllOperationsButton($(this));
 										  socket.emit("empty_areas_table");
 					break;
 			
@@ -1036,24 +1024,20 @@
 			 var id = $(this).attr("id");
 			 console.log(id);
 			switch(id.toString()){
-				case "create_city_table": 	$(this).attr("disabled","disabled");
-											$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_city_table": 	$("#reset_system").addClass("ui-state-disabled");
 											disableAllOperationsButton($(this));
 										    socket.emit("create_city_table");
 					break;
-				case "add_sample_cities":  $(this).attr("disabled","disabled");
-										   $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_cities":  $("#add_samples").addClass("ui-state-disabled");
 										   disableAllOperationsButton($(this));
 										   socket.emit("add_sample_cities");
 					break;
-				case "delete_city_table": $(this).attr("disabled","disabled");
-										  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-										  $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_city_table": $("#add_samples").addClass("ui-state-disabled");
+										  $("#reset_system").addClass("ui-state-disabled");
 										  disableAllOperationsButton($(this));
 										  socket.emit("delete_city_table");
 					break;
-				case "empty_city_table": $(this).attr("disabled","disabled");
-										 disableAllOperationsButton($(this));
+				case "empty_city_table": disableAllOperationsButton($(this));
 										 socket.emit("empty_city_table");
 					break;
 			
@@ -1066,24 +1050,20 @@
 			 var id = $(this).attr("id");
 			 console.log(id);
 			switch(id.toString()){
-				case "create_packages_table": $(this).attr("disabled","disabled");
-											  $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_packages_table": $("#reset_system").addClass("ui-state-disabled");
 											  disableAllOperationsButton($(this));
 										      socket.emit("create_packages_table");
 					break;
-				case "add_sample_packages":  $(this).attr("disabled","disabled");
-											 $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_packages":  $("#add_samples").addClass("ui-state-disabled");
 											 disableAllOperationsButton($(this));
 										  	 socket.emit("add_sample_packages");
 					break;
-				case "delete_packages_table": $(this).attr("disabled","disabled");
-											  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-											  $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_packages_table": $("#add_samples").addClass("ui-state-disabled");
+											  $("#reset_system").addClass("ui-state-disabled");
 											  disableAllOperationsButton($(this));
 										   	  socket.emit("delete_packages_table");
 					break;
-				case "empty_packages_table": $(this).attr("disabled","disabled");
-											 disableAllOperationsButton($(this));
+				case "empty_packages_table": disableAllOperationsButton($(this));
 										  	 socket.emit("empty_packages_table");
 					break;
 			
@@ -1096,24 +1076,20 @@
 			 var id = $(this).attr("id");
 			 console.log(id);
 			switch(id.toString()){
-				case "create_orders_table": $(this).attr("disabled","disabled");
-											$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_orders_table": $("#reset_system").addClass("ui-state-disabled");
 											disableAllOperationsButton($(this));
 										    socket.emit("create_orders_table");
 					break;
-				case "add_sample_orders":  $(this).attr("disabled","disabled");
-										   $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_orders":  $("#add_samples").addClass("ui-state-disabled");
 										   disableAllOperationsButton($(this));
 										   socket.emit("add_sample_orders");
 					break;
-				case "delete_orders_table": $(this).attr("disabled","disabled");
-											$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-											$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_orders_table": $("#add_samples").addClass("ui-state-disabled");
+											$("#reset_system").addClass("ui-state-disabled");
 											disableAllOperationsButton($(this));
 										   	socket.emit("delete_orders_table");
 					break;
-				case "empty_orders_table": $(this).attr("disabled","disabled");
-										   disableAllOperationsButton($(this));
+				case "empty_orders_table": disableAllOperationsButton($(this));
 										   socket.emit("empty_orders_table");
 					break;
 			
@@ -1126,24 +1102,20 @@
 			 var id = $(this).attr("id");
 			 console.log(id);
 			switch(id.toString()){
-				case "create_delivery_method_table": $(this).attr("disabled","disabled");
-													 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_delivery_method_table": $("#reset_system").addClass("ui-state-disabled");
 													 disableAllOperationsButton($(this));
 										      		 socket.emit("create_delivery_method_table");
 					break;
-				case "add_sample_delivery_method":  $(this).attr("disabled","disabled");
-												    $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_delivery_method":  $("#add_samples").addClass("ui-state-disabled");
 												    disableAllOperationsButton($(this));
 												    socket.emit("add_sample_delivery_method");
 					break;
-				case "delete_delivery_method_table": $(this).attr("disabled","disabled");
-													 $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-													 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_delivery_method_table": $("#add_samples").addClass("ui-state-disabled");
+													 $("#reset_system").addClass("ui-state-disabled");
 													 disableAllOperationsButton($(this));
 													 socket.emit("delete_delivery_method_table");
 					break;
-				case "empty_delivery_method_table": $(this).attr("disabled","disabled");
-													disableAllOperationsButton($(this));
+				case "empty_delivery_method_table": disableAllOperationsButton($(this));
 													socket.emit("empty_delivery_method_table");
 					break;
 			
@@ -1156,24 +1128,20 @@
 			 var id = $(this).attr("id");
 			 console.log(id);
 			switch(id.toString()){
-				case "create_userIDs_table": $(this).attr("disabled","disabled");
-											 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_userIDs_table": $("#reset_system").addClass("ui-state-disabled");
 											 disableAllOperationsButton($(this));
 										     socket.emit("create_userIDs_table");
 					break;
-				case "add_sample_userIDs":  $(this).attr("disabled","disabled");
-											$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_userIDs":  $("#add_samples").addClass("ui-state-disabled");
 											disableAllOperationsButton($(this));
 										  	socket.emit("add_sample_userIDs");
 					break;
-				case "delete_userIDs_table": $(this).attr("disabled","disabled");
-											 $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-											 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_userIDs_table": $("#add_samples").addClass("ui-state-disabled");
+											 $("#reset_system").addClass("ui-state-disabled");
 											 disableAllOperationsButton($(this));
 										   	 socket.emit("delete_userIDs_table");
 					break;
-				case "empty_userIDs_table": $(this).attr("disabled","disabled");
-											disableAllOperationsButton($(this));
+				case "empty_userIDs_table": disableAllOperationsButton($(this));
 										  	socket.emit("empty_userIDs_table");
 					break;
 			
@@ -1186,24 +1154,20 @@
 			 
 			var id = $(this).attr("id");
 			switch(id.toString()){
-				case "create_users_table": $(this).attr("disabled","disabled");
-										   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_users_table": $("#reset_system").addClass("ui-state-disabled");
 										   disableAllOperationsButton($(this));
 										   socket.emit("create_users_table");
 					break;
-				case "add_sample_users":  $(this).attr("disabled","disabled");
-										  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_users":  $("#add_samples").addClass("ui-state-disabled");
 										  disableAllOperationsButton($(this));
 										  socket.emit("add_sample_users");
 					break;
-				case "delete_users_table": $(this).attr("disabled","disabled");
-										   $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-										   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_users_table": $("#add_samples").addClass("ui-state-disabled");
+										   $("#reset_system").addClass("ui-state-disabled");
 										   disableAllOperationsButton($(this));
 										   socket.emit("delete_users_table");
 					break;
-				case "empty_users_table": $(this).attr("disabled","disabled");
-										  disableAllOperationsButton($(this));
+				case "empty_users_table": disableAllOperationsButton($(this));
 										  socket.emit("empty_users_table");
 					break;
 			
@@ -1216,24 +1180,20 @@
 			 
 			var id = $(this).attr("id");
 			switch(id.toString()){
-				case "create_admin_table": $(this).attr("disabled","disabled");
-										   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_admin_table": $("#reset_system").addClass("ui-state-disabled");
 										   disableAllOperationsButton($(this));
 										   socket.emit("create_admin_table");
 					break;
-				case "add_sample_admin":  $(this).attr("disabled","disabled");
-										  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_admin":  $("#add_samples").addClass("ui-state-disabled");
 										  disableAllOperationsButton($(this));
 										  socket.emit("add_sample_admin");
 					break;
-				case "delete_admin_table": $(this).attr("disabled","disabled");
-										   $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-										   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_admin_table": $("#add_samples").addClass("ui-state-disabled");
+										   $("#reset_system").addClass("ui-state-disabled");
 										   disableAllOperationsButton($(this));
 										   socket.emit("delete_admin_table");
 					break;
-				case "empty_admin_table": $(this).attr("disabled","disabled");
-										  disableAllOperationsButton($(this));
+				case "empty_admin_table": disableAllOperationsButton($(this));
 										  socket.emit("empty_admin_table");
 					break;
 			
@@ -1246,24 +1206,20 @@
 			 var id = $(this).attr("id");
 			 console.log(id);
 			switch(id.toString()){
-				case "create_admin_rights_table":  $(this).attr("disabled","disabled");
-												   $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_admin_rights_table":  $("#reset_system").addClass("ui-state-disabled");
 												   disableAllOperationsButton($(this));
 												   socket.emit("create_admin_rights_table");
 					break;
-				case "add_sample_admin_rights":   $(this).attr("disabled","disabled");
-												  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_admin_rights":   $("#add_samples").addClass("ui-state-disabled");
 												  disableAllOperationsButton($(this));
 										  		  socket.emit("add_sample_admin_rights");
 					break;
-				case "delete_admin_rights_table": $(this).attr("disabled","disabled");
-												  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-												  $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_admin_rights_table": $("#add_samples").addClass("ui-state-disabled");
+												  $("#reset_system").addClass("ui-state-disabled");
 												  disableAllOperationsButton($(this));
 										   	  	  socket.emit("delete_admin_rights_table");
 					break;
-				case "empty_admin_rights_table":  $(this).attr("disabled","disabled");
-												  disableAllOperationsButton($(this));
+				case "empty_admin_rights_table":  disableAllOperationsButton($(this));
 										  	  	  socket.emit("empty_admin_rights_table");
 					break;
 			
@@ -1275,24 +1231,20 @@
 		$(".alerts_btnDB_operations").on("click",function(e){
 			 var id = $(this).attr("id");
 			switch(id.toString()){
-				case "create_alerts_table": $(this).attr("disabled","disabled");
-											$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_alerts_table":	$("#reset_system").addClass("ui-state-disabled");
 											disableAllOperationsButton($(this));
 										    socket.emit("create_alerts_table");
 					break;
-				case "add_sample_alerts":  $(this).attr("disabled","disabled");
-											disableAllOperationsButton($(this));
-											$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_alerts": 	disableAllOperationsButton($(this));
+											$("#add_samples").addClass("ui-state-disabled");
 										  	socket.emit("add_sample_alerts");
 					break;
-				case "delete_alerts_table": $(this).attr("disabled","disabled");
-											$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-											$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_alerts_table": $("#add_samples").addClass("ui-state-disabled");
+											$("#reset_system").addClass("ui-state-disabled");
 											disableAllOperationsButton($(this));
 										   	socket.emit("delete_alerts_table");
 					break;
-				case "empty_alerts_table": $(this).attr("disabled","disabled");
-										   disableAllOperationsButton($(this));
+				case "empty_alerts_table": disableAllOperationsButton($(this));
 										   socket.emit("empty_alerts_table");
 					break;
 			
@@ -1305,24 +1257,20 @@
 		$(".messages_btnDB_operations").on("click",function(e){
 			 var id = $(this).attr("id");
 			switch(id.toString()){
-				case "create_messages_table": $(this).attr("disabled","disabled");
-											  $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_messages_table": $("#reset_system").addClass("ui-state-disabled");
 											  disableAllOperationsButton($(this));
 										      socket.emit("create_messages_table");
 					break;
-				case "add_sample_messages":  $(this).attr("disabled","disabled");
-											 disableAllOperationsButton($(this));
-											 $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_messages":  disableAllOperationsButton($(this));
+											 $("#add_samples").addClass("ui-state-disabled");
 										  	 socket.emit("add_sample_reply_messages");
 					break;
-				case "delete_messages_table": $(this).attr("disabled","disabled");
-											  $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-											  $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_messages_table": $("#add_samples").addClass("ui-state-disabled");
+											  $("#reset_system").addClass("ui-state-disabled");
 											  disableAllOperationsButton($(this));
 										   	  socket.emit("delete_messages_table");
 					break;
-				case "empty_messages_table": $(this).attr("disabled","disabled");
-										     disableAllOperationsButton($(this));
+				case "empty_messages_table": disableAllOperationsButton($(this));
 										     socket.emit("empty_messages_table");
 					break;
 			
@@ -1335,24 +1283,20 @@
 		$(".reply_messages_btnDB_operations").on("click",function(e){
 			 var id = $(this).attr("id");
 			switch(id.toString()){
-				case "create_reply_messages_table": $(this).attr("disabled","disabled");
-											  		$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_reply_messages_table": $("#reset_system").addClass("ui-state-disabled");
 											  		disableAllOperationsButton($(this));
 											  		socket.emit("create_reply_messages_table");
 					break;
-				case "add_sample_reply_messages":  $(this).attr("disabled","disabled");
-											       disableAllOperationsButton($(this));
-											       $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_reply_messages":  disableAllOperationsButton($(this));
+											       $("#add_samples").addClass("ui-state-disabled");
 										  	       socket.emit("add_sample_reply_messages");
 					break;
-				case "delete_reply_messages_table": $(this).attr("disabled","disabled");
-											  		$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-											  		$("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_reply_messages_table":	$("#add_samples").addClass("ui-state-disabled");
+											  		$("#reset_system").addClass("ui-state-disabled");
 											  		disableAllOperationsButton($(this));
 											  		socket.emit("delete_reply_messages_table");
 					break;
-				case "empty_reply_messages_table": $(this).attr("disabled","disabled");
-										     	   disableAllOperationsButton($(this));
+				case "empty_reply_messages_table": disableAllOperationsButton($(this));
 										     	   socket.emit("empty_reply_messages_table");
 					break;
 			
@@ -1365,24 +1309,20 @@
 		$(".message_attachments_btnDB_operations").on("click",function(e){
 			 var id = $(this).attr("id");
 			switch(id.toString()){
-				case "create_message_attachments_table": $(this).attr("disabled","disabled");
-											  			 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_message_attachments_table": $("#reset_system").addClass("ui-state-disabled");
 											  			 disableAllOperationsButton($(this));
 											  			 socket.emit("create_message_attachments_table");
 					break;
-				case "add_sample_message_attachments":  $(this).attr("disabled","disabled");
-														disableAllOperationsButton($(this));
-														$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_message_attachments":  disableAllOperationsButton($(this));
+														$("#add_samples").addClass("ui-state-disabled");
 														socket.emit("add_sample_message_attachments");
 					break;
-				case "delete_message_attachments_table": $(this).attr("disabled","disabled");
-											  			 $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-											  			 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_message_attachments_table": $("#add_samples").addClass("ui-state-disabled");
+											  			 $("#reset_system").addClass("ui-state-disabled");
 											  			 disableAllOperationsButton($(this));
 											  			 socket.emit("delete_message_attachments_table");
 					break;
-				case "empty_message_attachments_table": $(this).attr("disabled","disabled");
-										     			disableAllOperationsButton($(this));
+				case "empty_message_attachments_table": disableAllOperationsButton($(this));
 										     			socket.emit("empty_message_attachments_table");
 					break;
 			
@@ -1394,24 +1334,20 @@
 		$(".catcha_images_btnDB_operations").on("click",function(e){
 			 var id = $(this).attr("id");
 			switch(id.toString()){
-				case "create_catcha_images_table": $(this).attr("disabled","disabled");
-											  			 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "create_catcha_images_table": 		 $("#reset_system").addClass("ui-state-disabled");
 											  			 disableAllOperationsButton($(this));
 											  			 socket.emit("create_catcha_images_table");
 					break;
-				case "add_sample_catcha_images":  $(this).attr("disabled","disabled");
-														disableAllOperationsButton($(this));
-														$("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "add_sample_catcha_images":  		disableAllOperationsButton($(this));
+														$("#add_samples").addClass("ui-state-disabled");
 														socket.emit("add_sample_catcha_images");
 					break;
-				case "delete_catcha_images_table": $(this).attr("disabled","disabled");
-											  			 $("#add_samples").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
-											  			 $("#reset_system").attr("disabled","disabled").addClass("ui-state-disabled").unbind();
+				case "delete_catcha_images_table":		 $("#add_samples").addClass("ui-state-disabled");
+											  			 $("#reset_system").addClass("ui-state-disabled");
 											  			 disableAllOperationsButton($(this));
 											  			 socket.emit("delete_catcha_images_table");
 					break;
-				case "empty_catcha_images_table": $(this).attr("disabled","disabled");
-										     			disableAllOperationsButton($(this));
+				case "empty_catcha_images_table":   	disableAllOperationsButton($(this));
 										     			socket.emit("empty_catcha_images_table");
 					break;
 			
@@ -1419,6 +1355,47 @@
 			
 			e.preventDefault();
 		});
+		
+		
+	$("#can_message").on("populate",function(e){
+			
+			$can_message = $(this);
+			var options = "";
+			[].forEach.call(e.tablesData,function(table){
+				
+				options += (["<option id='"+table.name+"'>",table.name,"</option>"].join(''));
+			});
+			$can_message.html(options);
+			$("#submit_can_message").removeClass("ui-state-disabled");
+			
+		}).on("change",function(e){
+			
+			$("#submit_can_message").unbind("click");
+			if($(this).val()){
+				
+					$("#can_message_selected").html($(this).val().join());
+					$("#submit_can_message").on("click",{"can_message":$(this).val()},function(e){
+						
+						socket.emit("mark_as_messagable",JSON.stringify(e.data.can_message));
+						e.preventDefault();
+				});
+			
+			}
+			
+	});
+	
+	$("#current_messagable").on("populate",function(e){
+		
+		var $dd = $(this).find("dd");
+		    $dd.html("");
+		[].forEach.call(e.tablesData,function(table){
+			if(table.can_message){
+				
+				$dd.append(["<p>",table.name,"</p>"].join(""));
+			}
+			
+		});
+	});
 		
 		
 		}catch(error){

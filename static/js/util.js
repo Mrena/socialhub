@@ -102,19 +102,18 @@
 	(function(){
 		
 		// String
-		String.prototype.splitWhere = function(str,successCB,errorCB){
+		String.prototype.splitWhere = function(separator,successCB,errorCB){
 			
 			try{
 				
-				if(this.indexOf(str)!=-1){
-					
-					firstP = this.substr(0,this.indexOf(str));
-					lastP = this.substr(this.indexOf(str));
-					successCB([firstP.trim(),lastP.trim()]);
+				if(this.indexOf(separator)!=-1){
+					firstP = this.substr(0,this.indexOf(separator)).trim();
+					lastP = this.substr(this.indexOf(separator)).trim();
+					successCB([firstP,lastP]);
 					
 				}else{
 					
-					successCB(str);
+					successCB(this);
 				}
 				
 			}catch(e){

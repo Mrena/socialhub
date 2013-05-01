@@ -415,7 +415,7 @@ var createAreasTable = function(client,mysql_con,fs){
 		var createReplyMessagesTable = function(client,mysql_con,fs){
 			
 			
-			query = "CREATE TABLE IF NOT EXISTS Reply_Messages(reply_id INTEGER PRIMARY KEY AUTO_INCREMENT,reply_from VARCHAR(50) NOT NULL,reply_to REFERENCES Messages(message_id) NOT NULL,reply_message VARCHAR(1000) NOT NULL,reply_number INTEGER NOT NULL)";
+			query = "CREATE TABLE IF NOT EXISTS Reply_Messages(reply_id INTEGER PRIMARY KEY AUTO_INCREMENT,reply_from VARCHAR(50) NOT NULL,reply_to INTEGER REFERENCES Messages(message_id),reply_message VARCHAR(1000) NOT NULL,reply_number INTEGER NOT NULL)";
 	    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 	    		
 	    		console.log(error);
@@ -451,8 +451,9 @@ var createAreasTable = function(client,mysql_con,fs){
 		
 	var createMessageAttachmentsTable = function(client,mysql_con,fs){
 			
+			var attachment_size = 5 * 1024 * 1024; // 5MB
 			
-			query = "CREATE TABLE IF NOT EXISTS Message_Attachments(attachment_id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,message_id INTEGER REFERENCES Messages(message_id) NOT NULL,reply_id INTEGER REFERENCES Reply_Messages(reply_id),attachment_type VARCHAR(20) NOT NULL,attachment VARCHAR(5000) NOT NULL)";
+			query = "CREATE TABLE IF NOT EXISTS Message_Attachments(attachment_id INTEGER PRIMARY KEY AUTO_INCREMENT,message_id INTEGER REFERENCES Messages(message_id),reply_id INTEGER REFERENCES Reply_Messages(reply_id),attachment_type VARCHAR(20) NOT NULL,attachment VARCHAR("+attachment_size+") NOT NULL)";
 	    	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
 	    		
 	    		console.log(error);
@@ -548,7 +549,7 @@ var createAreasTable = function(client,mysql_con,fs){
 
 var createTablesTable = function(client,mysql_con,fs){
 	
-		query = "CREATE TABLE IF NOT EXISTS Tables(name VARCHAR(50) PRIMARY KEY NOT NULL,created BINARY NOT NULL,samples_added BINARY)";
+		query = "CREATE TABLE Tables(name VARCHAR(50) PRIMARY KEY NOT NULL,created INTEGER,samples_added INTEGER,can_message INTEGER)";
     	startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
     		
     		console.trace(error);
@@ -564,10 +565,10 @@ var createTablesTable = function(client,mysql_con,fs){
     		    added_tables = 0;
     		tables_name.forEach(function(table){
     			
-    			var query = "INSERT INTO Tables(name,created,samples_added) VALUES('"+table+"',0,0)";
+    			var query = "INSERT INTO Tables(name,created,samples_added,can_message) VALUES('"+table+"',0,0,0)";
         		startup_da_parent.runQuery(query,mysql_con,client,function(client,error){
         			
-        			console.trace(error);
+        			console.log(error);
         			var file_name = "startup_da_tables.js",
     				line_number = 442;
     				startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
@@ -1804,13 +1805,10 @@ var getTablesData = function(client,mysql_con,fs){
 	var query = "SELECT * FROM Tables";
 	startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
 		
-		console.log(error);
-		console.log("------ "+ error.code);
-	
 		//var file_name = "startup_da_tables.js",
 		//line_number = 1529;
 		//startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
-		//client.emit("get_tables_data_error");
+		client.emit("get_tables_data_error");
 	
 		
 	},function(client,rows,fields){
@@ -1822,7 +1820,8 @@ var getTablesData = function(client,mysql_con,fs){
 				tablesData.push({
 					"name" : row.name,
 					"created" : parseInt(row.created),
-					"samples_added" : parseInt(row.samples_added)
+					"samples_added" : parseInt(row.samples_added),
+					"can_message" : row.can_message
 						});
 				
 			});
@@ -1835,10 +1834,83 @@ var getTablesData = function(client,mysql_con,fs){
 	
 };
 
+var resetMessagableState = function(client,mysql_con,fs,successCB){
+	
+	var query = "UPDATE Tables SET can_message = 0";
+	startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
+		
+		var file_name = "startup_da_tables.js",
+		line_number = 1839;
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+		client.emit("reset_messagable_state_error");
+	
+	},function(client,rows,fields){
+		
+		successCB();
+	
+	});
+	
+	
+};
+
+var currentMessagableNames = function(client,mysql_con,fs){
+	
+	var query = "SELECT name FROM Tables WHERE can_message = 1";
+	startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
+		
+		var file_name = "startup_da_tables.js",
+		line_number = 1859;
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+		client.emit("current_messagable_name_error");
+	
+	},function(client,rows,fields){
+		
+		console.log(rows);
+		client.emit("current_messagable_names",JSON.stringify(rows));
+	
+	});
+	
+};
+
+
+var markAsMessagable = function(client,mysql_con,fs,tableNames){
+	
+	
+resetMessagableState(client,mysql_con,fs,function(){
+		
+ [].forEach.call(tableNames,function(table_name,i){
+	
+	var query = "UPDATE Tables SET can_message = 1 WHERE name = '"+table_name+"'";
+	startup_da_parent.runSelectQuery(query,client,mysql_con,function(client,error){
+		
+		var file_name = "startup_da_tables.js",
+		line_number = 1883;
+		startup_da_parent.logDatabaseSystemError(client,error,file_name,line_number);
+		client.emit("mark_as_messagable_error");
+	
+		
+	},function(client,rows,fields){
+		
+		if(i==tableNames.length-1){
+			
+			getTablesData(client,mysql_con,fs);
+		}
+	
+	});
+	
+  });
+	
+});
+	
+};
+
+
 	exports.createTablesTable = createTablesTable;	
 	exports.createTables = createTables;
 	exports.resetSystem = resetSystem;
 	exports.getTablesData = getTablesData;
+	exports.markAsMessagable = markAsMessagable;
+	exports.currentMessagableNames = currentMessagableNames;
 	
 	exports.createPhotographersTable = createPhotographersTable;
 	exports.createPackagesTable = createPackagesTable;
@@ -1889,4 +1961,3 @@ var getTablesData = function(client,mysql_con,fs){
 	exports.emptyCatchaImagesTable = emptyCatchaImagesTable;
 	
 	exports.logSystemError = startup_da_parent.logSystemError;
-	

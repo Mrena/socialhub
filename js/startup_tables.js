@@ -760,9 +760,39 @@ var startup_tables = function(client,mysql_con,fs){
 		}
 		 
 	 }); 
+	 
+	 client.on("mark_as_messagable",function(tableNames){
+		 
+		    try{
+				 
+		    	tableNames = JSON.parse(tableNames);
+				 
+				 startup_da_tables.markAsMessagable(client,mysql_con,fs,tableNames);
+				 
+			 }catch(error){
+					console.log(error);
+					var file_name = "startup_tables.js",
+					line_number = 770;
+					startup_da_tables.logSystemError(client,error,file_name,line_number);
+				}
+				 
+			 }); 
+	 
+	 client.on("get_current_messagable_name",function(){
+		 
+		    try{
+				 
+				 startup_da_tables.currentMessagableNames(client,mysql_con,fs);
+				 
+			 }catch(error){
+					console.log(error);
+					var file_name = "startup_tables.js",
+					line_number = 770;
+					startup_da_tables.logSystemError(client,error,file_name,line_number);
+				}
+				 
+			 }); 
 	
 	
 };
-
-
 exports.startup_tables = startup_tables;

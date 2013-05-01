@@ -9,7 +9,6 @@
 	var redis = require("redis");
 	
 	
-	
 	var mysql_con = mysql.createConnection({
 		host : "localhost",
 		user : "root",
@@ -18,15 +17,7 @@
 			
 	});
 	
-	var admin_mysql_con = mysql.createConnection({
-		host : "localhost",
-		user : "root",
-		password : "",
-		database : "mysql"
-			
-	});
 	
-
 	expressApp.use('/static',express.static(__dirname+"/static"));
 	app.listen(8000);
 	
@@ -35,7 +26,6 @@
 	
 		handler(request,response);
 		
-	
 	});
 	
 	expressApp.get("/startup.html",function(request,response){
@@ -137,7 +127,7 @@ fs.readFile(__dirname+"/pagenotfound.html",function(error,data){
 		require("./js/startup_samples").startup_samples(client,mysql_con,fs);
 		require("./js/startup_tables").startup_tables(client,mysql_con,fs);
 		require("./js/messages").messages(client,mysql_con,fs);
-		require("./js/admin").admin(client,mysql_con,admin_mysql_con,fs);
+		//require("./js/admin").admin(client,mysql_con,fs);
 		require("./js/catcha_server").catcha_server(client,mysql_con,fs);
 		
 		
